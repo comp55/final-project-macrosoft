@@ -4,6 +4,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.*;
 
 public class Freeplay extends GraphicsProgram {
     public static final int WINDOW_WIDTH = 1280;
@@ -13,11 +14,25 @@ public class Freeplay extends GraphicsProgram {
     private List<GRect> buttons;
     private List<GLabel> buttonTexts;
     GRect backButton;
+    private JComboBox<String> playerDropdown;
+    private int highlightedButtonIndex = -1; // Index of the button being highlighted
 
     public void init() {
         setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
         buttons = new ArrayList<GRect>();
         buttonTexts = new ArrayList<GLabel>();
+        
+        
+        String[] playerOptions = {"1 Player", "2 Players", "3 Players", "4 Players"};
+        playerDropdown = new JComboBox<String>(playerOptions);
+        playerDropdown.setFont(new Font("Arial", Font.PLAIN, 20));
+        
+        // Add the JComboBox to a GCanvas
+        playerDropdown.setPreferredSize(new Dimension(150, 30));
+
+        // Add the JComboBox to the canvas
+        GCanvas canvas = getGCanvas();
+        canvas.add((Component) playerDropdown, WINDOW_WIDTH / 10 - 40, WINDOW_HEIGHT / 2);
         
         //Create Back Button
         backButton = new GRect(WINDOW_WIDTH / 1.2, WINDOW_HEIGHT / 50, 200, 75);
@@ -42,11 +57,11 @@ public class Freeplay extends GraphicsProgram {
             add(buttonText, x, y);
             buttonTexts.add(buttonText);
         }
-        
+
         addMouseListeners();
     }
-
-    public static void main(String[] args) {
+    
+	public static void main(String[] args) {
         new Freeplay().start();
     }
 
@@ -71,8 +86,28 @@ public class Freeplay extends GraphicsProgram {
         }
     }
     
-    public void mouseEnter(MouseEvent e) {
-    	//TODO: Make it where when you hover over a button,it highlights
+    @Override
+    public void mouseMoved(MouseEvent e) {
+        for (int i = 0; i < buttons.size(); i++) {
+            GRect button = buttons.get(i);
+            if (isWithinButtonBounds(button, e.getX(), e.getY())) {
+                if (highlightedButtonIndex != i) {
+                    // Reset previously highlighted button
+                    if (highlightedButtonIndex != -1) {
+                        buttons.get(highlightedButtonIndex).setFilled(false);
+                    }
+                    // Highlight the current button
+                    button.setFilled(true);
+                    highlightedButtonIndex = i;
+                }
+                return;
+            }
+        }
+        // If no button is being hovered over, reset the highlighting
+        if (highlightedButtonIndex != -1) {
+            buttons.get(highlightedButtonIndex).setFilled(false);
+            highlightedButtonIndex = -1;
+        }
     }
 
     private void resetButtons() {
