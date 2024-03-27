@@ -12,23 +12,33 @@ public class Freeplay extends GraphicsProgram {
     public static final int BUTTON_HEIGHT = 150;
     private List<GRect> buttons;
     private List<GLabel> buttonTexts;
+    GRect backButton;
 
     public void init() {
         setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
         buttons = new ArrayList<GRect>();
         buttonTexts = new ArrayList<GLabel>();
         
+        //Create Back Button
+        backButton = new GRect(WINDOW_WIDTH / 1.2, WINDOW_HEIGHT / 50, 200, 75);
+        backButton.setFilled(false);
+        add(backButton);
+        GLabel backButtonText = new GLabel("Back");
+        backButtonText.setFont("Arial-20");
+        add(backButtonText, WINDOW_WIDTH / 1.12, WINDOW_HEIGHT / 13);
+        
+        
         // Create buttons
         for (int i = 0; i < 5; i++) { 
-            GRect button = new GRect(100 + i * 200, (WINDOW_HEIGHT - BUTTON_HEIGHT) / 10, BUTTON_WIDTH, BUTTON_HEIGHT);
+            GRect button = new GRect(100 + i * 200, (WINDOW_HEIGHT - BUTTON_HEIGHT) / 5, BUTTON_WIDTH, BUTTON_HEIGHT);
             button.setFilled(false);
             add(button);
             buttons.add(button);
             
-            GLabel buttonText = new GLabel("Button " + (i + 1));
+            GLabel buttonText = new GLabel("Map " + (i + 1));
             buttonText.setFont("Arial-20");
             double y = (WINDOW_HEIGHT - buttonText.getAscent()) / 5;
-            double x = 100 + i * 200 + (BUTTON_WIDTH + buttonText.getWidth()) / 6;
+            double x = 100 + i * 200 + (BUTTON_WIDTH + buttonText.getWidth()) / 5;
             add(buttonText, x, y);
             buttonTexts.add(buttonText);
         }
@@ -54,6 +64,15 @@ public class Freeplay extends GraphicsProgram {
                 break;
             }
         }
+        
+        if(isWithinButtonBounds(backButton, e.getX(), e.getY())) {
+        	resetButtons();
+        	System.exit(0);
+        }
+    }
+    
+    public void mouseEnter(MouseEvent e) {
+    	//TODO: Make it where when you hover over a button,it highlights
     }
 
     private void resetButtons() {
