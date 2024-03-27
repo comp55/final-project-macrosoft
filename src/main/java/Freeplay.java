@@ -16,6 +16,7 @@ public class Freeplay extends GraphicsProgram {
     GRect backButton;
     private JComboBox<String> playerDropdown;
     private int highlightedButtonIndex = -1; // Index of the button being highlighted
+    public int mapSelected = -1;
 
     public void init() {
         setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
@@ -71,6 +72,7 @@ public class Freeplay extends GraphicsProgram {
             GRect button = buttons.get(i);
             if (isWithinButtonBounds(button, e.getX(), e.getY())) {
                 // Reset all buttons
+            	mapSelected = i;
                 resetButtons();
                 // Set the clicked button to pressed state
                 button.setFilled(true);
@@ -86,33 +88,49 @@ public class Freeplay extends GraphicsProgram {
         }
     }
     
-    @Override
-    public void mouseMoved(MouseEvent e) {
+    //@Override
+   public void mouseMoved(MouseEvent e) {
+    	int temp = -1;
         for (int i = 0; i < buttons.size(); i++) {
-            GRect button = buttons.get(i);
+        	temp = i;
+        	GRect button = buttons.get(i);
             if (isWithinButtonBounds(button, e.getX(), e.getY())) {
-                if (highlightedButtonIndex != i) {
-                    // Reset previously highlighted button
-                    if (highlightedButtonIndex != -1) {
-                        buttons.get(highlightedButtonIndex).setFilled(false);
-                    }
-                    // Highlight the current button
-                    button.setFilled(true);
-                    highlightedButtonIndex = i;
-                }
-                return;
+            	if(temp != mapSelected) {
+            		//System.out.println("mapSelected: " + mapSelected);
+	                if (highlightedButtonIndex != i) {
+	                	highlightedButtonIndex = i;
+	                    // Reset previously highlighted button
+	                    if (highlightedButtonIndex != -1 && temp != mapSelected) {
+	                        buttons.get(highlightedButtonIndex).setFilled(false);
+	                        buttons.get(highlightedButtonIndex).setFillColor(Color.black);
+	                        System.out.println("RESET");
+	                    }
+	                    // Highlight the current button
+	                    System.out.println("highlightedButtonIndex: " + highlightedButtonIndex);
+	                    button.setFilled(true);
+	                    button.setFillColor(Color.yellow);
+	                    //highlightedButtonIndex = i;
+	                }
+	                return;
+            	}
             }
         }
         // If no button is being hovered over, reset the highlighting
-        if (highlightedButtonIndex != -1) {
+        if (highlightedButtonIndex != mapSelected) {
+        	System.out.println("highlightedButtonIndex: " + highlightedButtonIndex);
+        	System.out.println("Map Selected: " + mapSelected);
+        	buttons.get(highlightedButtonIndex).setFillColor(Color.black);
             buttons.get(highlightedButtonIndex).setFilled(false);
-            highlightedButtonIndex = -1;
+            //highlightedButtonIndex = -1; //Giving errors DO NOT UNCOMMET
+            System.out.println("highlightedButtonIndex: " + highlightedButtonIndex);
         }
     }
 
     private void resetButtons() {
         for (GRect button : buttons) {
-            button.setFilled(false);
+        	button.setFilled(false);
+        	button.setFillColor(Color.black);
+            System.out.println("Reset");
         }
     }
 
