@@ -91,7 +91,6 @@ public class Freeplay extends GraphicsProgram {
     	}
     	
     	playerButtons.clear();
-    	
     	//TODO: Write a For loop that creates a button for every number of player that will be in the game
     	for(int i = 0; i < numOfPlayers; i++){
     		GRect playerButton = new GRect(100 + i * 200, (WINDOW_HEIGHT - BUTTON_HEIGHT) / 1.3, BUTTON_WIDTH, BUTTON_HEIGHT);
@@ -121,9 +120,23 @@ public class Freeplay extends GraphicsProgram {
             }
         }
         
+        for (int i = 0; i < playerButtons.size(); i++) {
+            GRect playButton = playerButtons.get(i);
+            if (isWithinButtonBounds(playButton, e.getX(), e.getY())) {
+                // Reset all buttons
+            	//mapSelected = i;
+                //resetButtons();
+                // Set the clicked button to pressed state
+                playButton.setFilled(true);
+                playButton.setFillColor(Color.magenta);
+                // Exit the loop since we found the clicked button
+                break;
+            }
+        }
+        
         if(isWithinButtonBounds(backButton, e.getX(), e.getY())) {
         	resetButtons();
-        	System.exit(0);
+			System.exit(0);
         }
     }
     
