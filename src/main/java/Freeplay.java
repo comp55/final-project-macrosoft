@@ -12,12 +12,18 @@ import acm.graphics.*;
 import acm.program.*;
 
 public class Freeplay extends GraphicsProgram {
+	//Static
     public static final int WINDOW_WIDTH = 1280;
     public static final int WINDOW_HEIGHT = 720;
     public static final int BUTTON_WIDTH = 150;
     public static final int BUTTON_HEIGHT = 150;
+    
+    //Lists
     private List<GRect> buttons;
     private List<GLabel> buttonTexts;
+    private List<GRect> playerButtons;
+    
+    //Other
     GRect backButton;
     private JComboBox<String> playerDropdown;
     private int highlightedButtonIndex = -1; // Index of the button being highlighted
@@ -28,6 +34,8 @@ public class Freeplay extends GraphicsProgram {
         setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
         buttons = new ArrayList<GRect>();
         buttonTexts = new ArrayList<GLabel>();
+        playerButtons = new ArrayList<GRect>();
+        UpdateNumPlayers();
         
         
         String[] playerOptions = {"1 Player", "2 Players", "3 Players", "4 Players"};
@@ -38,6 +46,7 @@ public class Freeplay extends GraphicsProgram {
             String selectedPlayerOption = (String) cb.getSelectedItem();
             // Extracting the number of players from the selected option
             numOfPlayers = Integer.parseInt(selectedPlayerOption.split(" ")[0]);
+            UpdateNumPlayers();
         });
         
         // Add the JComboBox to a GCanvas
@@ -74,6 +83,24 @@ public class Freeplay extends GraphicsProgram {
         addMouseListeners();
     }
     
+    //updates the screen to show new number of players
+    public void UpdateNumPlayers() {
+    	System.out.println("I was called");
+    	for(GRect playButton : playerButtons){
+    		remove(playButton);
+    	}
+    	
+    	playerButtons.clear();
+    	
+    	//TODO: Write a For loop that creates a button for every number of player that will be in the game
+    	for(int i = 0; i < numOfPlayers; i++){
+    		GRect playerButton = new GRect(100 + i * 200, (WINDOW_HEIGHT - BUTTON_HEIGHT) / 1.3, BUTTON_WIDTH, BUTTON_HEIGHT);
+            playerButton.setFilled(false);
+            add(playerButton);
+            playerButtons.add(playerButton);
+    	}
+    }
+    
 	public static void main(String[] args) {
         new Freeplay().start();
     }
@@ -102,7 +129,7 @@ public class Freeplay extends GraphicsProgram {
     
     //@Override
    public void mouseMoved(MouseEvent e) {
-	   System.out.println("numplayers: " + numOfPlayers);
+	   //System.out.println("numplayers: " + numOfPlayers);
     	int temp = -1;
         for (int i = 0; i < buttons.size(); i++) {
         	temp = i;
@@ -116,10 +143,10 @@ public class Freeplay extends GraphicsProgram {
 	                    if (highlightedButtonIndex != -1 && temp != mapSelected) {
 	                        buttons.get(highlightedButtonIndex).setFilled(false);
 	                        buttons.get(highlightedButtonIndex).setFillColor(Color.black);
-	                        System.out.println("RESET");
+	                        //System.out.println("RESET");
 	                    }
 	                    // Highlight the current button
-	                    System.out.println("highlightedButtonIndex: " + highlightedButtonIndex);
+	                    //System.out.println("highlightedButtonIndex: " + highlightedButtonIndex);
 	                    button.setFilled(true);
 	                    button.setFillColor(Color.yellow);
 	                    //highlightedButtonIndex = i;
@@ -130,12 +157,12 @@ public class Freeplay extends GraphicsProgram {
         }
         // If no button is being hovered over, reset the highlighting
         if (highlightedButtonIndex != mapSelected) {
-        	System.out.println("highlightedButtonIndex: " + highlightedButtonIndex);
-        	System.out.println("Map Selected: " + mapSelected);
+        	//System.out.println("highlightedButtonIndex: " + highlightedButtonIndex);
+        	//System.out.println("Map Selected: " + mapSelected);
         	buttons.get(highlightedButtonIndex).setFillColor(Color.black);
             buttons.get(highlightedButtonIndex).setFilled(false);
             //highlightedButtonIndex = -1; //Giving errors DO NOT UNCOMMET
-            System.out.println("highlightedButtonIndex: " + highlightedButtonIndex);
+            //System.out.println("highlightedButtonIndex: " + highlightedButtonIndex);
         }
     }
 
@@ -143,7 +170,7 @@ public class Freeplay extends GraphicsProgram {
         for (GRect button : buttons) {
         	button.setFilled(false);
         	button.setFillColor(Color.black);
-            System.out.println("Reset");
+            //System.out.println("Reset");
         }
     }
 
