@@ -148,7 +148,7 @@ public class Platformer extends SimulationFrame {
 		this.world.addBody(left);
 		
 		//TODO delete this
-		/*
+		
 		character = new SimulationBody(WHEEL_OFF_COLOR);
 		// NOTE: lots of friction to simulate a sticky tire
 		character.addFixture(Geometry.createCircle(0.5), 1.0, 20.0, 0.1);
@@ -156,9 +156,9 @@ public class Platformer extends SimulationFrame {
 		character.translate(0.0, -2.0);
 		character.setUserData(CHARACTER);
 		character.setAtRestDetectionEnabled(false);
-		*/
+		
 		//TODO this addition will need to be made
-		//this.world.addBody(character);
+		this.world.addBody(character);
 		
 		// Use a number of concepts here to support movement, jumping, and one-way
 		// platforms - this is by no means THE solution to these problems, but just

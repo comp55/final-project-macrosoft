@@ -22,8 +22,10 @@ import org.dyn4j.world.listener.StepListenerAdapter;
 public class Player {
 	//declarations
 	private SimulationBody character;
+	private String playerControls;
+	private String playerIcon;
 	
-	public Player() {
+	public Player(String control, String icon) {
 		//the wheel
 		
 		//TODO change this so that instead of pushing a color it pushes what image it needs too be
