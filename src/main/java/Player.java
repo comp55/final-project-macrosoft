@@ -33,7 +33,7 @@ public class Player {
 		character.addFixture(Geometry.createCircle(0.5), 1.0, 20.0, 0.1);
 		character.setMass(MassType.NORMAL);
 		character.translate(0.0, -2.0);
-		character.setUserData(CHARACTER);
+		//character.setUserData(CHARACTER);
 		character.setAtRestDetectionEnabled(false);
 		
 	}

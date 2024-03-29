@@ -1,10 +1,15 @@
-import acm.graphics.*;
-import acm.program.*;
-import java.awt.*;
-import java.awt.event.*;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
-import javax.swing.*;
+
+import javax.swing.JComboBox;
+
+import acm.graphics.*;
+import acm.program.*;
 
 public class Freeplay extends GraphicsProgram {
     public static final int WINDOW_WIDTH = 1280;
@@ -17,6 +22,7 @@ public class Freeplay extends GraphicsProgram {
     private JComboBox<String> playerDropdown;
     private int highlightedButtonIndex = -1; // Index of the button being highlighted
     public int mapSelected = -1;
+    private int numOfPlayers = 1; // Default number of players
 
     public void init() {
         setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
@@ -27,6 +33,12 @@ public class Freeplay extends GraphicsProgram {
         String[] playerOptions = {"1 Player", "2 Players", "3 Players", "4 Players"};
         playerDropdown = new JComboBox<String>(playerOptions);
         playerDropdown.setFont(new Font("Arial", Font.PLAIN, 20));
+        playerDropdown.addActionListener(e -> {
+            JComboBox<String> cb = (JComboBox<String>) e.getSource();
+            String selectedPlayerOption = (String) cb.getSelectedItem();
+            // Extracting the number of players from the selected option
+            numOfPlayers = Integer.parseInt(selectedPlayerOption.split(" ")[0]);
+        });
         
         // Add the JComboBox to a GCanvas
         playerDropdown.setPreferredSize(new Dimension(150, 30));
@@ -90,6 +102,7 @@ public class Freeplay extends GraphicsProgram {
     
     //@Override
    public void mouseMoved(MouseEvent e) {
+	   System.out.println("numplayers: " + numOfPlayers);
     	int temp = -1;
         for (int i = 0; i < buttons.size(); i++) {
         	temp = i;
