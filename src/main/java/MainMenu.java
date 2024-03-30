@@ -1,5 +1,7 @@
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.*;
 
@@ -20,6 +22,11 @@ public class MainMenu {
 	
 	private void window() {
 		
+		ImageIcon backgroundImage = new ImageIcon("images/mainbg.png");
+	    JLabel background = new JLabel(backgroundImage);
+	    background.setBounds(0, 0, WINDOW_X, WINDOW_Y);
+
+		
 		JLabel title = new JLabel();
 		title.setText("fruitless conflict");
 		title.setFont(new Font("Arial" ,Font.PLAIN, 50));
@@ -37,6 +44,7 @@ public class MainMenu {
 		ImageIcon logo = new ImageIcon("images/logo.png");
 		frame.setIconImage(logo.getImage());
 		
+		frame.setContentPane(background);
 		frame.add(title);	
 		frame.setVisible(true);
 		
@@ -72,6 +80,14 @@ public class MainMenu {
 		exit.setBorder(BorderFactory.createLineBorder(Color.red));
 		exit.setFocusable(false);
 		exit.setBounds(WINDOW_X/2 - BUTTON_WIDTH/2, WINDOW_Y/2 + BUTTON_HEIGHT*2 - 15, BUTTON_WIDTH, BUTTON_HEIGHT);
+		
+		exit.addActionListener(new ActionListener() {
+	        @Override
+	        public void actionPerformed(ActionEvent e) {
+	            System.exit(0);
+	        }
+	    });
+		
 		frame.add(exit);	
 	}
 	
