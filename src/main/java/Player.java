@@ -25,6 +25,8 @@ public class Player {
 	private String playerControls;
 	private String playerIcon;
 	
+	//this should take in the players icon, and whatever control pattern they want. once thats done create the actual body but don't place it. 
+	//characters need to be placed in the play class
 	public Player(String control, String icon) {
 		//the wheel
 		
@@ -39,5 +41,9 @@ public class Player {
 		character.setAtRestDetectionEnabled(false);
 		
 	}
+	
+	//need to create a setter and getter for the controls and just a setter for the icon
+	
+	//start working on powerups changing abilites
 	
 }
