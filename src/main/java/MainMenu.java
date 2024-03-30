@@ -11,8 +11,10 @@ public class MainMenu {
 	private static final int WINDOW_Y = 768;
 	private static final int BUTTON_WIDTH = 200;
 	private static final int BUTTON_HEIGHT = 50;
+	
 	private JFrame frame;
 	
+	// Constructs the Main Menu
 	public MainMenu() {
 		window();
 		playButton();
@@ -20,13 +22,15 @@ public class MainMenu {
 		quitButton();
 	}
 	
+	// Main window setup
 	private void window() {
 		
+		// Sets the background image
 		ImageIcon backgroundImage = new ImageIcon("images/mainbg.png");
 	    JLabel background = new JLabel(backgroundImage);
 	    background.setBounds(0, 0, WINDOW_X, WINDOW_Y);
 
-		
+		// Title Text (Should replace this with an image)
 		JLabel title = new JLabel();
 		title.setText("fruitless conflict");
 		title.setFont(new Font("Arial" ,Font.PLAIN, 50));
@@ -34,6 +38,7 @@ public class MainMenu {
 		title.setVerticalAlignment(JLabel.CENTER);
 		title.setBounds(0, 0, WINDOW_X, WINDOW_Y/2);
 		
+		// Frame Setup
 		frame = new JFrame();
 		frame.setTitle("Fruitless Conflict");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -41,6 +46,7 @@ public class MainMenu {
 		frame.setSize(WINDOW_X, WINDOW_Y);
 		frame.setLayout(null);
 		
+		// Window Icon Logo
 		ImageIcon logo = new ImageIcon("images/logo.png");
 		frame.setIconImage(logo.getImage());
 		
@@ -50,6 +56,7 @@ public class MainMenu {
 		
 	}
 	
+	// Play Button
 	private void playButton() {
 		JButton play = new JButton();
 		play.setText("play");
@@ -61,6 +68,7 @@ public class MainMenu {
 		frame.add(play);
 	}
 	
+	// Settings Button
 	private void settingsButton() {
 		JButton settings = new JButton();
 		settings.setText("settings");
@@ -72,6 +80,7 @@ public class MainMenu {
 		frame.add(settings);
 	}
 	
+	// Quit Button
 	private void quitButton() {
 		JButton exit = new JButton();
 		exit.setText("quit");
@@ -81,6 +90,7 @@ public class MainMenu {
 		exit.setFocusable(false);
 		exit.setBounds(WINDOW_X/2 - BUTTON_WIDTH/2, WINDOW_Y/2 + BUTTON_HEIGHT*2 - 15, BUTTON_WIDTH, BUTTON_HEIGHT);
 		
+		// Quit Button Functionality
 		exit.addActionListener(new ActionListener() {
 	        @Override
 	        public void actionPerformed(ActionEvent e) {
