@@ -79,7 +79,7 @@ public class Platformer extends SimulationFrame {
 
 	private SimulationBody character;
 	private SimulationBody character2;
-	private boolean onGround = false;
+	private boolean onGround = true;
 	
 	/**
 	 * Default constructor for the window
@@ -332,41 +332,63 @@ public class Platformer extends SimulationFrame {
 	/* (non-Javadoc)
 	 * @see org.dyn4j.samples.framework.SimulationFrame#handleEvents()
 	 */
-	@Override
 	protected void handleEvents() {
-		super.handleEvents();
-		
-		// apply a torque based on key input
-		if (this.left.isActive()) {
-			character.applyTorque(Math.PI / 1);
-		}
-		if (this.right.isActive()) {
-			character.applyTorque(-Math.PI / 1);
-		}
-		
-		if (this.a.isActive()) {
-			character2.applyTorque(Math.PI / 1);
-		}
-		if (this.d.isActive()) {
-			character2.applyTorque(-Math.PI / 1);
-		}
-		
-		
-		// only allow jumping if the body is on the ground
-		if (this.up.isActiveButNotHandled()) {
-			this.up.setHasBeenHandled(true);
-			if (this.onGround) {
-				character.applyImpulse(new Vector2(0.0, 7));
-			}
-		}
-		
-		// color the body green if it's on the ground
-		if (this.onGround) {
-			character.setColor(WHEEL_ON_COLOR);
-		} else {
-			character.setColor(WHEEL_OFF_COLOR);
-		}
+	    super.handleEvents();
+
+	    // Apply torque based on keyboard input for character 1
+	    if (this.left.isActive()) {
+	        character.applyTorque(Math.PI / 1);
+	    }
+	    if (this.right.isActive()) {
+	        character.applyTorque(-Math.PI / 1);
+	    }
+
+	    // Apply torque based on keyboard input for character 2
+	    if (this.a.isActive()) {
+	        character2.applyTorque(Math.PI / 1);
+	    }
+	    if (this.d.isActive()) {
+	        character2.applyTorque(-Math.PI / 1);
+	    }
+
+	    // Jumping mechanism for character 2 (W key)
+	    if (this.w.isActiveButNotHandled()) {
+	        this.w.setHasBeenHandled(true);
+	        if (this.onGround(character)) {
+	            // Apply an impulse in the upward direction
+	            character2.applyImpulse(new Vector2(0.0, 7));
+	            // Set onGround to false to prevent consecutive jumps until landing again
+	            onGround = false;
+	        }
+	    }
+
+	    // Jumping mechanism for character (Up arrow key)
+	    if (this.up.isActiveButNotHandled()) {
+	        this.up.setHasBeenHandled(true);
+	        if (this.onGround(character2)) {
+	            // Apply an impulse in the upward direction
+	            character.applyImpulse(new Vector2(0.0, 7));
+	            // Set onGround to false to prevent consecutive jumps until landing again
+	            onGround = false;
+	        }
+	    }
+
+	    // Update character color based on whether it's on the ground or not
+	    character.setColor(onGround(character) ? WHEEL_ON_COLOR : WHEEL_OFF_COLOR);
+	    character2.setColor(onGround(character2) ? WHEEL_ON_COLOR : WHEEL_OFF_COLOR);
 	}
+
+	private boolean onGround(SimulationBody character) {
+	    List<ContactConstraint<SimulationBody>> contacts = world.getContacts(character);
+	    for (ContactConstraint<SimulationBody> cc : contacts) {
+	        if (is(cc.getOtherBody(character), FLOOR, ONE_WAY_PLATFORM) && cc.isEnabled()) {
+	            return true;
+	        }
+	    }
+	    return false;
+	}
+
+
 	
 	/**
 	 * Entry point for the example application.
