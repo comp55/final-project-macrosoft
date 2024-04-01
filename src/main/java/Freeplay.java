@@ -22,6 +22,7 @@ public class Freeplay extends GraphicsProgram {
     private List<GRect> buttons;
     private List<GLabel> buttonTexts;
     private List<GRect> playerButtons;
+    private List<GRect> playerSelection;
     
     //Other
     GRect backButton;
@@ -30,14 +31,16 @@ public class Freeplay extends GraphicsProgram {
     public int mapSelected = -1;
     private int numOfPlayers = 1; // Default number of players
 
+    //Init the program
     public void init() {
         setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
         buttons = new ArrayList<GRect>();
         buttonTexts = new ArrayList<GLabel>();
         playerButtons = new ArrayList<GRect>();
+        playerSelection = new ArrayList<GRect>();
         UpdateNumPlayers();
         
-        
+        //Creating number of players
         String[] playerOptions = {"1 Player", "2 Players", "3 Players", "4 Players"};
         playerDropdown = new JComboBox<String>(playerOptions);
         playerDropdown.setFont(new Font("Arial", Font.PLAIN, 20));
@@ -84,7 +87,7 @@ public class Freeplay extends GraphicsProgram {
     }
     
     //updates the screen to show new number of players
-    public void UpdateNumPlayers() {
+    private void UpdateNumPlayers() {
     	System.out.println("I was called");
     	for(GRect playButton : playerButtons){
     		remove(playButton);
@@ -98,6 +101,30 @@ public class Freeplay extends GraphicsProgram {
             add(playerButton);
             playerButtons.add(playerButton);
     	}
+    }
+    
+    private void CharacterSelectMenu() {
+    	//Making the background
+    	GRect backGround = new GRect(250, 100, 1000, 500);
+        backGround.setFilled(true);
+        backGround.setFillColor(Color.cyan);
+        //debug
+        System.out.println("AHHHHHHH");
+        //debug
+        add(backGround);
+        
+        //Making the Character Select Buttons
+        GImage charOrange = new GImage("images/orangePlayer.PNG", 30, 30);
+        //GImage charRed = new GImage("redPlayer.PNG", 30, 30);
+        //GImage charSquare = new GImage("sqaureMelonPlayer.PNG", 30, 30);
+        //GImage charTomato = new GImage("tomatoPlayer.PNG", 30, 30);
+        //GImage charWater = new GImage("watermelonPlayer.PNG", 30, 30);
+        //charOrange.setSize(BUTTON_WIDTH, BUTTON_HEIGHT);
+        //add(charOrange);
+        
+        //Making the confirm Button
+        
+    	return;
     }
     
 	public static void main(String[] args) {
@@ -123,12 +150,9 @@ public class Freeplay extends GraphicsProgram {
         for (int i = 0; i < playerButtons.size(); i++) {
             GRect playButton = playerButtons.get(i);
             if (isWithinButtonBounds(playButton, e.getX(), e.getY())) {
-                // Reset all buttons
-            	//mapSelected = i;
-                //resetButtons();
-                // Set the clicked button to pressed state
                 playButton.setFilled(true);
                 playButton.setFillColor(Color.magenta);
+                CharacterSelectMenu();
                 // Exit the loop since we found the clicked button
                 break;
             }
