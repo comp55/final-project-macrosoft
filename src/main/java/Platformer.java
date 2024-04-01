@@ -59,6 +59,8 @@ import org.dyn4j.world.listener.StepListenerAdapter;
 public class Platformer extends SimulationFrame {
 	/** The serial version id */
 	private static final long serialVersionUID = -313391186714427055L;
+	
+	private String map;
 
 	private static final Color WHEEL_OFF_COLOR = Color.MAGENTA;
 	private static final Color WHEEL_ON_COLOR = Color.GREEN;
@@ -76,15 +78,31 @@ public class Platformer extends SimulationFrame {
 	private final BooleanStateKeyboardInputHandler s;
 	private final BooleanStateKeyboardInputHandler a;
 	private final BooleanStateKeyboardInputHandler d;
+	
+	private final BooleanStateKeyboardInputHandler t;
+	private final BooleanStateKeyboardInputHandler g;
+	private final BooleanStateKeyboardInputHandler f;
+	private final BooleanStateKeyboardInputHandler h;
+	
+	private final BooleanStateKeyboardInputHandler i;
+	private final BooleanStateKeyboardInputHandler k;
+	private final BooleanStateKeyboardInputHandler j;
+	private final BooleanStateKeyboardInputHandler l;
 
 	private SimulationBody character;
 	private SimulationBody character2;
+	private SimulationBody character3;
+	private SimulationBody character4;
 	private boolean onGround = true;
+	private boolean onGround2 = true;
+	private boolean onGround3 = true;
+	private boolean onGround4 = true;
 	
 	/**
 	 * Default constructor for the window
+	 * Map will be intigrated once we call this class from menus
 	 */
-	public Platformer() {
+	public Platformer(/*String map*/) {
 		super("Platformer");
 		
 		this.up = new BooleanStateKeyboardInputHandler(this.canvas, KeyEvent.VK_UP);
@@ -97,6 +115,16 @@ public class Platformer extends SimulationFrame {
 		this.a = new BooleanStateKeyboardInputHandler(this.canvas, KeyEvent.VK_A);
 		this.d = new BooleanStateKeyboardInputHandler(this.canvas, KeyEvent.VK_D);
 		
+		this.t = new BooleanStateKeyboardInputHandler(this.canvas, KeyEvent.VK_T);
+		this.g = new BooleanStateKeyboardInputHandler(this.canvas, KeyEvent.VK_G);
+		this.f = new BooleanStateKeyboardInputHandler(this.canvas, KeyEvent.VK_F);
+		this.h = new BooleanStateKeyboardInputHandler(this.canvas, KeyEvent.VK_H);
+		
+		this.i = new BooleanStateKeyboardInputHandler(this.canvas, KeyEvent.VK_I);
+		this.k = new BooleanStateKeyboardInputHandler(this.canvas, KeyEvent.VK_K);
+		this.j = new BooleanStateKeyboardInputHandler(this.canvas, KeyEvent.VK_J);
+		this.l = new BooleanStateKeyboardInputHandler(this.canvas, KeyEvent.VK_L);
+		
 		this.up.install();
 		this.down.install();
 		this.left.install();
@@ -106,6 +134,19 @@ public class Platformer extends SimulationFrame {
 		this.s.install();
 		this.a.install();
 		this.d.install();
+		
+		this.t.install();
+		this.g.install();
+		this.f.install();
+		this.h.install();
+		
+		this.i.install();
+		this.k.install();
+		this.j.install();
+		this.l.install();
+		
+		//TODO uncomment once menu is intigrated
+		//this.map = map;
 	}
 	
 	/* (non-Javadoc)
@@ -121,6 +162,18 @@ public class Platformer extends SimulationFrame {
 	 * Creates game objects and adds them to the world.
 	 */
 	protected void initializeWorld() {
+		
+		//TODO this will call the map
+		/*switch(map)
+		{
+		  case value1 :
+		     // Statements 
+		  case value2 :
+		     // Statements
+		   default : 
+		     // default Statement
+		}*/
+		
 		// the floor
 		SimulationBody floor = new SimulationBody();
 		floor.addFixture(Geometry.createRectangle(50.0, 0.2));
