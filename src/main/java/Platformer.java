@@ -22,7 +22,7 @@
  * IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT 
  * OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-
+package org.dyn4j.samples;
 
 import java.awt.Color;
 import java.awt.event.KeyEvent;
@@ -71,8 +71,14 @@ public class Platformer extends SimulationFrame {
 	private final BooleanStateKeyboardInputHandler down;
 	private final BooleanStateKeyboardInputHandler left;
 	private final BooleanStateKeyboardInputHandler right;
+	
+	private final BooleanStateKeyboardInputHandler w;
+	private final BooleanStateKeyboardInputHandler s;
+	private final BooleanStateKeyboardInputHandler a;
+	private final BooleanStateKeyboardInputHandler d;
 
 	private SimulationBody character;
+	private SimulationBody character2;
 	private boolean onGround = false;
 	
 	/**
@@ -86,10 +92,20 @@ public class Platformer extends SimulationFrame {
 		this.left = new BooleanStateKeyboardInputHandler(this.canvas, KeyEvent.VK_LEFT);
 		this.right = new BooleanStateKeyboardInputHandler(this.canvas, KeyEvent.VK_RIGHT);
 		
+		this.w = new BooleanStateKeyboardInputHandler(this.canvas, KeyEvent.VK_W);
+		this.s = new BooleanStateKeyboardInputHandler(this.canvas, KeyEvent.VK_S);
+		this.a = new BooleanStateKeyboardInputHandler(this.canvas, KeyEvent.VK_A);
+		this.d = new BooleanStateKeyboardInputHandler(this.canvas, KeyEvent.VK_D);
+		
 		this.up.install();
 		this.down.install();
 		this.left.install();
 		this.right.install();
+		
+		this.w.install();
+		this.s.install();
+		this.a.install();
+		this.d.install();
 	}
 	
 	/* (non-Javadoc)
@@ -113,19 +129,6 @@ public class Platformer extends SimulationFrame {
 		floor.setUserData(FLOOR);
 		this.world.addBody(floor);
 		
-		// some obstacles
-		final int n = 5;
-		for (int i = 0; i < n; i++) {
-			SimulationBody sb = new SimulationBody();
-			double w = 1.0;
-			double h = Math.random() * 0.3 + 0.1;
-			sb.addFixture(Geometry.createIsoscelesTriangle(w, h));
-			sb.translate((Math.random() > 0.5 ? -1 : 1) * Math.random() * 5.0, h * 0.5 - 2.9);
-			sb.setMass(MassType.INFINITE);
-			sb.setUserData(FLOOR);
-			this.world.addBody(sb);
-		}
-		
 		// the platform
 		SimulationBody platform = new SimulationBody();
 		platform.addFixture(Geometry.createRectangle(10.0, 0.2));
@@ -147,8 +150,7 @@ public class Platformer extends SimulationFrame {
 		left.translate(-10, 7);
 		this.world.addBody(left);
 		
-		//TODO delete this
-		
+		// the wheel
 		character = new SimulationBody(WHEEL_OFF_COLOR);
 		// NOTE: lots of friction to simulate a sticky tire
 		character.addFixture(Geometry.createCircle(0.5), 1.0, 20.0, 0.1);
@@ -156,9 +158,16 @@ public class Platformer extends SimulationFrame {
 		character.translate(0.0, -2.0);
 		character.setUserData(CHARACTER);
 		character.setAtRestDetectionEnabled(false);
-		
-		//TODO this addition will need to be made
 		this.world.addBody(character);
+		
+		character2 = new SimulationBody(WHEEL_OFF_COLOR);
+		// NOTE: lots of friction to simulate a sticky tire
+		character2.addFixture(Geometry.createCircle(0.5), 1.0, 20.0, 0.1);
+		character2.setMass(MassType.NORMAL);
+		character2.translate(0.0, -2.0);
+		character2.setUserData(CHARACTER);
+		character2.setAtRestDetectionEnabled(false);
+		this.world.addBody(character2);
 		
 		// Use a number of concepts here to support movement, jumping, and one-way
 		// platforms - this is by no means THE solution to these problems, but just
@@ -181,6 +190,12 @@ public class Platformer extends SimulationFrame {
 				List<ContactConstraint<SimulationBody>> contacts = world.getContacts(character);
 				for (ContactConstraint<SimulationBody> cc : contacts) {
 					if (is(cc.getOtherBody(character), FLOOR, ONE_WAY_PLATFORM) && cc.isEnabled()) {
+						isGround = true;
+					}
+				}
+				List<ContactConstraint<SimulationBody>> contacts2 = world.getContacts(character2);
+				for (ContactConstraint<SimulationBody> cc : contacts2) {
+					if (is(cc.getOtherBody(character2), FLOOR, ONE_WAY_PLATFORM) && cc.isEnabled()) {
 						isGround = true;
 					}
 				}
@@ -271,6 +286,18 @@ public class Platformer extends SimulationFrame {
 				contactConstraint.setEnabled(false);
 			}
 		}
+		
+		if (is(b1, CHARACTER) && is(b2, ONE_WAY_PLATFORM)) {
+			if (allowOneWayUp(b1, b2) || s.isActiveButNotHandled()) {
+				s.setHasBeenHandled(true);
+				contactConstraint.setEnabled(false);
+			}
+		} else if (is(b1, ONE_WAY_PLATFORM) && is(b2, CHARACTER)) {
+			if (allowOneWayUp(b2, b1) || s.isActiveButNotHandled()) {
+				s.setHasBeenHandled(true);
+				contactConstraint.setEnabled(false);
+			}
+		}
 	}
 	
 	/**
@@ -311,11 +338,19 @@ public class Platformer extends SimulationFrame {
 		
 		// apply a torque based on key input
 		if (this.left.isActive()) {
-			character.applyTorque(Math.PI / 2);
+			character.applyTorque(Math.PI / 1);
 		}
 		if (this.right.isActive()) {
-			character.applyTorque(-Math.PI / 2);
+			character.applyTorque(-Math.PI / 1);
 		}
+		
+		if (this.a.isActive()) {
+			character2.applyTorque(Math.PI / 1);
+		}
+		if (this.d.isActive()) {
+			character2.applyTorque(-Math.PI / 1);
+		}
+		
 		
 		// only allow jumping if the body is on the ground
 		if (this.up.isActiveButNotHandled()) {
