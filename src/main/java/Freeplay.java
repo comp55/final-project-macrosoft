@@ -105,7 +105,7 @@ public class Freeplay extends GraphicsProgram {
     
     private void CharacterSelectMenu() {
     	//Making the background
-    	GRect backGround = new GRect(250, 100, 1000, 500);
+    	GRect backGround = new GRect(250, 100, 800, 500);
         backGround.setFilled(true);
         backGround.setFillColor(Color.cyan);
         //debug
@@ -114,13 +114,21 @@ public class Freeplay extends GraphicsProgram {
         add(backGround);
         
         //Making the Character Select Buttons
-        GImage charOrange = new GImage("images/orangePlayer.PNG", 30, 30);
-        //GImage charRed = new GImage("redPlayer.PNG", 30, 30);
-        //GImage charSquare = new GImage("sqaureMelonPlayer.PNG", 30, 30);
-        //GImage charTomato = new GImage("tomatoPlayer.PNG", 30, 30);
-        //GImage charWater = new GImage("watermelonPlayer.PNG", 30, 30);
-        //charOrange.setSize(BUTTON_WIDTH, BUTTON_HEIGHT);
-        //add(charOrange);
+        GImage charOrange = new GImage("images/orangePlayer.PNG", 300, 130);
+        charOrange.setSize(160, 120);
+        GImage charRed = new GImage("images/redPlayer.PNG", 430, 130);
+        charRed.setSize(160, 120);
+        GImage charSquare = new GImage("images/sqaureMelonPlayer.PNG", 560, 130);
+        charSquare.setSize(160, 120);
+        GImage charTomato = new GImage("images/tomatoPlayer.PNG", 690, 130);
+        charTomato.setSize(160, 120);
+        GImage charWater = new GImage("images/watermelonPlayer.PNG", 820, 130);
+        charWater.setSize(160, 120);
+        add(charOrange);
+        add(charRed);
+        add(charSquare);
+        add(charTomato);
+        add(charWater);
         
         //Making the confirm Button
         
