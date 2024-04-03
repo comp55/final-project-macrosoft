@@ -103,7 +103,18 @@ public class MainMenu {
 
 
     private void playAction(ActionEvent e) {
-        // Add functionality for play button
+        
+    	JPanel playPanel = new JPanel();
+    	playPanel.setBounds(0, 0, WINDOW_X, WINDOW_Y);
+    	playPanel.setBackground(Color.WHITE);
+    	
+    	JLabel playLabel = new JLabel("Testing Play Panel");
+    	playPanel.add(playLabel);
+    	
+    	frame.setContentPane(playPanel);
+    	frame.revalidate();
+    	frame.repaint();
+    	
     }
 
     private void settingsAction(ActionEvent e) {
