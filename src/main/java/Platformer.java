@@ -61,7 +61,7 @@ public class Platformer extends SimulationFrame {
 	/** The serial version id */
 	private static final long serialVersionUID = -313391186714427055L;
 
-	private String map;
+	private String map = "map1";
 
 	private static final Color WHEEL_OFF_COLOR = Color.MAGENTA;
 	private static final Color WHEEL_ON_COLOR = Color.GREEN;
@@ -173,14 +173,13 @@ public class Platformer extends SimulationFrame {
 		 * : // default Statement }
 		 */
 
-		//proof of concept level loading
-		LoadLevel level = new LoadLevel();
+		// proof of concept level loading
+		LoadLevel loading = new LoadLevel(map);
+		int length = loading.getLength();
 
-		for(int i = 1; i<5; i++) {
-			this.world.addBody(level.loadMap(i));
+		for (int i = 0; i < length; i++) {
+			this.world.addBody(loading.loadMap(i));
 		}
-
-		
 
 		// the wheel
 		character = new SimulationBody(WHEEL_OFF_COLOR);
