@@ -15,10 +15,9 @@ public class LoadLevel extends Platformer {
 	private static String testLevelString = "RECTANGLE;50.0;0.2;INFINITE;0;-3;FLOOR";
 	private static String testLevelString2 = "RECTANGLE;10.0;0.2;INFINITE;0;0;ONE_WAY_PLATFORM";
 
-	private static final Object FLOOR = new Object();
-	private static final Object ONE_WAY_PLATFORM = new Object();
+	//private static final Object FLOOR = new Object();
+	//private static final Object ONE_WAY_PLATFORM = new Object();
 
-	private Boolean keepLoading = true;
 	private int length;
 	private ArrayList<String> levelLoadText = new ArrayList<String>();
 
@@ -67,20 +66,10 @@ public class LoadLevel extends Platformer {
 
 	}
 
-	private String[] stringFromFile() {
-
-		return null;
-
-	}
-
 	@Override
 	protected void initializeWorld() {
 		// TODO Auto-generated method stub
 
-	}
-
-	public Boolean getKeepLoading() {
-		return keepLoading;
 	}
 
 	public int getLength() {

@@ -67,8 +67,8 @@ public class Platformer extends SimulationFrame {
 	private static final Color WHEEL_ON_COLOR = Color.GREEN;
 
 	private static final Object CHARACTER = new Object();
-	private static final Object FLOOR = new Object();
-	private static final Object ONE_WAY_PLATFORM = new Object();
+	public static final Object FLOOR = new Object();
+	public static final Object ONE_WAY_PLATFORM = new Object();
 
 	private final BooleanStateKeyboardInputHandler up;
 	private final BooleanStateKeyboardInputHandler down;
