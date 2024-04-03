@@ -44,14 +44,15 @@ import org.dyn4j.world.listener.ContactListenerAdapter;
 import org.dyn4j.world.listener.StepListenerAdapter;
 
 /**
- * A simple scene of a circle that is controlled by the left and
- * right arrow keys that is moved by applying torques and forces.
+ * A simple scene of a circle that is controlled by the left and right arrow
+ * keys that is moved by applying torques and forces.
  * <p>
- * Also illustrated here is how to track whether the body is in
- * contact with the "ground."
+ * Also illustrated here is how to track whether the body is in contact with the
+ * "ground."
  * <p>
- * Always keep in mind that this is just an example, production
- * code should be more robust and better organized.
+ * Always keep in mind that this is just an example, production code should be
+ * more robust and better organized.
+ * 
  * @author William Bittle
  * @since 5.0.1
  * @version 3.2.0
@@ -59,31 +60,31 @@ import org.dyn4j.world.listener.StepListenerAdapter;
 public class Platformer extends SimulationFrame {
 	/** The serial version id */
 	private static final long serialVersionUID = -313391186714427055L;
-	
+
 	private String map;
 
 	private static final Color WHEEL_OFF_COLOR = Color.MAGENTA;
 	private static final Color WHEEL_ON_COLOR = Color.GREEN;
-	
+
 	private static final Object CHARACTER = new Object();
 	private static final Object FLOOR = new Object();
 	private static final Object ONE_WAY_PLATFORM = new Object();
-	
+
 	private final BooleanStateKeyboardInputHandler up;
 	private final BooleanStateKeyboardInputHandler down;
 	private final BooleanStateKeyboardInputHandler left;
 	private final BooleanStateKeyboardInputHandler right;
-	
+
 	private final BooleanStateKeyboardInputHandler w;
 	private final BooleanStateKeyboardInputHandler s;
 	private final BooleanStateKeyboardInputHandler a;
 	private final BooleanStateKeyboardInputHandler d;
-	
+
 	private final BooleanStateKeyboardInputHandler t;
 	private final BooleanStateKeyboardInputHandler g;
 	private final BooleanStateKeyboardInputHandler f;
 	private final BooleanStateKeyboardInputHandler h;
-	
+
 	private final BooleanStateKeyboardInputHandler i;
 	private final BooleanStateKeyboardInputHandler k;
 	private final BooleanStateKeyboardInputHandler j;
@@ -97,112 +98,90 @@ public class Platformer extends SimulationFrame {
 	private boolean onGround2 = true;
 	private boolean onGround3 = true;
 	private boolean onGround4 = true;
-	
+
 	/**
-	 * Default constructor for the window
-	 * Map will be intigrated once we call this class from menus
+	 * Default constructor for the window Map will be intigrated once we call this
+	 * class from menus
 	 */
-	public Platformer(/*String map*/) {
+	public Platformer(/* String map */) {
 		super("Platformer");
-		
+
 		this.up = new BooleanStateKeyboardInputHandler(this.canvas, KeyEvent.VK_UP);
 		this.down = new BooleanStateKeyboardInputHandler(this.canvas, KeyEvent.VK_DOWN);
 		this.left = new BooleanStateKeyboardInputHandler(this.canvas, KeyEvent.VK_LEFT);
 		this.right = new BooleanStateKeyboardInputHandler(this.canvas, KeyEvent.VK_RIGHT);
-		
+
 		this.w = new BooleanStateKeyboardInputHandler(this.canvas, KeyEvent.VK_W);
 		this.s = new BooleanStateKeyboardInputHandler(this.canvas, KeyEvent.VK_S);
 		this.a = new BooleanStateKeyboardInputHandler(this.canvas, KeyEvent.VK_A);
 		this.d = new BooleanStateKeyboardInputHandler(this.canvas, KeyEvent.VK_D);
-		
+
 		this.t = new BooleanStateKeyboardInputHandler(this.canvas, KeyEvent.VK_T);
 		this.g = new BooleanStateKeyboardInputHandler(this.canvas, KeyEvent.VK_G);
 		this.f = new BooleanStateKeyboardInputHandler(this.canvas, KeyEvent.VK_F);
 		this.h = new BooleanStateKeyboardInputHandler(this.canvas, KeyEvent.VK_H);
-		
+
 		this.i = new BooleanStateKeyboardInputHandler(this.canvas, KeyEvent.VK_I);
 		this.k = new BooleanStateKeyboardInputHandler(this.canvas, KeyEvent.VK_K);
 		this.j = new BooleanStateKeyboardInputHandler(this.canvas, KeyEvent.VK_J);
 		this.l = new BooleanStateKeyboardInputHandler(this.canvas, KeyEvent.VK_L);
-		
+
 		this.up.install();
 		this.down.install();
 		this.left.install();
 		this.right.install();
-		
+
 		this.w.install();
 		this.s.install();
 		this.a.install();
 		this.d.install();
-		
+
 		this.t.install();
 		this.g.install();
 		this.f.install();
 		this.h.install();
-		
+
 		this.i.install();
 		this.k.install();
 		this.j.install();
 		this.l.install();
-		
-		//TODO uncomment once menu is intigrated
-		//this.map = map;
+
+		// TODO uncomment once menu is intigrated
+		// this.map = map;
 	}
-	
-	/* (non-Javadoc)
-	 * @see org.dyn4j.samples.framework.SimulationFrame#initializeCamera(org.dyn4j.samples.framework.Camera)
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.dyn4j.samples.framework.SimulationFrame#initializeCamera(org.dyn4j.
+	 * samples.framework.Camera)
 	 */
 	@Override
 	protected void initializeCamera(Camera camera) {
 		super.initializeCamera(camera);
 		camera.scale = 32.0;
 	}
-	
+
 	/**
 	 * Creates game objects and adds them to the world.
 	 */
 	protected void initializeWorld() {
+
+		// TODO this will call the map
+		/*
+		 * switch(map) { case value1 : // Statements case value2 : // Statements default
+		 * : // default Statement }
+		 */
+
+		//proof of concept level loading
+		LoadLevel level = new LoadLevel();
+
+		for(int i = 1; i<5; i++) {
+			this.world.addBody(level.loadMap(i));
+		}
+
 		
-		//TODO this will call the map
-		/*switch(map)
-		{
-		  case value1 :
-		     // Statements 
-		  case value2 :
-		     // Statements
-		   default : 
-		     // default Statement
-		}*/
-		
-		// the floor
-		SimulationBody floor = new SimulationBody();
-		floor.addFixture(Geometry.createRectangle(50.0, 0.2));
-		floor.setMass(MassType.INFINITE);
-		floor.translate(0, -3);
-		floor.setUserData(FLOOR);
-		this.world.addBody(floor);
-		
-		// the platform
-		SimulationBody platform = new SimulationBody();
-		platform.addFixture(Geometry.createRectangle(10.0, 0.2));
-		platform.setMass(MassType.INFINITE);
-		platform.translate(0, 0);
-		platform.setUserData(ONE_WAY_PLATFORM);
-		this.world.addBody(platform);
-		
-		// some bounding shapes
-		SimulationBody right = new SimulationBody();
-		right.addFixture(Geometry.createRectangle(0.2, 20));
-		right.setMass(MassType.INFINITE);
-		right.translate(10, 7);
-		this.world.addBody(right);
-		
-		SimulationBody left = new SimulationBody();
-		left.addFixture(Geometry.createRectangle(0.2, 20));
-		left.setMass(MassType.INFINITE);
-		left.translate(-10, 7);
-		this.world.addBody(left);
-		
+
 		// the wheel
 		character = new SimulationBody(WHEEL_OFF_COLOR);
 		// NOTE: lots of friction to simulate a sticky tire
@@ -212,7 +191,7 @@ public class Platformer extends SimulationFrame {
 		character.setUserData(CHARACTER);
 		character.setAtRestDetectionEnabled(false);
 		this.world.addBody(character);
-		
+
 		character2 = new SimulationBody(WHEEL_OFF_COLOR);
 		// NOTE: lots of friction to simulate a sticky tire
 		character2.addFixture(Geometry.createCircle(0.5), 1.0, 20.0, 0.1);
@@ -221,24 +200,24 @@ public class Platformer extends SimulationFrame {
 		character2.setUserData(CHARACTER);
 		character2.setAtRestDetectionEnabled(false);
 		this.world.addBody(character2);
-		
+
 		// Use a number of concepts here to support movement, jumping, and one-way
 		// platforms - this is by no means THE solution to these problems, but just
 		// and example to provide some ideas on how you might
-		
+
 		// One consideration might be to use a sensor body to get less accurate
-		// on-ground detection so that it's not frustrating to the user.  dyn4j
+		// on-ground detection so that it's not frustrating to the user. dyn4j
 		// will detect them in collision, but small bouncing or other things could
 		// cause it to look/feel wrong
-		
-		// SETP 1: 
+
+		// SETP 1:
 		// at the beginning of each world step, check if the body is in
 		// contact with any of the floor bodies
 		this.world.addStepListener(new StepListenerAdapter<SimulationBody>() {
 			@Override
 			public void begin(TimeStep step, PhysicsWorld<SimulationBody, ?> world) {
 				super.begin(step, world);
-				
+
 				boolean isGround = false;
 				List<ContactConstraint<SimulationBody>> contacts = world.getContacts(character);
 				for (ContactConstraint<SimulationBody> cc : contacts) {
@@ -252,14 +231,14 @@ public class Platformer extends SimulationFrame {
 						isGround = true;
 					}
 				}
-				
+
 				// only clear it
 				if (!isGround) {
 					onGround = false;
 				}
 			}
 		});
-		
+
 		// STEP 2:
 		// when contacts are processed, we need to check if we're colliding with either
 		// the one-way platform or the ground
@@ -267,22 +246,23 @@ public class Platformer extends SimulationFrame {
 			@Override
 			public void collision(ContactCollisionData<SimulationBody> collision) {
 				ContactConstraint<SimulationBody> cc = collision.getContactConstraint();
-				
+
 				// set the other body to one-way if necessary
 				disableContactForOneWay(cc);
-				
+
 				// track on the on-ground status
 				trackIsOnGround(cc);
-				
+
 				super.collision(collision);
 			}
 		});
 	}
-	
+
 	/**
-	 * Helper method to determine if a body is one of the given types assuming
-	 * the type is stored in the user data.
-	 * @param body the body
+	 * Helper method to determine if a body is one of the given types assuming the
+	 * type is stored in the user data.
+	 * 
+	 * @param body  the body
 	 * @param types the set of types
 	 * @return boolean
 	 */
@@ -296,84 +276,92 @@ public class Platformer extends SimulationFrame {
 	}
 
 	/**
-	 * Returns true if the given platform should be toggled as one-way
-	 * given the position of the character body.
+	 * Returns true if the given platform should be toggled as one-way given the
+	 * position of the character body.
+	 * 
 	 * @param character the character body
-	 * @param platform the platform body
+	 * @param platform  the platform body
 	 * @return boolean
 	 */
 	private boolean allowOneWayUp(SimulationBody character, SimulationBody platform) {
 		AABB wAABB = character.createAABB();
 		AABB pAABB = platform.createAABB();
-		
-		// NOTE: this would need to change based on the shape of the platform and it's orientation
-		// 
-		// one thought might be to store the allowed normal of the platform on the platform body
-		// and check that against the ContactConstraint normal to see if they are pointing in the
+
+		// NOTE: this would need to change based on the shape of the platform and it's
+		// orientation
+		//
+		// one thought might be to store the allowed normal of the platform on the
+		// platform body
+		// and check that against the ContactConstraint normal to see if they are
+		// pointing in the
 		// same direction
 		//
-		// another option might be to project both onto the platform normal to see where they are overlapping
+		// another option might be to project both onto the platform normal to see where
+		// they are overlapping
 		if (wAABB.getMinY() < pAABB.getMinY()) {
 			return true;
 		}
 		return false;
 	}
-	
+
 	/**
-	 * Disables the constraint if it's between the character and platform and it
-	 * the scenario meets the condition for one-way.
+	 * Disables the constraint if it's between the character and platform and it the
+	 * scenario meets the condition for one-way.
+	 * 
 	 * @param contactConstraint the constraint
 	 */
 	private void disableContactForOneWay(ContactConstraint<SimulationBody> contactConstraint) {
 		SimulationBody b1 = contactConstraint.getBody1();
 		SimulationBody b2 = contactConstraint.getBody2();
-		
+
 		if (is(b1, CHARACTER) && is(b2, ONE_WAY_PLATFORM)) {
 			if (allowOneWayUp(b1, b2) || down.isActiveButNotHandled()) {
 				down.setHasBeenHandled(true);
 				contactConstraint.setEnabled(false);
 			}
-		} else if (is(b1, ONE_WAY_PLATFORM) && is(b2, CHARACTER)) {
+		}
+		else if (is(b1, ONE_WAY_PLATFORM) && is(b2, CHARACTER)) {
 			if (allowOneWayUp(b2, b1) || down.isActiveButNotHandled()) {
 				down.setHasBeenHandled(true);
 				contactConstraint.setEnabled(false);
 			}
 		}
-		
+
 		if (is(b1, CHARACTER) && is(b2, ONE_WAY_PLATFORM)) {
 			if (allowOneWayUp(b1, b2) || s.isActiveButNotHandled()) {
 				s.setHasBeenHandled(true);
 				contactConstraint.setEnabled(false);
 			}
-		} else if (is(b1, ONE_WAY_PLATFORM) && is(b2, CHARACTER)) {
+		}
+		else if (is(b1, ONE_WAY_PLATFORM) && is(b2, CHARACTER)) {
 			if (allowOneWayUp(b2, b1) || s.isActiveButNotHandled()) {
 				s.setHasBeenHandled(true);
 				contactConstraint.setEnabled(false);
 			}
 		}
 	}
-	
+
 	/**
-	 * Sets the isOnGround flag if the given contact constraint is between
-	 * the character body and a floor or one-way platform.
+	 * Sets the isOnGround flag if the given contact constraint is between the
+	 * character body and a floor or one-way platform.
+	 * 
 	 * @param contactConstraint
 	 */
 	private void trackIsOnGround(ContactConstraint<SimulationBody> contactConstraint) {
 		SimulationBody b1 = contactConstraint.getBody1();
 		SimulationBody b2 = contactConstraint.getBody2();
-		
-		if (is(b1, CHARACTER) && 
-			is(b2, FLOOR, ONE_WAY_PLATFORM) &&
-			contactConstraint.isEnabled()) {
+
+		if (is(b1, CHARACTER) && is(b2, FLOOR, ONE_WAY_PLATFORM) && contactConstraint.isEnabled()) {
 			onGround = true;
-		} else if (is(b1, FLOOR, ONE_WAY_PLATFORM) && 
-				   is(b2, CHARACTER) &&
-				   contactConstraint.isEnabled()) {
+		}
+		else if (is(b1, FLOOR, ONE_WAY_PLATFORM) && is(b2, CHARACTER) && contactConstraint.isEnabled()) {
 			onGround = true;
 		}
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.dyn4j.samples.framework.SimulationFrame#reset()
 	 */
 	@Override
@@ -381,70 +369,71 @@ public class Platformer extends SimulationFrame {
 		super.reset();
 		this.onGround = false;
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.dyn4j.samples.framework.SimulationFrame#handleEvents()
 	 */
 	protected void handleEvents() {
-	    super.handleEvents();
+		super.handleEvents();
 
-	    // Apply torque based on keyboard input for character 1
-	    if (this.left.isActive()) {
-	        character.applyTorque(Math.PI / 1);
-	    }
-	    if (this.right.isActive()) {
-	        character.applyTorque(-Math.PI / 1);
-	    }
+		// Apply torque based on keyboard input for character 1
+		if (this.left.isActive()) {
+			character.applyTorque(Math.PI / 1);
+		}
+		if (this.right.isActive()) {
+			character.applyTorque(-Math.PI / 1);
+		}
 
-	    // Apply torque based on keyboard input for character 2
-	    if (this.a.isActive()) {
-	        character2.applyTorque(Math.PI / 1);
-	    }
-	    if (this.d.isActive()) {
-	        character2.applyTorque(-Math.PI / 1);
-	    }
+		// Apply torque based on keyboard input for character 2
+		if (this.a.isActive()) {
+			character2.applyTorque(Math.PI / 1);
+		}
+		if (this.d.isActive()) {
+			character2.applyTorque(-Math.PI / 1);
+		}
 
-	    // Jumping mechanism for character 2 (W key)
-	    if (this.w.isActiveButNotHandled()) {
-	        this.w.setHasBeenHandled(true);
-	        if (this.onGround(character)) {
-	            // Apply an impulse in the upward direction
-	            character2.applyImpulse(new Vector2(0.0, 7));
-	            // Set onGround to false to prevent consecutive jumps until landing again
-	            onGround = false;
-	        }
-	    }
+		// Jumping mechanism for character 2 (W key)
+		if (this.w.isActiveButNotHandled()) {
+			this.w.setHasBeenHandled(true);
+			if (this.onGround(character)) {
+				// Apply an impulse in the upward direction
+				character2.applyImpulse(new Vector2(0.0, 7));
+				// Set onGround to false to prevent consecutive jumps until landing again
+				onGround = false;
+			}
+		}
 
-	    // Jumping mechanism for character (Up arrow key)
-	    if (this.up.isActiveButNotHandled()) {
-	        this.up.setHasBeenHandled(true);
-	        if (this.onGround(character2)) {
-	            // Apply an impulse in the upward direction
-	            character.applyImpulse(new Vector2(0.0, 7));
-	            // Set onGround to false to prevent consecutive jumps until landing again
-	            onGround = false;
-	        }
-	    }
+		// Jumping mechanism for character (Up arrow key)
+		if (this.up.isActiveButNotHandled()) {
+			this.up.setHasBeenHandled(true);
+			if (this.onGround(character2)) {
+				// Apply an impulse in the upward direction
+				character.applyImpulse(new Vector2(0.0, 7));
+				// Set onGround to false to prevent consecutive jumps until landing again
+				onGround = false;
+			}
+		}
 
-	    // Update character color based on whether it's on the ground or not
-	    character.setColor(onGround(character) ? WHEEL_ON_COLOR : WHEEL_OFF_COLOR);
-	    character2.setColor(onGround(character2) ? WHEEL_ON_COLOR : WHEEL_OFF_COLOR);
+		// Update character color based on whether it's on the ground or not
+		character.setColor(onGround(character) ? WHEEL_ON_COLOR : WHEEL_OFF_COLOR);
+		character2.setColor(onGround(character2) ? WHEEL_ON_COLOR : WHEEL_OFF_COLOR);
 	}
 
 	private boolean onGround(SimulationBody character) {
-	    List<ContactConstraint<SimulationBody>> contacts = world.getContacts(character);
-	    for (ContactConstraint<SimulationBody> cc : contacts) {
-	        if (is(cc.getOtherBody(character), FLOOR, ONE_WAY_PLATFORM) && cc.isEnabled()) {
-	            return true;
-	        }
-	    }
-	    return false;
+		List<ContactConstraint<SimulationBody>> contacts = world.getContacts(character);
+		for (ContactConstraint<SimulationBody> cc : contacts) {
+			if (is(cc.getOtherBody(character), FLOOR, ONE_WAY_PLATFORM) && cc.isEnabled()) {
+				return true;
+			}
+		}
+		return false;
 	}
 
-
-	
 	/**
 	 * Entry point for the example application.
+	 * 
 	 * @param args command line arguments
 	 */
 	public static void main(String[] args) {
