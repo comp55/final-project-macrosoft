@@ -167,13 +167,13 @@ public class Platformer extends SimulationFrame {
 	 */
 	protected void initializeWorld() {
 
-		// TODO this will call the map
+		// TODO this will set the map variable
 		/*
-		 * switch(map) { case value1 : // Statements case value2 : // Statements default
+		 * switch(mapNum) { case value1 : // Statements case value2 : // Statements default
 		 * : // default Statement }
 		 */
 
-		// proof of concept level loading
+		// loads level from a text file
 		LoadLevel loading = new LoadLevel(map);
 		int length = loading.getLength();
 
