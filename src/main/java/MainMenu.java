@@ -114,8 +114,14 @@ public class MainMenu {
     	JLabel playLabel = new JLabel("Play Panel WIP");
     	playLabel.setBounds(10, 10, 200, 20);
     	
-    	JButton returnToMainMenuButton = new JButton("Back to Main Menu");
-    	returnToMainMenuButton.setBounds(10, 50, BUTTON_WIDTH, BUTTON_HEIGHT);
+    	JButton startGameButton = new JButton("start game");
+    	startGameButton.setBounds(WINDOW_X/2 - BUTTON_WIDTH/2, WINDOW_Y/2 - BUTTON_HEIGHT/2, BUTTON_WIDTH, BUTTON_HEIGHT);
+    	
+    	JButton howToPlayButton = new JButton("how to play");
+    	howToPlayButton.setBounds(WINDOW_X/2 - BUTTON_WIDTH/2, WINDOW_Y/2 + BUTTON_HEIGHT - 20, BUTTON_WIDTH, BUTTON_HEIGHT);
+    	
+    	JButton returnToMainMenuButton = new JButton("main menu");
+    	returnToMainMenuButton.setBounds(WINDOW_X/2 - BUTTON_WIDTH/2, WINDOW_Y/2 + BUTTON_HEIGHT*2 - 15, BUTTON_WIDTH, BUTTON_HEIGHT);
     	returnToMainMenuButton.addActionListener(new ActionListener() {
     		@Override
     		public void actionPerformed(ActionEvent e) {
@@ -124,6 +130,8 @@ public class MainMenu {
     	});
     	
     	playPanel.add(playLabel);
+    	playPanel.add(startGameButton);
+    	playPanel.add(howToPlayButton);
     	playPanel.add(returnToMainMenuButton);
     	
     	frame.setContentPane(playPanel);
