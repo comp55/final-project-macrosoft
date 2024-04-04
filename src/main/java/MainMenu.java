@@ -8,8 +8,10 @@ public class MainMenu {
     private static final int WINDOW_Y = 768;
     private static final int BUTTON_WIDTH = 200;
     private static final int BUTTON_HEIGHT = 50;
+    
     private JFrame frame;
-
+    private JLabel mainBackground;
+    
     public MainMenu() {
         window();
         addButton("play", WINDOW_Y / 2 - BUTTON_HEIGHT / 2, new ActionListener() {
@@ -34,8 +36,8 @@ public class MainMenu {
 
     private void window() {
         ImageIcon backgroundImage = new ImageIcon("images/mainbg.png");
-        JLabel background = new JLabel(backgroundImage);
-        background.setBounds(0, 0, WINDOW_X, WINDOW_Y);
+        mainBackground = new JLabel(backgroundImage);
+        mainBackground.setBounds(0, 0, WINDOW_X, WINDOW_Y);
 
         JLabel title = new JLabel();
         title.setText("fruitless conflict");
@@ -65,7 +67,7 @@ public class MainMenu {
         ImageIcon logo = new ImageIcon("images/logo.png");
         frame.setIconImage(logo.getImage());
 
-        frame.setContentPane(background);
+        frame.setContentPane(mainBackground);
         frame.add(title);
         frame.add(versionLabel);
         frame.add(copyrightLabel);
@@ -105,16 +107,35 @@ public class MainMenu {
     private void playAction(ActionEvent e) {
         
     	JPanel playPanel = new JPanel();
+    	playPanel.setLayout(null);
     	playPanel.setBounds(0, 0, WINDOW_X, WINDOW_Y);
     	playPanel.setBackground(Color.WHITE);
     	
-    	JLabel playLabel = new JLabel("Testing Play Panel");
+    	JLabel playLabel = new JLabel("Play Panel WIP");
+    	playLabel.setBounds(10, 10, 200, 20);
+    	
+    	JButton returnToMainMenuButton = new JButton("Back to Main Menu");
+    	returnToMainMenuButton.setBounds(10, 50, BUTTON_WIDTH, BUTTON_HEIGHT);
+    	returnToMainMenuButton.addActionListener(new ActionListener() {
+    		@Override
+    		public void actionPerformed(ActionEvent e) {
+    			returnToMainMenu();
+    		}
+    	});
+    	
     	playPanel.add(playLabel);
+    	playPanel.add(returnToMainMenuButton);
     	
     	frame.setContentPane(playPanel);
     	frame.revalidate();
     	frame.repaint();
     	
+    }
+    
+    private void returnToMainMenu() {
+    	frame.setContentPane(mainBackground);
+    	frame.revalidate();
+    	frame.repaint();
     }
 
     private void settingsAction(ActionEvent e) {
