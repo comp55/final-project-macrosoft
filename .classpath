@@ -37,5 +37,6 @@
 			<attribute name="optional" value="true"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="lib" path="/COMP55GitTeamLab/acm.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
