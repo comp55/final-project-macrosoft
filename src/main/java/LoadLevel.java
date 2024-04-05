@@ -11,18 +11,26 @@ import java.util.ArrayList;
 public class LoadLevel extends Platformer {
 
 	// current map format: SHAPE; SIZE X; SIZE Y; MASS; TRANSLATE X; TRANSLATE Y; USER DATA
+	// any LINE starting with a # is treated as a comment
 
 	
 	private int length;
 	private ArrayList<String> levelLoadText = new ArrayList<String>();
-
+	private String tempLine;
+	
 	public LoadLevel(String levelName) {
 		try {
 			File levelFile = new File("maps/" + levelName + ".txt");
 			Scanner myReader = new Scanner(levelFile);
 			while (myReader.hasNextLine()) {
-				//to do: add comment detection in map file
-				levelLoadText.add(myReader.nextLine());
+				tempLine = myReader.nextLine();
+				
+				if(tempLine.charAt(0) == '#') {
+					//skip line
+				}
+				else {
+					levelLoadText.add(tempLine);
+				}
 			}
 			myReader.close();
 		} catch (FileNotFoundException e) {
