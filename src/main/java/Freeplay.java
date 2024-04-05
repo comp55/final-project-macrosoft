@@ -2,6 +2,7 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
@@ -20,6 +21,7 @@ public class Freeplay extends GraphicsProgram {
     public static final int WINDOW_HEIGHT = 720;
     public static final int BUTTON_WIDTH = 150;
     public static final int BUTTON_HEIGHT = 150;
+	private static final ActionEvent ActionEvent = null;
     
     //Lists
     private List<GRect> buttons;
@@ -33,11 +35,12 @@ public class Freeplay extends GraphicsProgram {
     private int highlightedButtonIndex = -1; // Index of the button being highlighted
     public int mapSelected = -1;
     private int[] numOfPlayers = {1, 1, 1, 1}; // Array to store number of players for each player button
+    MainMenu mainMenu;
     
     // Character selection
     private Map<GRect, String> selectedCharacters;
     private Map<GRect, String> selectedKeybinds;
-    private String[] characters = {"Orange", "Red", "Square", "Tomato", "Watermelon"};
+    private String[] characters = {"orange", "red", "sqaureMelon", "tomato", "watermelon"};
     private String[] keybinds = {"WASD", "YGHJ", "OKL;", "Arrow Keys"};
 
     //Init the program
@@ -127,11 +130,11 @@ public class Freeplay extends GraphicsProgram {
     }
     
     // Character Selection Menu
-    private void CharacterSelectMenu(GRect playerButton) {
+    private void CharacterSelectMenu(/*GRect playerButton*/) {
         // If the character is already selected for this player, do not open character selection menu
-        if (selectedCharacters.containsKey(playerButton)) {
+        /*if (selectedCharacters.containsKey(playerButton)) {
             return;
-        }
+        }*/
         
         //Making the background
         GRect backGround = new GRect(250, 100, 800, 500);
@@ -142,13 +145,14 @@ public class Freeplay extends GraphicsProgram {
         //Making the Character Select Images and Buttons
         double x = 300;
         for (int i = 0; i < characters.length; i++) {
-            GImage characterImage = new GImage("images/" + characters[i].toLowerCase() + "Player.PNG", x, 130);
+        	System.out.println("images/" + characters[i] + "Player.PNG");
+            GImage characterImage = new GImage("images/" + characters[i] + "Player.PNG", x, 130);
             characterImage.setSize(160, 120);
             add(characterImage);
             
             GRect charButton = new GRect(x + 15, 130, BUTTON_WIDTH / 1.2, BUTTON_HEIGHT / 1.2);
             charButton.setFilled(false);
-            charButton.addMouseListener(new CharacterSelectListener(playerButton, characters[i]));
+            //charButton.addMouseListener(new CharacterSelectListener(playerButton, characters[i]));
             add(charButton);
             
             x += 130;
@@ -159,7 +163,7 @@ public class Freeplay extends GraphicsProgram {
         for (int i = 0; i < keybinds.length; i++) {
             GRect keybindButton = new GRect(475, y, BUTTON_WIDTH / 1.2, BUTTON_HEIGHT / 1.2);
             keybindButton.setFilled(false);
-            keybindButton.addMouseListener(new KeybindSelectListener(playerButton, keybinds[i]));
+            //keybindButton.addMouseListener(new KeybindSelectListener(playerButton, keybinds[i]));
             add(keybindButton);
             
             GLabel keybindLabel = new GLabel(keybinds[i]);
@@ -199,7 +203,7 @@ public class Freeplay extends GraphicsProgram {
             if (isWithinButtonBounds(playButton, e.getX(), e.getY())) {
                 playButton.setFilled(true);
                 playButton.setFillColor(Color.magenta);
-                //CharacterSelectMenu();
+                CharacterSelectMenu();
                 // Exit the loop since we found the clicked button
                 break;
             }
@@ -207,7 +211,9 @@ public class Freeplay extends GraphicsProgram {
         
         if(isWithinButtonBounds(backButton, e.getX(), e.getY())) {
         	resetButtons();
-			System.exit(0);
+        	mainMenu = new MainMenu();
+            mainMenu.playAction(ActionEvent);
+            //System.exit(0);
         }
     }
     
