@@ -104,7 +104,7 @@ public class MainMenu {
     }
 
 
-    private void playAction(ActionEvent e) {
+    public void playAction(ActionEvent e) {
         
     	JPanel playPanel = new JPanel();
     	playPanel.setLayout(null);
