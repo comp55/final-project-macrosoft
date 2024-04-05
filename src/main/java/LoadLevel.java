@@ -70,6 +70,8 @@ public class LoadLevel extends Platformer {
 			tempBody.setUserData(FLOOR);
 		case "ONE_WAY_PLATFORM":
 			tempBody.setUserData(ONE_WAY_PLATFORM);
+		case "SCORE_ZONE":
+			tempBody.setUserData(SCORE_ZONE);
 		default:
 		}
 		return tempBody;

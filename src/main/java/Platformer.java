@@ -66,9 +66,10 @@ public class Platformer extends SimulationFrame {
 	private static final Color WHEEL_OFF_COLOR = Color.MAGENTA;
 	private static final Color WHEEL_ON_COLOR = Color.GREEN;
 
-	private static final Object CHARACTER = new Object();
+	public static final Object CHARACTER = new Object();
 	public static final Object FLOOR = new Object();
 	public static final Object ONE_WAY_PLATFORM = new Object();
+	public static final Object SCORE_ZONE = new Object();
 
 	private final BooleanStateKeyboardInputHandler up;
 	private final BooleanStateKeyboardInputHandler down;
@@ -159,7 +160,7 @@ public class Platformer extends SimulationFrame {
 	@Override
 	protected void initializeCamera(Camera camera) {
 		super.initializeCamera(camera);
-		camera.scale = 32.0;
+		camera.scale = 10.0;
 	}
 
 	/**
