@@ -10,37 +10,32 @@ import java.util.ArrayList;
 
 public class LoadLevel extends Platformer {
 
-	// test to create an object from a string
-	// format: SHAPE; SIZE X; SIZE Y; MASS; TRANSLATE X; TRANSLATE Y; USER DATA
-	private static String testLevelString = "RECTANGLE;50.0;0.2;INFINITE;0;-3;FLOOR";
-	private static String testLevelString2 = "RECTANGLE;10.0;0.2;INFINITE;0;0;ONE_WAY_PLATFORM";
+	// current map format: SHAPE; SIZE X; SIZE Y; MASS; TRANSLATE X; TRANSLATE Y; USER DATA
 
-	//private static final Object FLOOR = new Object();
-	//private static final Object ONE_WAY_PLATFORM = new Object();
-
+	
 	private int length;
 	private ArrayList<String> levelLoadText = new ArrayList<String>();
 
 	public LoadLevel(String levelName) {
 		try {
-	        File levelFile = new File("maps/"+levelName + ".txt");
-	        Scanner myReader = new Scanner(levelFile);
-	        while (myReader.hasNextLine()) {
-	         levelLoadText.add(myReader.nextLine());
-	        }
-	        myReader.close();
-	      } 
-	    catch (FileNotFoundException e) {
-	        System.out.println("An error occurred.");
-	        e.printStackTrace();
-	    }
-		
+			File levelFile = new File("maps/" + levelName + ".txt");
+			Scanner myReader = new Scanner(levelFile);
+			while (myReader.hasNextLine()) {
+				//to do: add comment detection in map file
+				levelLoadText.add(myReader.nextLine());
+			}
+			myReader.close();
+		} catch (FileNotFoundException e) {
+			System.out.println("An error occurred.");
+			e.printStackTrace();
+		}
+
 		length = levelLoadText.size();
 	}
 
 	public SimulationBody loadMap(int val) {
-		
-		String currentLoad = levelLoadText.get(val); 
+
+		String currentLoad = levelLoadText.get(val);
 		return stringtoSimBody(currentLoad);
 	}
 
@@ -50,11 +45,18 @@ public class LoadLevel extends Platformer {
 		int arraySize = elementsArr.length;
 
 		SimulationBody tempBody = new SimulationBody();
+		
+		//to do allow multiple shapes
 		tempBody.addFixture(
 				Geometry.createRectangle(Double.parseDouble(elementsArr[1]), Double.parseDouble(elementsArr[2])));
+		
+		//to do allow multiple mass types
 		tempBody.setMass(MassType.INFINITE);
+		
+		
 		tempBody.translate(Double.parseDouble(elementsArr[4]), Double.parseDouble(elementsArr[5]));
 
+		
 		switch (elementsArr[arraySize - 1]) {
 		case "FLOOR":
 			tempBody.setUserData(FLOOR);
