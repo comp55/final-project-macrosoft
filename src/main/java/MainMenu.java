@@ -46,7 +46,7 @@ public class MainMenu {
         title.setVerticalAlignment(JLabel.CENTER);
         title.setBounds(0, 0, WINDOW_X, WINDOW_Y / 2);
 
-        JLabel versionLabel = new JLabel("ver 0.00025");
+        JLabel versionLabel = new JLabel("ver 0.00053");
         versionLabel.setFont(new Font("Arial", Font.PLAIN, 12));
         versionLabel.setForeground(Color.GRAY);
         versionLabel.setHorizontalAlignment(JLabel.RIGHT);
@@ -73,10 +73,9 @@ public class MainMenu {
         frame.add(copyrightLabel);
         frame.setVisible(true);
     }
-
-
-    private void addButton(String text, int y, ActionListener actionListener) {
-        final JButton button = new JButton();
+    
+    private JButton createButton(String text, int y, ActionListener actionListener) {
+        JButton button = new JButton();
         button.setText(text);
         button.setFont(new Font("Arial", Font.PLAIN, 20));
         button.setBackground(new Color(0, 0, 0, 0));
@@ -101,38 +100,50 @@ public class MainMenu {
 
         button.addActionListener(actionListener);
         frame.add(button);
+        return button;
+        
     }
 
+    private void addButton(String text, int y, ActionListener actionListener) {
+    	createButton(text, y, actionListener);
+    }
 
     public void playAction(ActionEvent e) {
         
     	JPanel playPanel = new JPanel();
     	playPanel.setLayout(null);
     	playPanel.setBounds(0, 0, WINDOW_X, WINDOW_Y);
-    	playPanel.setBackground(Color.WHITE);
+    	
+    	ImageIcon playBackgroundImage = new ImageIcon("images/intermissionbg.png");
+    	JLabel playBackground = new JLabel(playBackgroundImage);
+    	playBackground.setBounds(0, 0, WINDOW_X, WINDOW_Y);
     	
     	JLabel playLabel = new JLabel("Play Panel WIP");
     	playLabel.setBounds(10, 10, 200, 20);
     	
-    	JButton startGameButton = new JButton("start game");
-    	startGameButton.setBounds(WINDOW_X/2 - BUTTON_WIDTH/2, WINDOW_Y/2 - BUTTON_HEIGHT/2, BUTTON_WIDTH, BUTTON_HEIGHT);
+    	createButton("start game", WINDOW_Y/2 - BUTTON_HEIGHT/2, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // Implement functionality
+            }
+        });
+
+        createButton("how to play", WINDOW_Y/2 + BUTTON_HEIGHT - 20, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // Implement functionality
+            }
+        });
+
+        createButton("main menu", WINDOW_Y/2 + BUTTON_HEIGHT*2 - 15, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                returnToMainMenu();
+            }
+        });
     	
-    	JButton howToPlayButton = new JButton("how to play");
-    	howToPlayButton.setBounds(WINDOW_X/2 - BUTTON_WIDTH/2, WINDOW_Y/2 + BUTTON_HEIGHT - 20, BUTTON_WIDTH, BUTTON_HEIGHT);
-    	
-    	JButton returnToMainMenuButton = new JButton("main menu");
-    	returnToMainMenuButton.setBounds(WINDOW_X/2 - BUTTON_WIDTH/2, WINDOW_Y/2 + BUTTON_HEIGHT*2 - 15, BUTTON_WIDTH, BUTTON_HEIGHT);
-    	returnToMainMenuButton.addActionListener(new ActionListener() {
-    		@Override
-    		public void actionPerformed(ActionEvent e) {
-    			returnToMainMenu();
-    		}
-    	});
-    	
+    	playPanel.add(playBackground);
     	playPanel.add(playLabel);
-    	playPanel.add(startGameButton);
-    	playPanel.add(howToPlayButton);
-    	playPanel.add(returnToMainMenuButton);
     	
     	frame.setContentPane(playPanel);
     	frame.revalidate();
@@ -147,7 +158,7 @@ public class MainMenu {
     }
 
     private void settingsAction(ActionEvent e) {
-        // Add functionality for settings button
+        // Implement functionality
     }
 
     private void quitAction(ActionEvent e) {
