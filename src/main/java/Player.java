@@ -19,9 +19,8 @@ import org.dyn4j.world.listener.StepListenerAdapter;
 //Remember always check to see if one of these is missing
 
 //charlie wuz here
-public class Player extends SimulationFrame {
+public class Player extends Platformer {
 	//declarations
-	private static final Object CHARACTER = new Object();
 	private SimulationBody character;
 	private String playerControls;
 	private String playerIcon;
