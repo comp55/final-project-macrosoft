@@ -9,6 +9,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import javax.swing.JButton;
+import javax.swing.SwingUtilities;
+import java.awt.event.ActionListener;
+import java.awt.Window;
 
 import javax.swing.JComboBox;
 
@@ -32,9 +36,10 @@ public class Freeplay extends GraphicsProgram {
     //Other
     GRect backButton;
     private JComboBox<String> playerDropdown;
+    private JComboBox<String> playerControles;
     private int highlightedButtonIndex = -1; // Index of the button being highlighted
     public int mapSelected = -1;
-    private int[] numOfPlayers = {1, 1, 1, 1}; // Array to store number of players for each player button
+    private int[] numOfPlayers = {1, 2, 3, 4}; // Array to store number of players for each player button
     MainMenu mainMenu;
     
     // Character selection
@@ -158,24 +163,22 @@ public class Freeplay extends GraphicsProgram {
             x += 130;
         }
         
-        //Making the character Select Buttons
-        double y = 300;
-        for (int i = 0; i < keybinds.length; i++) {
-            GRect keybindButton = new GRect(475, y, BUTTON_WIDTH / 1.2, BUTTON_HEIGHT / 1.2);
-            keybindButton.setFilled(false);
-            //keybindButton.addMouseListener(new KeybindSelectListener(playerButton, keybinds[i]));
-            add(keybindButton);
-            
-            GLabel keybindLabel = new GLabel(keybinds[i]);
-            keybindLabel.setFont("Arial-18");
-            add(keybindLabel, 545, y + 25);
-            
-            y += 50;
-        }
+        //Making the character control Buttons
+       
+
+        playerControles = new JComboBox<>(keybinds);
+        playerControles.setFont(new Font("Arial", Font.PLAIN, 20));
+        playerControles.addActionListener(e -> {
+            JComboBox<String> cb = (JComboBox<String>) e.getSource();
+            String selectedPlayerKeybind = (String) cb.getSelectedItem();
+            //Extracting the number of players from the selected option
+            int selectedKeybind = Integer.parseInt(selectedPlayerKeybind.split(" ")[0]);
+        });
+       
+       playerControles.setPreferredSize(new Dimension(150, 30));
         
-        //Making the confirm Button
-        GRect confirmButton = new GRect(550, 450, 200, 75);
-        
+        GCanvas canvas = getGCanvas();
+        canvas.add((Component) playerControles, WINDOW_WIDTH / 10 - 70, WINDOW_HEIGHT / 3);        
     }
     
 	public static void main(String[] args) {
@@ -210,10 +213,10 @@ public class Freeplay extends GraphicsProgram {
         }
         
         if(isWithinButtonBounds(backButton, e.getX(), e.getY())) {
-        	resetButtons();
-        	mainMenu = new MainMenu();
-            mainMenu.playAction(ActionEvent);
-            //System.exit(0);
+            // Close the current window
+           System.exit(0);
+           mainMenu = new MainMenu();
+           mainMenu.playAction(ActionEvent);
         }
     }
     
