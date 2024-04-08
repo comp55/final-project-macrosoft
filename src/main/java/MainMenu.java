@@ -16,22 +16,19 @@ public class MainMenu {
     
     public MainMenu() {
         window();
-        addButton("play", WINDOW_Y / 2 - BUTTON_HEIGHT / 2, new ActionListener() {
+        addButton(frame, "play", WINDOW_Y / 2 - BUTTON_HEIGHT / 2, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //playAction(e);
-            	System.out.println("Trying to get playerSelec");
-                playerSelec = new PlayerSelection();
-            	playerSelec.selectionLoad(frame);
+                playAction(e);
             }
         });
-        addButton("settings", WINDOW_Y / 2 + BUTTON_HEIGHT - 20, new ActionListener() {
+        addButton(frame, "settings", WINDOW_Y / 2 + BUTTON_HEIGHT - 20, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 settingsAction(e);
             }
         });
-        addButton("quit", WINDOW_Y / 2 + BUTTON_HEIGHT * 2 - 15, new ActionListener() {
+        addButton(frame, "quit", WINDOW_Y / 2 + BUTTON_HEIGHT * 2 - 15, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 quitAction(e);
@@ -79,38 +76,41 @@ public class MainMenu {
         frame.setVisible(true);
     }
     
-    private JButton createButton(String text, int y, ActionListener actionListener) {
-        JButton button = new JButton();
+    private JButton createButton(Container container, String text, int y, ActionListener actionListener) {
+        final JButton button = new JButton();
         button.setText(text);
         button.setFont(new Font("Arial", Font.PLAIN, 20));
         button.setBackground(new Color(0, 0, 0, 0));
-        button.setBorder(null);
+        button.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
         button.setFocusable(false);
         button.setFocusPainted(false);
-        button.setBorderPainted(false);
         button.setContentAreaFilled(false);
         button.setBounds(WINDOW_X / 2 - BUTTON_WIDTH / 2, y, BUTTON_WIDTH, BUTTON_HEIGHT);
 
         button.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent e) {
-                button.setForeground(Color.RED);
+            	button.setForeground(Color.RED);
+            	button.setFont(new Font("Arial", Font.BOLD, 20));
+                button.setBorder(BorderFactory.createLineBorder(Color.BLACK, 4));
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
-                button.setForeground(Color.BLACK);
+            	button.setForeground(Color.BLACK);
+            	button.setFont(new Font("Arial", Font.PLAIN, 20));
+                button.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
             }
         });
 
         button.addActionListener(actionListener);
-        frame.add(button);
+        container.add(button);
         return button;
         
     }
 
-    private void addButton(String text, int y, ActionListener actionListener) {
-    	createButton(text, y, actionListener);
+    private void addButton(Container container, String text, int y, ActionListener actionListener) {
+    	createButton(container, text, y, actionListener);
     }
 
     public void playAction(ActionEvent e) {
@@ -123,10 +123,7 @@ public class MainMenu {
     	JLabel playBackground = new JLabel(playBackgroundImage);
     	playBackground.setBounds(0, 0, WINDOW_X, WINDOW_Y);
     	
-    	JLabel playLabel = new JLabel("Play Panel WIP");
-    	playLabel.setBounds(10, 10, 200, 20);
-    	
-    	createButton("start game", WINDOW_Y/2 - BUTTON_HEIGHT/2, new ActionListener() {
+    	createButton(playPanel, "start game", WINDOW_Y/2 - BUTTON_HEIGHT/2, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // Implement functionality
@@ -136,14 +133,14 @@ public class MainMenu {
             }
         });
 
-        createButton("how to play", WINDOW_Y/2 + BUTTON_HEIGHT - 20, new ActionListener() {
+        createButton(playPanel, "how to play", WINDOW_Y/2 + BUTTON_HEIGHT - 20, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // Implement functionality
             }
         });
 
-        createButton("main menu", WINDOW_Y/2 + BUTTON_HEIGHT*2 - 15, new ActionListener() {
+        createButton(playPanel, "main menu", WINDOW_Y/2 + BUTTON_HEIGHT*2 - 15, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 returnToMainMenu();
@@ -151,7 +148,6 @@ public class MainMenu {
         });
     	
     	playPanel.add(playBackground);
-    	playPanel.add(playLabel);
     	
     	frame.setContentPane(playPanel);
     	frame.revalidate();
