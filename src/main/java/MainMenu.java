@@ -12,12 +12,17 @@ public class MainMenu {
     private JFrame frame;
     private JLabel mainBackground;
     
+    PlayerSelection playerSelec;
+    
     public MainMenu() {
         window();
         addButton("play", WINDOW_Y / 2 - BUTTON_HEIGHT / 2, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                playAction(e);
+                //playAction(e);
+            	System.out.println("Trying to get playerSelec");
+                playerSelec = new PlayerSelection();
+            	playerSelec.selectionLoad(frame);
             }
         });
         addButton("settings", WINDOW_Y / 2 + BUTTON_HEIGHT - 20, new ActionListener() {
@@ -125,6 +130,9 @@ public class MainMenu {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // Implement functionality
+            	System.out.println("Trying to get playerSelec");
+            	playerSelec = new PlayerSelection();
+            	playerSelec.selectionLoad(frame);
             }
         });
 

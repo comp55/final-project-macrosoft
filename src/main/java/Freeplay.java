@@ -41,10 +41,10 @@ public class Freeplay extends GraphicsProgram {
     private int highlightedButtonIndex = -1; // Index of the button being highlighted
     public int mapSelected = -1;
     MainMenu mainMenu;
+    Player player0;
     Player player1;
     Player player2;
     Player player3;
-    Player player4;
     private Map<GRect, String> selectedCharacters;
     private Map<GRect, String> selectedKeybinds;
     private String[] characters = {"orange", "red", "sqaureMelon", "tomato", "watermelon"};
@@ -132,12 +132,7 @@ public class Freeplay extends GraphicsProgram {
     }
     
     // Character Selection Menu
-    private void CharacterSelectMenu(/*GRect playerButton*/) {
-        // If the character is already selected for this player, do not open character selection menu
-        /*if (selectedCharacters.containsKey(playerButton)) {
-            return;
-        }*/
-        
+    private void CharacterSelectMenu(int playerNum) {
         //Making the background
         GRect backGround = new GRect(250, 100, 800, 500);
         backGround.setFilled(true);
@@ -161,8 +156,7 @@ public class Freeplay extends GraphicsProgram {
         }
         
         //Making the character control Buttons
-       
-
+        //TODO: Make these button instead of a dropdown
         playerControles = new JComboBox<>(keybinds);
         playerControles.setFont(new Font("Arial", Font.PLAIN, 20));
         playerControles.addActionListener(e -> {
@@ -175,7 +169,9 @@ public class Freeplay extends GraphicsProgram {
        playerControles.setPreferredSize(new Dimension(150, 30));
         
         GCanvas canvas = getGCanvas();
-        canvas.add((Component) playerControles, WINDOW_WIDTH / 10 - 70, WINDOW_HEIGHT / 3);        
+        canvas.add((Component) playerControles, WINDOW_WIDTH / 10 - 70, WINDOW_HEIGHT / 3);  
+        
+        System.out.println(playerNum);
     }
     
 	public static void main(String[] args) {
@@ -201,17 +197,17 @@ public class Freeplay extends GraphicsProgram {
         for (int i = 0; i < playerButtons.size(); i++) {
             GRect playButton = playerButtons.get(i);
             if (isWithinButtonBounds(playButton, e.getX(), e.getY())) {
-                CharacterSelectMenu();
+                CharacterSelectMenu(i);
                 // Exit the loop since we found the clicked button
                 break;
             }
         }
         
         if(isWithinButtonBounds(backButton, e.getX(), e.getY())) {
-            // Close the current window
-           //System.exit(0);
-           mainMenu = new MainMenu();
-           mainMenu.playAction(ActionEvent);
+        	//close current window
+        	//open main menu
+        	mainMenu = new MainMenu();
+        	mainMenu.playAction(ActionEvent);
         }
         
         System.out.println("Map Selected: " + mapSelected);
