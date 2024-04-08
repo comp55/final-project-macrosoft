@@ -68,7 +68,7 @@ public class Player extends Platformer {
 	}
 	
 	//This is much more complicated than i thought, see  dyn4j samples images for more details
-	public void SetPlayerCharacterImage() {
+	public void SetPlayerCharacterImage(String playerImage) {
 		
 	}
 

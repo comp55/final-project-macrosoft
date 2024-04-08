@@ -117,9 +117,9 @@ public class Freeplay extends GraphicsProgram {
     	System.out.println("Called");
     	
     	
-        /*for (GRect playButton : playerButtons) {
+        for (GRect playButton : playerButtons) {
             remove(playButton);
-        }*/
+        }
         
         playerButtons.clear();
         // Create buttons for each player
