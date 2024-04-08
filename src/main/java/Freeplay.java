@@ -209,7 +209,7 @@ public class Freeplay extends GraphicsProgram {
         
         if(isWithinButtonBounds(backButton, e.getX(), e.getY())) {
             // Close the current window
-           System.exit(0);
+           //System.exit(0);
            mainMenu = new MainMenu();
            mainMenu.playAction(ActionEvent);
         }
