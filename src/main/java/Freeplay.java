@@ -32,6 +32,7 @@ public class Freeplay extends GraphicsProgram {
     private List<GLabel> buttonTexts;
     private List<GRect> playerButtons;
     private List<GRect> playerSelection;
+    private List<GRect> numOfPlayers;
     
     //Other
     GRect backButton;
@@ -39,28 +40,33 @@ public class Freeplay extends GraphicsProgram {
     private JComboBox<String> playerControles;
     private int highlightedButtonIndex = -1; // Index of the button being highlighted
     public int mapSelected = -1;
-    private int[] numOfPlayers = {1, 2, 3, 4}; // Array to store number of players for each player button
     MainMenu mainMenu;
-    
-    // Character selection
+    Player player1;
+    Player player2;
+    Player player3;
+    Player player4;
     private Map<GRect, String> selectedCharacters;
     private Map<GRect, String> selectedKeybinds;
     private String[] characters = {"orange", "red", "sqaureMelon", "tomato", "watermelon"};
     private String[] keybinds = {"WASD", "YGHJ", "OKL;", "Arrow Keys"};
+    private String[] playerOptions = {"1 Player", "2 Players", "3 Players", "4 Players"};
 
     //Init the program
     public void init() {
+    	//setting the size of the window
         setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
+        
+        //initializing arrays
         buttons = new ArrayList<>();
         buttonTexts = new ArrayList<>();
         playerButtons = new ArrayList<>();
         playerSelection = new ArrayList<>();
+        numOfPlayers = new ArrayList<>();
         selectedCharacters = new HashMap<>();
         selectedKeybinds = new HashMap<>();
-        UpdateNumPlayers();
+        UpdateNumPlayers(1);
         
         //Creating number of players
-        String[] playerOptions = {"1 Player", "2 Players", "3 Players", "4 Players"};
         playerDropdown = new JComboBox<>(playerOptions);
         playerDropdown.setFont(new Font("Arial", Font.PLAIN, 20));
         playerDropdown.addActionListener(e -> {
@@ -68,17 +74,7 @@ public class Freeplay extends GraphicsProgram {
             String selectedPlayerOption = (String) cb.getSelectedItem();
             // Extracting the number of players from the selected option
             int selectedNumPlayers = Integer.parseInt(selectedPlayerOption.split(" ")[0]);
-            for (int i = 0; i < numOfPlayers.length; i++) {
-                if (i < selectedNumPlayers) {
-                    numOfPlayers[i] = 1;
-                } else {
-                    numOfPlayers[i] = 0;
-                    // Clear selections for player not selected
-                    selectedCharacters.remove(playerButtons.get(i));
-                    selectedKeybinds.remove(playerButtons.get(i));
-                }
-            }
-            UpdateNumPlayers();
+            UpdateNumPlayers(selectedNumPlayers);
         });
         
         // Add the JComboBox to a GCanvas
@@ -117,20 +113,21 @@ public class Freeplay extends GraphicsProgram {
     }
     
     //updates the screen to show new number of players
-    private void UpdateNumPlayers() {
-        for (GRect playButton : playerButtons) {
+    private void UpdateNumPlayers(int numOfPlayers) {
+    	System.out.println("Called");
+    	
+    	
+        /*for (GRect playButton : playerButtons) {
             remove(playButton);
-        }
+        }*/
         
         playerButtons.clear();
         // Create buttons for each player
-        for (int i = 0; i < numOfPlayers.length; i++) {
-            if (numOfPlayers[i] == 1) {
-                GRect playerButton = new GRect(100 + i * 200, (WINDOW_HEIGHT - BUTTON_HEIGHT) / 1.3, BUTTON_WIDTH, BUTTON_HEIGHT);
-                playerButton.setFilled(false);
-                add(playerButton);
-                playerButtons.add(playerButton);
-            }
+        for (int i = 0; i < numOfPlayers; i++) {
+        	GRect playerButton = new GRect(100 + i * 200, (WINDOW_HEIGHT - BUTTON_HEIGHT) / 1.3, BUTTON_WIDTH, BUTTON_HEIGHT);
+        	playerButton.setFilled(false);
+        	add(playerButton);
+        	playerButtons.add(playerButton);
         }
     }
     
@@ -204,8 +201,6 @@ public class Freeplay extends GraphicsProgram {
         for (int i = 0; i < playerButtons.size(); i++) {
             GRect playButton = playerButtons.get(i);
             if (isWithinButtonBounds(playButton, e.getX(), e.getY())) {
-                playButton.setFilled(true);
-                playButton.setFillColor(Color.magenta);
                 CharacterSelectMenu();
                 // Exit the loop since we found the clicked button
                 break;
@@ -218,6 +213,9 @@ public class Freeplay extends GraphicsProgram {
            mainMenu = new MainMenu();
            mainMenu.playAction(ActionEvent);
         }
+        
+        System.out.println("Map Selected: " + mapSelected);
+        System.out.println("Number of Players: " + numOfPlayers);
     }
     
     //@Override
@@ -248,6 +246,21 @@ public class Freeplay extends GraphicsProgram {
             	}
             }
         }
+        
+        for (int i = 0; i < playerButtons.size(); i++) {
+            GRect playButton = playerButtons.get(i);
+            if (isWithinButtonBounds(playButton, e.getX(), e.getY())) {
+                playButton.setFilled(true);
+                playButton.setFillColor(Color.magenta);
+                //CharacterSelectMenu();
+                // Exit the loop since we found the clicked button
+                break;
+            }else {
+            	playButton.setFilled(false);
+                playButton.setFillColor(Color.black);
+            }
+        }
+        
         // If no button is being hovered over, reset the highlighting
         if (highlightedButtonIndex != mapSelected) {
         	//System.out.println("highlightedButtonIndex: " + highlightedButtonIndex);
