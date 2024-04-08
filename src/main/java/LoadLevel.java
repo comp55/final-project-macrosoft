@@ -10,13 +10,14 @@ import java.util.ArrayList;
 
 public class LoadLevel extends Platformer {
 
-	// current map format: SHAPE; SIZE X; SIZE Y; MASS; TRANSLATE X; TRANSLATE Y; USER DATA
+	// current map format: SHAPE; SIZE X; SIZE Y; TRANSLATE X; TRANSLATE Y; ROTATION; MASS; USER DATA
 	// any LINE starting with a # is treated as a comment
 
 	
 	private int length;
 	private ArrayList<String> levelLoadText = new ArrayList<String>();
 	private String tempLine;
+	private double rotation;
 	
 	public LoadLevel(String levelName) {
 		try {
@@ -55,23 +56,45 @@ public class LoadLevel extends Platformer {
 		SimulationBody tempBody = new SimulationBody();
 		
 		//to do allow multiple shapes
-		tempBody.addFixture(
-				Geometry.createRectangle(Double.parseDouble(elementsArr[1]), Double.parseDouble(elementsArr[2])));
-		
+		switch (elementsArr[0]) {
+		case "RECTANGLE":
+			tempBody.addFixture(
+					Geometry.createRectangle(Double.parseDouble(elementsArr[1]), Double.parseDouble(elementsArr[2])));
+			break;
+		case "ELLIPSE":
+			tempBody.addFixture(
+					Geometry.createEllipse(Double.parseDouble(elementsArr[1]), Double.parseDouble(elementsArr[2])));
+			break;
+		case "HALF-ELLIPSE":
+			tempBody.addFixture(
+					Geometry.createHalfEllipse(Double.parseDouble(elementsArr[1]), Double.parseDouble(elementsArr[2])));
+			break;
+		case "TRIANGLE":
+			tempBody.addFixture(
+					Geometry.createIsoscelesTriangle(Double.parseDouble(elementsArr[1]), Double.parseDouble(elementsArr[2])));
+			break;
+		default:
+			break;
+		}
+
 		//to do allow multiple mass types
 		tempBody.setMass(MassType.INFINITE);
 		
 		
-		tempBody.translate(Double.parseDouble(elementsArr[4]), Double.parseDouble(elementsArr[5]));
-
+		tempBody.translate(Double.parseDouble(elementsArr[3]), Double.parseDouble(elementsArr[4]));
 		
+		tempBody.rotateAboutCenter(Double.parseDouble(elementsArr[5]));
+
 		switch (elementsArr[arraySize - 1]) {
 		case "FLOOR":
 			tempBody.setUserData(FLOOR);
+			break;
 		case "ONE_WAY_PLATFORM":
 			tempBody.setUserData(ONE_WAY_PLATFORM);
+			break;
 		case "SCORE_ZONE":
 			tempBody.setUserData(SCORE_ZONE);
+			break;
 		default:
 		}
 		return tempBody;

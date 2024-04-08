@@ -62,6 +62,8 @@ public class Platformer extends SimulationFrame {
 	private static final long serialVersionUID = -313391186714427055L;
 
 	private String map = "map1";
+	private String map2 = "map2";
+	private int numPlayers;
 
 	private static final Color WHEEL_OFF_COLOR = Color.MAGENTA;
 	private static final Color WHEEL_ON_COLOR = Color.GREEN;
@@ -71,25 +73,25 @@ public class Platformer extends SimulationFrame {
 	public static final Object ONE_WAY_PLATFORM = new Object();
 	public static final Object SCORE_ZONE = new Object();
 
-	private final BooleanStateKeyboardInputHandler up;
-	private final BooleanStateKeyboardInputHandler down;
-	private final BooleanStateKeyboardInputHandler left;
-	private final BooleanStateKeyboardInputHandler right;
+	private final BooleanStateKeyboardInputHandler p1_up;
+	private final BooleanStateKeyboardInputHandler p1_down;
+	private final BooleanStateKeyboardInputHandler p1_left;
+	private final BooleanStateKeyboardInputHandler p1_right;
 
-	private final BooleanStateKeyboardInputHandler w;
-	private final BooleanStateKeyboardInputHandler s;
-	private final BooleanStateKeyboardInputHandler a;
-	private final BooleanStateKeyboardInputHandler d;
+	private final BooleanStateKeyboardInputHandler p2_up;
+	private final BooleanStateKeyboardInputHandler p2_down;
+	private final BooleanStateKeyboardInputHandler p2_left;
+	private final BooleanStateKeyboardInputHandler p2_right;
 
-	private final BooleanStateKeyboardInputHandler t;
-	private final BooleanStateKeyboardInputHandler g;
-	private final BooleanStateKeyboardInputHandler f;
-	private final BooleanStateKeyboardInputHandler h;
+	private final BooleanStateKeyboardInputHandler p3_up;
+	private final BooleanStateKeyboardInputHandler p3_down;
+	private final BooleanStateKeyboardInputHandler p3_left;
+	private final BooleanStateKeyboardInputHandler p3_right;
 
-	private final BooleanStateKeyboardInputHandler i;
-	private final BooleanStateKeyboardInputHandler k;
-	private final BooleanStateKeyboardInputHandler j;
-	private final BooleanStateKeyboardInputHandler l;
+	private final BooleanStateKeyboardInputHandler p4_up;
+	private final BooleanStateKeyboardInputHandler p4_down;
+	private final BooleanStateKeyboardInputHandler p4_left;
+	private final BooleanStateKeyboardInputHandler p4_right;
 
 	private SimulationBody character;
 	private SimulationBody character2;
@@ -107,47 +109,47 @@ public class Platformer extends SimulationFrame {
 	public Platformer(/* String map */) {
 		super("Platformer");
 
-		this.up = new BooleanStateKeyboardInputHandler(this.canvas, KeyEvent.VK_UP);
-		this.down = new BooleanStateKeyboardInputHandler(this.canvas, KeyEvent.VK_DOWN);
-		this.left = new BooleanStateKeyboardInputHandler(this.canvas, KeyEvent.VK_LEFT);
-		this.right = new BooleanStateKeyboardInputHandler(this.canvas, KeyEvent.VK_RIGHT);
+		this.p1_up = new BooleanStateKeyboardInputHandler(this.canvas, KeyEvent.VK_UP);
+		this.p1_down = new BooleanStateKeyboardInputHandler(this.canvas, KeyEvent.VK_DOWN);
+		this.p1_left = new BooleanStateKeyboardInputHandler(this.canvas, KeyEvent.VK_LEFT);
+		this.p1_right = new BooleanStateKeyboardInputHandler(this.canvas, KeyEvent.VK_RIGHT);
 
-		this.w = new BooleanStateKeyboardInputHandler(this.canvas, KeyEvent.VK_W);
-		this.s = new BooleanStateKeyboardInputHandler(this.canvas, KeyEvent.VK_S);
-		this.a = new BooleanStateKeyboardInputHandler(this.canvas, KeyEvent.VK_A);
-		this.d = new BooleanStateKeyboardInputHandler(this.canvas, KeyEvent.VK_D);
+		this.p2_up = new BooleanStateKeyboardInputHandler(this.canvas, KeyEvent.VK_W);
+		this.p2_down = new BooleanStateKeyboardInputHandler(this.canvas, KeyEvent.VK_S);
+		this.p2_left = new BooleanStateKeyboardInputHandler(this.canvas, KeyEvent.VK_A);
+		this.p2_right = new BooleanStateKeyboardInputHandler(this.canvas, KeyEvent.VK_D);
 
-		this.t = new BooleanStateKeyboardInputHandler(this.canvas, KeyEvent.VK_T);
-		this.g = new BooleanStateKeyboardInputHandler(this.canvas, KeyEvent.VK_G);
-		this.f = new BooleanStateKeyboardInputHandler(this.canvas, KeyEvent.VK_F);
-		this.h = new BooleanStateKeyboardInputHandler(this.canvas, KeyEvent.VK_H);
+		this.p3_up = new BooleanStateKeyboardInputHandler(this.canvas, KeyEvent.VK_T);
+		this.p3_down = new BooleanStateKeyboardInputHandler(this.canvas, KeyEvent.VK_G);
+		this.p3_left = new BooleanStateKeyboardInputHandler(this.canvas, KeyEvent.VK_F);
+		this.p3_right = new BooleanStateKeyboardInputHandler(this.canvas, KeyEvent.VK_H);
 
-		this.i = new BooleanStateKeyboardInputHandler(this.canvas, KeyEvent.VK_I);
-		this.k = new BooleanStateKeyboardInputHandler(this.canvas, KeyEvent.VK_K);
-		this.j = new BooleanStateKeyboardInputHandler(this.canvas, KeyEvent.VK_J);
-		this.l = new BooleanStateKeyboardInputHandler(this.canvas, KeyEvent.VK_L);
+		this.p4_up = new BooleanStateKeyboardInputHandler(this.canvas, KeyEvent.VK_I);
+		this.p4_down = new BooleanStateKeyboardInputHandler(this.canvas, KeyEvent.VK_K);
+		this.p4_left = new BooleanStateKeyboardInputHandler(this.canvas, KeyEvent.VK_J);
+		this.p4_right = new BooleanStateKeyboardInputHandler(this.canvas, KeyEvent.VK_L);
 
-		this.up.install();
-		this.down.install();
-		this.left.install();
-		this.right.install();
+		this.p1_up.install();
+		this.p1_down.install();
+		this.p1_left.install();
+		this.p1_right.install();
 
-		this.w.install();
-		this.s.install();
-		this.a.install();
-		this.d.install();
+		this.p2_up.install();
+		this.p2_down.install();
+		this.p2_left.install();
+		this.p2_right.install();
 
-		this.t.install();
-		this.g.install();
-		this.f.install();
-		this.h.install();
+		this.p3_up.install();
+		this.p3_down.install();
+		this.p3_left.install();
+		this.p3_right.install();
 
-		this.i.install();
-		this.k.install();
-		this.j.install();
-		this.l.install();
+		this.p4_up.install();
+		this.p4_down.install();
+		this.p4_left.install();
+		this.p4_right.install();
 
-		// TODO uncomment once menu is intigrated
+		// TODO uncomment once menu is integrated
 		// this.map = map;
 	}
 
@@ -160,7 +162,7 @@ public class Platformer extends SimulationFrame {
 	@Override
 	protected void initializeCamera(Camera camera) {
 		super.initializeCamera(camera);
-		camera.scale = 10.0;
+		camera.scale = 20.0;
 	}
 
 	/**
@@ -175,30 +177,20 @@ public class Platformer extends SimulationFrame {
 		 */
 
 		// loads level from a text file
-		LoadLevel loading = new LoadLevel(map);
+		LoadLevel loading = new LoadLevel(map2);
 		int length = loading.getLength();
 
 		for (int i = 0; i < length; i++) {
 			this.world.addBody(loading.loadMap(i));
 		}
-
-		// the wheel
-		character = new SimulationBody(WHEEL_OFF_COLOR);
-		// NOTE: lots of friction to simulate a sticky tire
-		character.addFixture(Geometry.createCircle(0.5), 1.0, 20.0, 0.1);
-		character.setMass(MassType.NORMAL);
-		character.translate(0.0, -2.0);
-		character.setUserData(CHARACTER);
-		character.setAtRestDetectionEnabled(false);
+		
+		
+		Player player = new Player();
+		character = player.createPlayer();
 		this.world.addBody(character);
 
-		character2 = new SimulationBody(WHEEL_OFF_COLOR);
-		// NOTE: lots of friction to simulate a sticky tire
-		character2.addFixture(Geometry.createCircle(0.5), 1.0, 20.0, 0.1);
-		character2.setMass(MassType.NORMAL);
-		character2.translate(0.0, -2.0);
-		character2.setUserData(CHARACTER);
-		character2.setAtRestDetectionEnabled(false);
+		Player player2 = new Player();
+		character2 = player2.createPlayer();
 		this.world.addBody(character2);
 
 		// Use a number of concepts here to support movement, jumping, and one-way
@@ -315,27 +307,27 @@ public class Platformer extends SimulationFrame {
 		SimulationBody b2 = contactConstraint.getBody2();
 
 		if (is(b1, CHARACTER) && is(b2, ONE_WAY_PLATFORM)) {
-			if (allowOneWayUp(b1, b2) || down.isActiveButNotHandled()) {
-				down.setHasBeenHandled(true);
+			if (allowOneWayUp(b1, b2) || p1_down.isActiveButNotHandled()) {
+				p1_down.setHasBeenHandled(true);
 				contactConstraint.setEnabled(false);
 			}
 		}
 		else if (is(b1, ONE_WAY_PLATFORM) && is(b2, CHARACTER)) {
-			if (allowOneWayUp(b2, b1) || down.isActiveButNotHandled()) {
-				down.setHasBeenHandled(true);
+			if (allowOneWayUp(b2, b1) || p1_down.isActiveButNotHandled()) {
+				p1_down.setHasBeenHandled(true);
 				contactConstraint.setEnabled(false);
 			}
 		}
 
 		if (is(b1, CHARACTER) && is(b2, ONE_WAY_PLATFORM)) {
-			if (allowOneWayUp(b1, b2) || s.isActiveButNotHandled()) {
-				s.setHasBeenHandled(true);
+			if (allowOneWayUp(b1, b2) || p2_down.isActiveButNotHandled()) {
+				p2_down.setHasBeenHandled(true);
 				contactConstraint.setEnabled(false);
 			}
 		}
 		else if (is(b1, ONE_WAY_PLATFORM) && is(b2, CHARACTER)) {
-			if (allowOneWayUp(b2, b1) || s.isActiveButNotHandled()) {
-				s.setHasBeenHandled(true);
+			if (allowOneWayUp(b2, b1) || p2_down.isActiveButNotHandled()) {
+				p2_down.setHasBeenHandled(true);
 				contactConstraint.setEnabled(false);
 			}
 		}
@@ -379,25 +371,25 @@ public class Platformer extends SimulationFrame {
 		super.handleEvents();
 
 		// Apply torque based on keyboard input for character 1
-		if (this.left.isActive()) {
+		if (this.p1_left.isActive()) {
 			character.applyTorque(Math.PI / 1);
 		}
-		if (this.right.isActive()) {
+		if (this.p1_right.isActive()) {
 			character.applyTorque(-Math.PI / 1);
 		}
 
 		// Apply torque based on keyboard input for character 2
-		if (this.a.isActive()) {
+		if (this.p2_left.isActive()) {
 			character2.applyTorque(Math.PI / 1);
 		}
-		if (this.d.isActive()) {
+		if (this.p2_right.isActive()) {
 			character2.applyTorque(-Math.PI / 1);
 		}
 
 		// Jumping mechanism for character 2 (W key)
-		if (this.w.isActiveButNotHandled()) {
-			this.w.setHasBeenHandled(true);
-			if (this.onGround(character)) {
+		if (this.p2_up.isActiveButNotHandled()) {
+			this.p2_up.setHasBeenHandled(true);
+			if (this.onGround(character2)) {
 				// Apply an impulse in the upward direction
 				character2.applyImpulse(new Vector2(0.0, 7));
 				// Set onGround to false to prevent consecutive jumps until landing again
@@ -406,14 +398,24 @@ public class Platformer extends SimulationFrame {
 		}
 
 		// Jumping mechanism for character (Up arrow key)
-		if (this.up.isActiveButNotHandled()) {
-			this.up.setHasBeenHandled(true);
-			if (this.onGround(character2)) {
+		if (this.p1_up.isActiveButNotHandled()) {
+			this.p1_up.setHasBeenHandled(true);
+			if (this.onGround(character)) {
 				// Apply an impulse in the upward direction
 				character.applyImpulse(new Vector2(0.0, 7));
 				// Set onGround to false to prevent consecutive jumps until landing again
 				onGround = false;
 			}
+		}
+		
+		//TODO start is out of bounds part, which will detect if a player touches score zone and reset them
+		if(outOfBounds(character)) {
+			//works, just need to comment out the set color at the bottom
+			character.setColor(WHEEL_ON_COLOR);
+		}
+		
+		if(outOfBounds(character2)) {
+			
 		}
 
 		// Update character color based on whether it's on the ground or not
@@ -430,6 +432,18 @@ public class Platformer extends SimulationFrame {
 		}
 		return false;
 	}
+	
+	private boolean outOfBounds(SimulationBody character) {
+		List<ContactConstraint<SimulationBody>> contacts = world.getContacts(character);
+		for (ContactConstraint<SimulationBody> cc : contacts) {
+			if (is(cc.getOtherBody(character),SCORE_ZONE) && cc.isEnabled()) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	//TODO start is out of bounds class, which will detect if a player touches score zone and reset them
 
 	/**
 	 * Entry point for the example application.
