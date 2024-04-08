@@ -10,7 +10,7 @@ import java.util.ArrayList;
 
 public class LoadLevel extends Platformer {
 
-	// current map format: SHAPE; SIZE X; SIZE Y; MASS; TRANSLATE X; TRANSLATE Y; USER DATA
+	// current map format: SHAPE; SIZE X; SIZE Y; TRANSLATE X; TRANSLATE Y; ROTATION; MASS; USER DATA
 	// any LINE starting with a # is treated as a comment
 
 	
