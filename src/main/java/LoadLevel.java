@@ -56,9 +56,27 @@ public class LoadLevel extends Platformer {
 		SimulationBody tempBody = new SimulationBody();
 		
 		//to do allow multiple shapes
-		tempBody.addFixture(
-				Geometry.createRectangle(Double.parseDouble(elementsArr[1]), Double.parseDouble(elementsArr[2])));
-		
+		switch (elementsArr[0]) {
+		case "RECTANGLE":
+			tempBody.addFixture(
+					Geometry.createRectangle(Double.parseDouble(elementsArr[1]), Double.parseDouble(elementsArr[2])));
+			break;
+		case "ELLIPSE":
+			tempBody.addFixture(
+					Geometry.createEllipse(Double.parseDouble(elementsArr[1]), Double.parseDouble(elementsArr[2])));
+			break;
+		case "HALF-ELLIPSE":
+			tempBody.addFixture(
+					Geometry.createHalfEllipse(Double.parseDouble(elementsArr[1]), Double.parseDouble(elementsArr[2])));
+			break;
+		case "TRIANGLE":
+			tempBody.addFixture(
+					Geometry.createIsoscelesTriangle(Double.parseDouble(elementsArr[1]), Double.parseDouble(elementsArr[2])));
+			break;
+		default:
+			break;
+		}
+
 		//to do allow multiple mass types
 		tempBody.setMass(MassType.INFINITE);
 		
@@ -70,10 +88,13 @@ public class LoadLevel extends Platformer {
 		switch (elementsArr[arraySize - 1]) {
 		case "FLOOR":
 			tempBody.setUserData(FLOOR);
+			break;
 		case "ONE_WAY_PLATFORM":
 			tempBody.setUserData(ONE_WAY_PLATFORM);
+			break;
 		case "SCORE_ZONE":
 			tempBody.setUserData(SCORE_ZONE);
+			break;
 		default:
 		}
 		return tempBody;
