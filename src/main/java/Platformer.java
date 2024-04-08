@@ -161,7 +161,7 @@ public class Platformer extends SimulationFrame {
 	@Override
 	protected void initializeCamera(Camera camera) {
 		super.initializeCamera(camera);
-		camera.scale = 10.0;
+		camera.scale = 20.0;
 	}
 
 	/**

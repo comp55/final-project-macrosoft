@@ -17,6 +17,7 @@ public class LoadLevel extends Platformer {
 	private int length;
 	private ArrayList<String> levelLoadText = new ArrayList<String>();
 	private String tempLine;
+	private double rotation;
 	
 	public LoadLevel(String levelName) {
 		try {
@@ -62,9 +63,10 @@ public class LoadLevel extends Platformer {
 		tempBody.setMass(MassType.INFINITE);
 		
 		
-		tempBody.translate(Double.parseDouble(elementsArr[4]), Double.parseDouble(elementsArr[5]));
-
+		tempBody.translate(Double.parseDouble(elementsArr[3]), Double.parseDouble(elementsArr[4]));
 		
+		tempBody.rotateAboutCenter(Double.parseDouble(elementsArr[5]));
+
 		switch (elementsArr[arraySize - 1]) {
 		case "FLOOR":
 			tempBody.setUserData(FLOOR);
