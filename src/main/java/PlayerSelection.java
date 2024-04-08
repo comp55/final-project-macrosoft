@@ -11,18 +11,18 @@ public class PlayerSelection {
     private JLabel backgroundImageLabel;
 
     public void selectionLoad(JFrame frame) {
+    	System.out.println("Got playerSelec");
         // Clear the contents of the frame
         frame.getContentPane().removeAll();
-
-        // Repaint the frame to reflect the changes
-        frame.revalidate();
-        frame.repaint();
 
         // Load the background image
         ImageIcon backgroundImageIcon = new ImageIcon("images/intermissionbg.png");
         backgroundImageLabel = new JLabel(backgroundImageIcon);
         backgroundImageLabel.setBounds(0, 0, WINDOW_X, WINDOW_Y);
         frame.add(backgroundImageLabel);
+        
+        frame.revalidate();
+        frame.repaint();
 
         // Create a panel to hold the buttons
         JPanel buttonPanel = new JPanel();
