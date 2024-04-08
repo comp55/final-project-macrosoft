@@ -62,6 +62,7 @@ public class Platformer extends SimulationFrame {
 	private static final long serialVersionUID = -313391186714427055L;
 
 	private String map = "map1";
+	private String map2 = "map2";
 	private int numPlayers;
 
 	private static final Color WHEEL_OFF_COLOR = Color.MAGENTA;
@@ -176,7 +177,7 @@ public class Platformer extends SimulationFrame {
 		 */
 
 		// loads level from a text file
-		LoadLevel loading = new LoadLevel(map);
+		LoadLevel loading = new LoadLevel(map2);
 		int length = loading.getLength();
 
 		for (int i = 0; i < length; i++) {
@@ -390,7 +391,7 @@ public class Platformer extends SimulationFrame {
 			this.p2_up.setHasBeenHandled(true);
 			if (this.onGround(character)) {
 				// Apply an impulse in the upward direction
-				character.applyImpulse(new Vector2(0.0, 7));
+				character2.applyImpulse(new Vector2(0.0, 7));
 				// Set onGround to false to prevent consecutive jumps until landing again
 				onGround = false;
 			}
@@ -401,7 +402,7 @@ public class Platformer extends SimulationFrame {
 			this.p1_up.setHasBeenHandled(true);
 			if (this.onGround(character2)) {
 				// Apply an impulse in the upward direction
-				character2.applyImpulse(new Vector2(0.0, 7));
+				character.applyImpulse(new Vector2(0.0, 7));
 				// Set onGround to false to prevent consecutive jumps until landing again
 				onGround = false;
 			}
