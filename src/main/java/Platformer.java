@@ -389,7 +389,7 @@ public class Platformer extends SimulationFrame {
 		// Jumping mechanism for character 2 (W key)
 		if (this.p2_up.isActiveButNotHandled()) {
 			this.p2_up.setHasBeenHandled(true);
-			if (this.onGround(character)) {
+			if (this.onGround(character2)) {
 				// Apply an impulse in the upward direction
 				character2.applyImpulse(new Vector2(0.0, 7));
 				// Set onGround to false to prevent consecutive jumps until landing again
@@ -400,7 +400,7 @@ public class Platformer extends SimulationFrame {
 		// Jumping mechanism for character (Up arrow key)
 		if (this.p1_up.isActiveButNotHandled()) {
 			this.p1_up.setHasBeenHandled(true);
-			if (this.onGround(character2)) {
+			if (this.onGround(character)) {
 				// Apply an impulse in the upward direction
 				character.applyImpulse(new Vector2(0.0, 7));
 				// Set onGround to false to prevent consecutive jumps until landing again

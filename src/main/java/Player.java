@@ -38,7 +38,7 @@ public class Player extends Platformer {
 		character = new SimulationBody(WHEEL_OFF_COLOR);
 		
 		//TODO keep this the same but make sure you can edit these settings
-		character.addFixture(Geometry.createCircle(0.5), 1.0, 20.0, 0.1);
+		character.addFixture(Geometry.createCircle(0.5), 1.0, 200.0, 0.1);
 		character.setMass(MassType.NORMAL);
 		character.translate(0.0, -2.0);
 		character.setUserData(CHARACTER);
