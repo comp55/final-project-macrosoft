@@ -407,6 +407,16 @@ public class Platformer extends SimulationFrame {
 				onGround = false;
 			}
 		}
+		
+		//TODO start is out of bounds part, which will detect if a player touches score zone and reset them
+		if(outOfBounds(character)) {
+			//works, just need to comment out the set color at the bottom
+			character.setColor(WHEEL_ON_COLOR);
+		}
+		
+		if(outOfBounds(character2)) {
+			
+		}
 
 		// Update character color based on whether it's on the ground or not
 		character.setColor(onGround(character) ? WHEEL_ON_COLOR : WHEEL_OFF_COLOR);
@@ -422,6 +432,18 @@ public class Platformer extends SimulationFrame {
 		}
 		return false;
 	}
+	
+	private boolean outOfBounds(SimulationBody character) {
+		List<ContactConstraint<SimulationBody>> contacts = world.getContacts(character);
+		for (ContactConstraint<SimulationBody> cc : contacts) {
+			if (is(cc.getOtherBody(character),SCORE_ZONE) && cc.isEnabled()) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	//TODO start is out of bounds class, which will detect if a player touches score zone and reset them
 
 	/**
 	 * Entry point for the example application.
