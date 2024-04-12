@@ -189,7 +189,7 @@ public class Platformer extends SimulationFrame {
 			this.world.addBody(loading.loadMap(i));
 		}
 
-		initPlayers(4);
+		initPlayers(numPlayers);
 
 		// Use a number of concepts here to support movement, jumping, and one-way
 		// platforms - this is by no means THE solution to these problems, but just
@@ -418,8 +418,8 @@ public class Platformer extends SimulationFrame {
 		}
 
 		// Update character color based on whether it's on the ground or not
-		character.setColor(onGround(character) ? WHEEL_ON_COLOR : WHEEL_OFF_COLOR);
-		character2.setColor(onGround(character2) ? WHEEL_ON_COLOR : WHEEL_OFF_COLOR);
+		character.setColor(onGround(character) ? WHEEL_ON_COLOR : player1.getplayerColor());
+		character2.setColor(onGround(character2) ? WHEEL_ON_COLOR : player2.getplayerColor());
 	}
 
 	private boolean onGround(SimulationBody character) {
@@ -455,29 +455,24 @@ public class Platformer extends SimulationFrame {
 
 	}
 
-	protected void initPlayers(int numPlayers) {
-
-		Player player2 = new Player();
-		Player player3 = new Player();
-		Player player4 = new Player();
-
-		if (numPlayers >= 1) {
-			player1 = new Player();
+	protected void initPlayers(int p) {
+		if (p >= 1) {
+			player1 = new Player(4,2,Color.orange);
 			character = player1.createPlayer();
 			this.world.addBody(character);
 		}
-		if (numPlayers >= 2) {
-			player2 = new Player();
+		if (p >= 2) {
+			player2 = new Player(2,2,Color.red);
 			character2 = player2.createPlayer();
 			this.world.addBody(character2);
 		}
-		if (numPlayers >= 3) {
-			player3 = new Player();
+		if (p >= 3) {
+			player3 = new Player(-2,2,Color.black);
 			character3 = player3.createPlayer();
 			this.world.addBody(character3);
 		}
-		if (numPlayers >= 4) {
-			player4 = new Player();
+		if (p >= 4) {
+			player4 = new Player(-4,2,Color.cyan);
 			character4 = player4.createPlayer();
 			this.world.addBody(character4);
 		}
