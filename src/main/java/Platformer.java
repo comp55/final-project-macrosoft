@@ -25,6 +25,9 @@
 //package org.dyn4j.samples;
 
 import java.awt.Color;
+import java.awt.Component;
+import java.awt.Font;
+import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
 import java.util.List;
 
@@ -42,6 +45,8 @@ import org.dyn4j.world.ContactCollisionData;
 import org.dyn4j.world.PhysicsWorld;
 import org.dyn4j.world.listener.ContactListenerAdapter;
 import org.dyn4j.world.listener.StepListenerAdapter;
+
+import acm.graphics.GLabel;
 
 /**
  * A simple scene of a circle that is controlled by the left and right arrow
@@ -192,6 +197,9 @@ public class Platformer extends SimulationFrame {
 		Player player2 = new Player();
 		character2 = player2.createPlayer();
 		this.world.addBody(character2);
+
+		
+		
 
 		// Use a number of concepts here to support movement, jumping, and one-way
 		// platforms - this is by no means THE solution to these problems, but just
@@ -441,6 +449,15 @@ public class Platformer extends SimulationFrame {
 			}
 		}
 		return false;
+	}
+	
+	protected void render(Graphics2D g, double elapsedTime) {
+		super.render(g, elapsedTime);
+		
+		g.setColor(Color.BLACK);
+		g.setFont(new Font("SansSerif", Font.PLAIN, 20));
+		g.drawString("Score: ", 20, 45);
+		
 	}
 	
 	//TODO start is out of bounds class, which will detect if a player touches score zone and reset them
