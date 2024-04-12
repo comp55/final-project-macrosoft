@@ -1,6 +1,8 @@
 import org.dyn4j.geometry.Geometry;
 import org.dyn4j.geometry.MassType;
 import org.dyn4j.samples.framework.SimulationBody;
+
+import java.awt.Color;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
@@ -12,7 +14,10 @@ public class LoadLevel extends Platformer {
 
 	// current map format: SHAPE; SIZE X; SIZE Y; TRANSLATE X; TRANSLATE Y; ROTATION; MASS; USER DATA
 	// any LINE starting with a # is treated as a comment
-
+	
+	private static final Color floorColor = Color.MAGENTA;
+	private static final Color platformColor = Color.MAGENTA;
+	
 	
 	private int length;
 	private ArrayList<String> levelLoadText = new ArrayList<String>();

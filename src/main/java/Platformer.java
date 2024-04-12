@@ -25,7 +25,6 @@
 //package org.dyn4j.samples;
 
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
@@ -35,8 +34,6 @@ import java.util.List;
 import org.dyn4j.dynamics.TimeStep;
 import org.dyn4j.dynamics.contact.ContactConstraint;
 import org.dyn4j.geometry.AABB;
-import org.dyn4j.geometry.Geometry;
-import org.dyn4j.geometry.MassType;
 import org.dyn4j.geometry.Vector2;
 import org.dyn4j.samples.framework.Camera;
 import org.dyn4j.samples.framework.SimulationBody;
@@ -46,8 +43,6 @@ import org.dyn4j.world.ContactCollisionData;
 import org.dyn4j.world.PhysicsWorld;
 import org.dyn4j.world.listener.ContactListenerAdapter;
 import org.dyn4j.world.listener.StepListenerAdapter;
-
-import acm.graphics.GLabel;
 
 /**
  * A simple scene of a circle that is controlled by the left and right arrow
@@ -99,6 +94,10 @@ public class Platformer extends SimulationFrame {
 	private final BooleanStateKeyboardInputHandler p4_left;
 	private final BooleanStateKeyboardInputHandler p4_right;
 
+	private Player player1;
+	private Player player2;
+	private Player player3;
+	private Player player4;
 	private SimulationBody character;
 	private SimulationBody character2;
 	private SimulationBody character3;
@@ -178,8 +177,8 @@ public class Platformer extends SimulationFrame {
 
 		// TODO this will set the map variable
 		/*
-		 * switch(mapNum) { case value1 : // Statements case value2 : // Statements default
-		 * : // default Statement }
+		 * switch(mapNum) { case value1 : // Statements case value2 : // Statements
+		 * default : // default Statement }
 		 */
 
 		// loads level from a text file
@@ -189,18 +188,8 @@ public class Platformer extends SimulationFrame {
 		for (int i = 0; i < length; i++) {
 			this.world.addBody(loading.loadMap(i));
 		}
-		
-		
-		Player player = new Player();
-		character = player.createPlayer();
-		this.world.addBody(character);
 
-		Player player2 = new Player();
-		character2 = player2.createPlayer();
-		this.world.addBody(character2);
-
-		
-		
+		initPlayers(4);
 
 		// Use a number of concepts here to support movement, jumping, and one-way
 		// platforms - this is by no means THE solution to these problems, but just
@@ -416,15 +405,16 @@ public class Platformer extends SimulationFrame {
 				onGround = false;
 			}
 		}
-		
-		//TODO start is out of bounds part, which will detect if a player touches score zone and reset them
-		if(outOfBounds(character)) {
-			//works, just need to comment out the set color at the bottom
+
+		// TODO start is out of bounds part, which will detect if a player touches score
+		// zone and reset them
+		if (outOfBounds(character)) {
+			// works, just need to comment out the set color at the bottom
 			character.setColor(WHEEL_ON_COLOR);
 		}
-		
-		if(outOfBounds(character2)) {
-			
+
+		if (outOfBounds(character2)) {
+
 		}
 
 		// Update character color based on whether it's on the ground or not
@@ -441,30 +431,62 @@ public class Platformer extends SimulationFrame {
 		}
 		return false;
 	}
-	
+
 	private boolean outOfBounds(SimulationBody character) {
 		List<ContactConstraint<SimulationBody>> contacts = world.getContacts(character);
 		for (ContactConstraint<SimulationBody> cc : contacts) {
-			if (is(cc.getOtherBody(character),SCORE_ZONE) && cc.isEnabled()) {
+			if (is(cc.getOtherBody(character), SCORE_ZONE) && cc.isEnabled()) {
 				return true;
 			}
 		}
 		return false;
 	}
-	
+
 	protected void render(Graphics2D g, double elapsedTime) {
 		super.render(g, elapsedTime);
 		AffineTransform tx = g.getTransform();
 		g.scale(1, -1);
-		g.translate(-this.getWidth() * 0.5 - this.getCameraOffsetX(), -this.getHeight() * 0.5 + this.getCameraOffsetY());
-		
+		g.translate(-this.getWidth() * 0.5 - this.getCameraOffsetX(),
+				-this.getHeight() * 0.5 + this.getCameraOffsetY());
+
 		g.setColor(Color.BLACK);
 		g.setFont(new Font("SansSerif", Font.PLAIN, 20));
 		g.drawString("Score: ", 20, 45);
-		
+
 	}
-	
-	//TODO start is out of bounds class, which will detect if a player touches score zone and reset them
+
+	protected void initPlayers(int numPlayers) {
+
+		Player player2 = new Player();
+		Player player3 = new Player();
+		Player player4 = new Player();
+
+		if (numPlayers >= 1) {
+			player1 = new Player();
+			character = player1.createPlayer();
+			this.world.addBody(character);
+		}
+		if (numPlayers >= 2) {
+			player2 = new Player();
+			character2 = player2.createPlayer();
+			this.world.addBody(character2);
+		}
+		if (numPlayers >= 3) {
+			player3 = new Player();
+			character3 = player3.createPlayer();
+			this.world.addBody(character3);
+		}
+		if (numPlayers >= 4) {
+			player4 = new Player();
+			character4 = player4.createPlayer();
+			this.world.addBody(character4);
+		}
+
+
+	}
+
+	// TODO start is out of bounds class, which will detect if a player touches
+	// score zone and reset them
 
 	/**
 	 * Entry point for the example application.
