@@ -29,6 +29,7 @@ import java.awt.Component;
 import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
+import java.awt.geom.AffineTransform;
 import java.util.List;
 
 import org.dyn4j.dynamics.TimeStep;
@@ -453,6 +454,9 @@ public class Platformer extends SimulationFrame {
 	
 	protected void render(Graphics2D g, double elapsedTime) {
 		super.render(g, elapsedTime);
+		AffineTransform tx = g.getTransform();
+		g.scale(1, -1);
+		g.translate(-this.getWidth() * 0.5 - this.getCameraOffsetX(), -this.getHeight() * 0.5 + this.getCameraOffsetY());
 		
 		g.setColor(Color.BLACK);
 		g.setFont(new Font("SansSerif", Font.PLAIN, 20));
