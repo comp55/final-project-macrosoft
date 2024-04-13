@@ -16,9 +16,14 @@ public class MainMenu {
     private JButton quitButton;
     private JPanel quitConfirmationPanel;
     
+    BackgroundMusic backgroundMusic;
+    
     PlayerSelection playerSelec;
     
     public MainMenu() {
+    	
+    	backgroundMusic = new BackgroundMusic("audio/MainMenuTheme.mp3");
+    	
         window();
         addButton(frame, "play", WINDOW_Y / 2 - BUTTON_HEIGHT / 2, new ActionListener() {
             @Override
@@ -38,6 +43,9 @@ public class MainMenu {
                 showQuitConfirmation();
             }
         });
+        
+        backgroundMusic.play();
+        
     }
 
     private void window() {
@@ -209,7 +217,7 @@ public class MainMenu {
             label.setBounds(0, 20, panelWidth, 30);
             quitConfirmationPanel.add(label);
 
-            JButton yesButton = new JButton("yes");
+            final JButton yesButton = new JButton("yes");
             yesButton.setBounds(50, 80, 80, 30);
             yesButton.setFont(new Font("Arial", Font.PLAIN, 20));
             yesButton.setBackground(new Color(0, 0, 0, 0));
@@ -240,7 +248,7 @@ public class MainMenu {
             });
             quitConfirmationPanel.add(yesButton);
 
-            JButton noButton = new JButton("no");
+            final JButton noButton = new JButton("no");
             noButton.setBounds(170, 80, 80, 30);
             noButton.setFont(new Font("Arial", Font.PLAIN, 20));
             noButton.setBackground(new Color(0, 0, 0, 0));
