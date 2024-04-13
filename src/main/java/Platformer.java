@@ -406,20 +406,60 @@ public class Platformer extends SimulationFrame {
 			}
 		}
 
-		// TODO start is out of bounds part, which will detect if a player touches score
-		// zone and reset them
+		//What this detects at any point is whether a character is touching the out of bounds zones
+		//It works by reseting the players to their default spawn position upon collision, 
+		//while moving whats left of their old body outside the play zone TODO maybe figure out how to delete the bodies
+		//TODO find a way to turn off the console prompts
 		if (outOfBounds(character)) {
-			// works, just need to comment out the set color at the bottom
-			character.setColor(WHEEL_ON_COLOR);
+			if(player1.getLives() > 0) {
+				player1.resetOnDeath();
+				character = player1.createPlayer();
+				this.world.addBody(character);
+				player1.subtractLives(1);
+			}
+			else {
+				player1.resetOnDeath();
+			}
 		}
 
 		if (outOfBounds(character2)) {
-
+			if(player2.getLives() > 0) {
+				player2.resetOnDeath();
+				character2 = player2.createPlayer();
+				this.world.addBody(character2);
+				player2.subtractLives(1);
+			}
+			else {
+				player2.resetOnDeath();
+			}
+		}
+		
+		if (outOfBounds(character3)) {
+			if(player3.getLives() > 0) {
+				player3.resetOnDeath();
+				character3 = player3.createPlayer();
+				this.world.addBody(character3);
+			}
+			else {
+				player3.resetOnDeath();
+			}
+		}
+		
+		if (outOfBounds(character4))  {
+			if(player4.getLives() > 0) {
+				player4.resetOnDeath();
+				character4 = player4.createPlayer();
+				this.world.addBody(character4);
+			}
+			else {
+				player4.resetOnDeath();
+			}
 		}
 
 		// Update character color based on whether it's on the ground or not
-		character.setColor(onGround(character) ? WHEEL_ON_COLOR : player1.getplayerColor());
-		character2.setColor(onGround(character2) ? WHEEL_ON_COLOR : player2.getplayerColor());
+		//TODO use for testing, delete later
+		//character.setColor(onGround(character) ? WHEEL_ON_COLOR : player1.getplayerColor());
+		//character2.setColor(onGround(character2) ? WHEEL_ON_COLOR : player2.getplayerColor());
 	}
 
 	private boolean onGround(SimulationBody character) {
@@ -456,6 +496,8 @@ public class Platformer extends SimulationFrame {
 	}
 
 	protected void initPlayers(int p) {
+		//TODO delete p declaration later
+		p = 2;
 		if (p >= 1) {
 			player1 = new Player(4,2,Color.orange);
 			character = player1.createPlayer();

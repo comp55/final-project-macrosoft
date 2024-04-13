@@ -16,13 +16,14 @@ public class Player extends Platformer {
 	private double startX;
 	private double startY;
 	private Color playerColor;
+	private int lives;
 
 
 	public Player(int x, int y, Color color) {
 		startX = x;
 		startY = y;
 		playerColor = color;
-
+		lives = 2;
 	}
 
 	// this should take in the players icon, and whatever control pattern they want.
@@ -69,6 +70,19 @@ public class Player extends Platformer {
 	public void setPlayerControls(String playerControls) {
 		this.playerControls = playerControls;
 	}
+	
+	public void resetOnDeath() {
+		character.translate(100, 100);
+		//character.
+	}
+	
+	public int getLives() {
+		return lives;
+	}
+
+	public void subtractLives(int s) {
+		lives = lives - s;
+	}
 
 	// This is much more complicated than i thought, see dyn4j samples images for
 	// more details
@@ -82,6 +96,8 @@ public class Player extends Platformer {
 		// TODO Auto-generated method stub
 
 	}
+
+	
 
 	// start working on powerups changing abilites
 	// players speed needs to be determined in the map
