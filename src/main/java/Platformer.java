@@ -379,14 +379,14 @@ public class Platformer extends SimulationFrame {
 		if (this.p2_right.isActive()) {
 			character2.applyTorque(-Math.PI / 1);
 		}
-		
+
 		if (this.p3_left.isActive()) {
 			character3.applyTorque(Math.PI / 1);
 		}
 		if (this.p3_right.isActive()) {
 			character3.applyTorque(-Math.PI / 1);
 		}
-		
+
 		if (this.p4_left.isActive()) {
 			character4.applyTorque(Math.PI / 1);
 		}
@@ -404,7 +404,7 @@ public class Platformer extends SimulationFrame {
 				onGround = false;
 			}
 		}
-		
+
 		// Jumping mechanism for character 2 (W key)
 		if (this.p2_up.isActiveButNotHandled()) {
 			this.p2_up.setHasBeenHandled(true);
@@ -415,7 +415,7 @@ public class Platformer extends SimulationFrame {
 				onGround = false;
 			}
 		}
-		
+
 		if (this.p3_up.isActiveButNotHandled()) {
 			this.p3_up.setHasBeenHandled(true);
 			if (this.onGround(character3)) {
@@ -425,7 +425,7 @@ public class Platformer extends SimulationFrame {
 				onGround = false;
 			}
 		}
-		
+
 		if (this.p4_up.isActiveButNotHandled()) {
 			this.p4_up.setHasBeenHandled(true);
 			if (this.onGround(character4)) {
@@ -435,7 +435,6 @@ public class Platformer extends SimulationFrame {
 				onGround = false;
 			}
 		}
-
 
 		gameruleStock();
 
@@ -474,32 +473,35 @@ public class Platformer extends SimulationFrame {
 		g.translate(-this.getWidth() * 0.5 - this.getCameraOffsetX(),
 				-this.getHeight() * 0.5 + this.getCameraOffsetY());
 
-		if(numPlayers >= 1) {
+		if (numPlayers >= 1) {
 			g.setColor(Color.black);
 			g.setFont(new Font("SansSerif", Font.PLAIN, 20));
-			g.drawString("P1 Lives: "+ player1.getLives(), 20, 45);
-		}
-		if(numPlayers >= 2) {
-			g.setColor(Color.black);
-			g.setFont(new Font("SansSerif", Font.PLAIN, 20));
-			g.drawString("P2 Lives: "+ player2.getLives(), 20, 70);
-		}
-		if(numPlayers >= 3) {
-			g.setColor(Color.black);
-			g.setFont(new Font("SansSerif", Font.PLAIN, 20));
-			g.drawString("P3 Lives: "+ player3.getLives(), 20, 95);
-		}
-		if(numPlayers >= 4) {
-			g.setColor(Color.black);
-			g.setFont(new Font("SansSerif", Font.PLAIN, 20));
-			g.drawString("P4 Lives: "+ player4.getLives(), 20, 120);
-		}
-		
-		
+			if(player1.getLives() < 0) {
+				g.drawString("P1 OUT ", 20, 45);
+			}
+			else {
+				g.drawString("P1 Lives: " + player1.getLives(), 20, 45);
+			}
 
+		}
+		if (numPlayers >= 2) {
+			g.setColor(Color.black);
+			g.setFont(new Font("SansSerif", Font.PLAIN, 20));
+			g.drawString("P2 Lives: " + player2.getLives(), 20, 70);
+		}
+		if (numPlayers >= 3) {
+			g.setColor(Color.black);
+			g.setFont(new Font("SansSerif", Font.PLAIN, 20));
+			g.drawString("P3 Lives: " + player3.getLives(), 20, 95);
+		}
+		if (numPlayers >= 4) {
+			g.setColor(Color.black);
+			g.setFont(new Font("SansSerif", Font.PLAIN, 20));
+			g.drawString("P4 Lives: " + player4.getLives(), 20, 120);
+		}
 
 	}
-	
+
 	protected void initPlayers(int p) {
 		if (p >= 1) {
 			player1 = new Player(4, 2, 3, Color.orange);
@@ -534,43 +536,49 @@ public class Platformer extends SimulationFrame {
 	protected void gameruleStock() {
 		if (outOfBounds(character)) {
 			if (player1.getLives() > 0) {
-				player1.resetOnDeath();
+				this.world.removeBody(character);
+				player1.subtractLives(1);
 				character = player1.createPlayer();
 				this.world.addBody(character);
-				player1.subtractLives(1);
 			} else {
-				player1.resetOnDeath();
+				this.world.removeBody(character);
+				player1.subtractLives(1);
 			}
 		}
 
 		if (outOfBounds(character2)) {
 			if (player2.getLives() > 0) {
-				player2.resetOnDeath();
+				this.world.removeBody(character2);
+				player2.subtractLives(1);
 				character2 = player2.createPlayer();
 				this.world.addBody(character2);
-				player2.subtractLives(1);
 			} else {
-				player2.resetOnDeath();
+				this.world.removeBody(character2);
+				player2.subtractLives(1);
 			}
 		}
 
 		if (outOfBounds(character3)) {
 			if (player3.getLives() > 0) {
-				player3.resetOnDeath();
+				this.world.removeBody(character3);
+				player3.subtractLives(1);
 				character3 = player3.createPlayer();
 				this.world.addBody(character3);
 			} else {
-				player3.resetOnDeath();
+				this.world.removeBody(character3);
+				player3.subtractLives(1);
 			}
 		}
 
 		if (outOfBounds(character4)) {
 			if (player4.getLives() > 0) {
-				player4.resetOnDeath();
+				this.world.removeBody(character4);
+				player4.subtractLives(1);
 				character4 = player4.createPlayer();
 				this.world.addBody(character4);
 			} else {
-				player4.resetOnDeath();
+				this.world.removeBody(character4);
+				player4.subtractLives(1);
 			}
 		}
 	}
