@@ -93,12 +93,15 @@ public class LoadLevel extends Platformer {
 		switch (elementsArr[arraySize - 1]) {
 		case "FLOOR":
 			tempBody.setUserData(FLOOR);
+			tempBody.setColor(Color.DARK_GRAY);
 			break;
 		case "ONE_WAY_PLATFORM":
 			tempBody.setUserData(ONE_WAY_PLATFORM);
+			tempBody.setColor(Color.blue);
 			break;
 		case "SCORE_ZONE":
 			tempBody.setUserData(SCORE_ZONE);
+			tempBody.setColor(Color.orange);
 			break;
 		default:
 		}

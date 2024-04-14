@@ -39,7 +39,6 @@ public class Player extends Platformer {
 		character.translate(startX, startY);
 		character.setUserData(CHARACTER);
 		character.setAtRestDetectionEnabled(false);
-
 		return character;
 
 	}

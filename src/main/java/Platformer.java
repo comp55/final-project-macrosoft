@@ -379,16 +379,19 @@ public class Platformer extends SimulationFrame {
 		if (this.p2_right.isActive()) {
 			character2.applyTorque(-Math.PI / 1);
 		}
-
-		// Jumping mechanism for character 2 (W key)
-		if (this.p2_up.isActiveButNotHandled()) {
-			this.p2_up.setHasBeenHandled(true);
-			if (this.onGround(character2)) {
-				// Apply an impulse in the upward direction
-				character2.applyImpulse(new Vector2(0.0, 7));
-				// Set onGround to false to prevent consecutive jumps until landing again
-				onGround = false;
-			}
+		
+		if (this.p3_left.isActive()) {
+			character3.applyTorque(Math.PI / 1);
+		}
+		if (this.p3_right.isActive()) {
+			character3.applyTorque(-Math.PI / 1);
+		}
+		
+		if (this.p4_left.isActive()) {
+			character4.applyTorque(Math.PI / 1);
+		}
+		if (this.p4_right.isActive()) {
+			character4.applyTorque(-Math.PI / 1);
 		}
 
 		// Jumping mechanism for character (Up arrow key)
@@ -401,6 +404,38 @@ public class Platformer extends SimulationFrame {
 				onGround = false;
 			}
 		}
+		
+		// Jumping mechanism for character 2 (W key)
+		if (this.p2_up.isActiveButNotHandled()) {
+			this.p2_up.setHasBeenHandled(true);
+			if (this.onGround(character2)) {
+				// Apply an impulse in the upward direction
+				character2.applyImpulse(new Vector2(0.0, 7));
+				// Set onGround to false to prevent consecutive jumps until landing again
+				onGround = false;
+			}
+		}
+		
+		if (this.p3_up.isActiveButNotHandled()) {
+			this.p3_up.setHasBeenHandled(true);
+			if (this.onGround(character3)) {
+				// Apply an impulse in the upward direction
+				character3.applyImpulse(new Vector2(0.0, 7));
+				// Set onGround to false to prevent consecutive jumps until landing again
+				onGround = false;
+			}
+		}
+		
+		if (this.p4_up.isActiveButNotHandled()) {
+			this.p4_up.setHasBeenHandled(true);
+			if (this.onGround(character4)) {
+				// Apply an impulse in the upward direction
+				character4.applyImpulse(new Vector2(0.0, 7));
+				// Set onGround to false to prevent consecutive jumps until landing again
+				onGround = false;
+			}
+		}
+
 
 		gameruleStock();
 
@@ -439,14 +474,33 @@ public class Platformer extends SimulationFrame {
 		g.translate(-this.getWidth() * 0.5 - this.getCameraOffsetX(),
 				-this.getHeight() * 0.5 + this.getCameraOffsetY());
 
-		g.setColor(Color.BLACK);
-		g.setFont(new Font("SansSerif", Font.PLAIN, 20));
-		g.drawString("Score: ", 20, 45);
+		if(numPlayers >= 1) {
+			g.setColor(Color.black);
+			g.setFont(new Font("SansSerif", Font.PLAIN, 20));
+			g.drawString("P1 Lives: "+ player1.getLives(), 20, 45);
+		}
+		if(numPlayers >= 2) {
+			g.setColor(Color.black);
+			g.setFont(new Font("SansSerif", Font.PLAIN, 20));
+			g.drawString("P2 Lives: "+ player2.getLives(), 20, 70);
+		}
+		if(numPlayers >= 3) {
+			g.setColor(Color.black);
+			g.setFont(new Font("SansSerif", Font.PLAIN, 20));
+			g.drawString("P3 Lives: "+ player3.getLives(), 20, 95);
+		}
+		if(numPlayers >= 4) {
+			g.setColor(Color.black);
+			g.setFont(new Font("SansSerif", Font.PLAIN, 20));
+			g.drawString("P4 Lives: "+ player4.getLives(), 20, 120);
+		}
+		
+		
+
 
 	}
-
+	
 	protected void initPlayers(int p) {
-		// TODO delete p declaration later
 		if (p >= 1) {
 			player1 = new Player(4, 2, 3, Color.orange);
 			character = player1.createPlayer();
