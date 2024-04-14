@@ -64,6 +64,7 @@ public class Platformer extends SimulationFrame {
 
 	private String map = "map2";
 	private int numPlayers = 2;
+	private int startingScore = 1;
 
 	private static final Color WHEEL_OFF_COLOR = Color.MAGENTA;
 	private static final Color WHEEL_ON_COLOR = Color.GREEN;
@@ -476,50 +477,128 @@ public class Platformer extends SimulationFrame {
 		if (numPlayers >= 1) {
 			g.setColor(Color.black);
 			g.setFont(new Font("SansSerif", Font.PLAIN, 20));
-			if(player1.getLives() < 0) {
+			if (player1.isOut()) {
 				g.drawString("P1 OUT ", 20, 45);
-			}
-			else {
+			} else {
 				g.drawString("P1 Lives: " + player1.getLives(), 20, 45);
 			}
-
 		}
+
 		if (numPlayers >= 2) {
 			g.setColor(Color.black);
 			g.setFont(new Font("SansSerif", Font.PLAIN, 20));
-			g.drawString("P2 Lives: " + player2.getLives(), 20, 70);
+			if (player2.isOut()) {
+				g.drawString("P2 OUT ", 20, 70);
+			} else {
+				g.drawString("P2 Lives: " + player2.getLives(), 20, 70);
+			}
 		}
+
 		if (numPlayers >= 3) {
 			g.setColor(Color.black);
 			g.setFont(new Font("SansSerif", Font.PLAIN, 20));
-			g.drawString("P3 Lives: " + player3.getLives(), 20, 95);
+			if (player3.isOut()) {
+				g.drawString("P3 OUT ", 20, 95);
+			} else {
+				g.drawString("P3 Lives: " + player3.getLives(), 20, 95);
+			}
 		}
+
 		if (numPlayers >= 4) {
 			g.setColor(Color.black);
 			g.setFont(new Font("SansSerif", Font.PLAIN, 20));
-			g.drawString("P4 Lives: " + player4.getLives(), 20, 120);
+			if (player4.isOut()) {
+				g.drawString("P4 OUT ", 20, 120);
+			} else {
+				g.drawString("P4 Lives: " + player4.getLives(), 20, 120);
+			}
+		}
+		
+		switch (winPlayer()) {
+		case 1:
+			g.setColor(Color.black);
+			g.setFont(new Font("SansSerif", Font.PLAIN, 50));
+			g.drawString("P1 WIN ", 100, 100);
+			this.pause();
+			break;
+		case 2:
+			g.setColor(Color.black);
+			g.setFont(new Font("SansSerif", Font.PLAIN, 50));
+			g.drawString("P2 WIN ", 100, 100);
+			this.pause();
+			break;
+		case 3:
+			g.setColor(Color.black);
+			g.setFont(new Font("SansSerif", Font.PLAIN, 50));
+			g.drawString("P3 WIN ", 100, 100);
+			this.pause();
+			break;
+		case 4:
+			g.setColor(Color.black);
+			g.setFont(new Font("SansSerif", Font.PLAIN, 50));
+			g.drawString("P4 WIN ", 100, 100);
+			this.pause();
+			break;
 		}
 
 	}
 
+	protected int winPlayer() {
+		if(activePlayers(player1.isOut(), player2.isOut(), player3.isOut(), player4.isOut()) == 1) {
+			if(!player1.isOut()) {
+				return 1;
+			}
+			else if (player2.isOut()) {
+				return 2;
+			}
+			else if (player3.isOut()) {
+				return 3;
+			}
+			else if (player4.isOut()) {
+				return 4;
+			}
+		}
+		return 0;
+	}
+
+	protected int activePlayers(Boolean a, Boolean b, Boolean c, Boolean d) {
+		int count = 0;
+		
+		if(!a) {
+			count++;
+		}
+		if(!b) {
+			count++;
+		}
+		if(!c) {
+			count++;
+		}
+		if (!d) {
+			count++;
+		}
+		System.out.println("Count" + count);
+		return count;
+	}
+	
 	protected void initPlayers(int p) {
+		player1 = new Player(4, 2, startingScore, Color.orange);
+		player2 = new Player(2, 2, startingScore, Color.red);
+		player3 = new Player(-2, 2, startingScore, Color.black);
+		player4 = new Player(-4, 2, startingScore, Color.cyan);
+		
 		if (p >= 1) {
-			player1 = new Player(4, 2, 3, Color.orange);
 			character = player1.createPlayer();
 			this.world.addBody(character);
 		}
 		if (p >= 2) {
-			player2 = new Player(2, 2, 3, Color.red);
 			character2 = player2.createPlayer();
 			this.world.addBody(character2);
 		}
 		if (p >= 3) {
-			player3 = new Player(-2, 2, 3, Color.black);
 			character3 = player3.createPlayer();
 			this.world.addBody(character3);
 		}
 		if (p >= 4) {
-			player4 = new Player(-4, 2, 3, Color.cyan);
 			character4 = player4.createPlayer();
 			this.world.addBody(character4);
 		}
@@ -542,7 +621,7 @@ public class Platformer extends SimulationFrame {
 				this.world.addBody(character);
 			} else {
 				this.world.removeBody(character);
-				player1.subtractLives(1);
+				player1.setOut(true);
 			}
 		}
 
@@ -554,7 +633,7 @@ public class Platformer extends SimulationFrame {
 				this.world.addBody(character2);
 			} else {
 				this.world.removeBody(character2);
-				player2.subtractLives(1);
+				player2.setOut(true);
 			}
 		}
 
@@ -566,7 +645,7 @@ public class Platformer extends SimulationFrame {
 				this.world.addBody(character3);
 			} else {
 				this.world.removeBody(character3);
-				player3.subtractLives(1);
+				player3.setOut(true);
 			}
 		}
 
@@ -578,7 +657,7 @@ public class Platformer extends SimulationFrame {
 				this.world.addBody(character4);
 			} else {
 				this.world.removeBody(character4);
-				player4.subtractLives(1);
+				player4.setOut(true);
 			}
 		}
 	}

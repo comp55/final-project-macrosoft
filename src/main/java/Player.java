@@ -15,6 +15,7 @@ public class Player extends Platformer {
 	private double startY;
 	private Color playerColor;
 	private int lives;
+	private Boolean isOut = true;
 
 
 	public Player(int x, int y, int startingScore, Color color) {
@@ -32,7 +33,7 @@ public class Player extends Platformer {
 		// TODO change this so that instead of pushing a color it pushes what image it
 		// needs too be
 		character = new SimulationBody(playerColor);
-
+		this.isOut = false;
 		// TODO keep this the same but make sure you can edit these settings
 		character.addFixture(Geometry.createCircle(0.5), 1.0, 200.0, 0.1);
 		character.setMass(MassType.NORMAL);
@@ -92,6 +93,14 @@ public class Player extends Platformer {
 	protected void initializeWorld() {
 		// TODO Auto-generated method stub
 
+	}
+
+	public Boolean isOut() {
+		return isOut;
+	}
+
+	public void setOut(Boolean isOut) {
+		this.isOut = isOut;
 	}
 
 	
