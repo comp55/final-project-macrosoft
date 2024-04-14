@@ -62,9 +62,8 @@ public class Platformer extends SimulationFrame {
 	/** The serial version id */
 	private static final long serialVersionUID = -313391186714427055L;
 
-	private String map = "map1";
-	private String map2 = "map2";
-	private int numPlayers;
+	private String map = "map2";
+	private int numPlayers = 2;
 
 	private static final Color WHEEL_OFF_COLOR = Color.MAGENTA;
 	private static final Color WHEEL_ON_COLOR = Color.GREEN;
@@ -182,7 +181,7 @@ public class Platformer extends SimulationFrame {
 		 */
 
 		// loads level from a text file
-		LoadLevel loading = new LoadLevel(map2);
+		LoadLevel loading = new LoadLevel(map);
 		int length = loading.getLength();
 
 		for (int i = 0; i < length; i++) {
@@ -309,8 +308,7 @@ public class Platformer extends SimulationFrame {
 				p1_down.setHasBeenHandled(true);
 				contactConstraint.setEnabled(false);
 			}
-		}
-		else if (is(b1, ONE_WAY_PLATFORM) && is(b2, CHARACTER)) {
+		} else if (is(b1, ONE_WAY_PLATFORM) && is(b2, CHARACTER)) {
 			if (allowOneWayUp(b2, b1) || p1_down.isActiveButNotHandled()) {
 				p1_down.setHasBeenHandled(true);
 				contactConstraint.setEnabled(false);
@@ -322,8 +320,7 @@ public class Platformer extends SimulationFrame {
 				p2_down.setHasBeenHandled(true);
 				contactConstraint.setEnabled(false);
 			}
-		}
-		else if (is(b1, ONE_WAY_PLATFORM) && is(b2, CHARACTER)) {
+		} else if (is(b1, ONE_WAY_PLATFORM) && is(b2, CHARACTER)) {
 			if (allowOneWayUp(b2, b1) || p2_down.isActiveButNotHandled()) {
 				p2_down.setHasBeenHandled(true);
 				contactConstraint.setEnabled(false);
@@ -343,8 +340,7 @@ public class Platformer extends SimulationFrame {
 
 		if (is(b1, CHARACTER) && is(b2, FLOOR, ONE_WAY_PLATFORM) && contactConstraint.isEnabled()) {
 			onGround = true;
-		}
-		else if (is(b1, FLOOR, ONE_WAY_PLATFORM) && is(b2, CHARACTER) && contactConstraint.isEnabled()) {
+		} else if (is(b1, FLOOR, ONE_WAY_PLATFORM) && is(b2, CHARACTER) && contactConstraint.isEnabled()) {
 			onGround = true;
 		}
 	}
@@ -406,60 +402,14 @@ public class Platformer extends SimulationFrame {
 			}
 		}
 
-		//What this detects at any point is whether a character is touching the out of bounds zones
-		//It works by reseting the players to their default spawn position upon collision, 
-		//while moving whats left of their old body outside the play zone TODO maybe figure out how to delete the bodies
-		//TODO find a way to turn off the console prompts
-		if (outOfBounds(character)) {
-			if(player1.getLives() > 0) {
-				player1.resetOnDeath();
-				character = player1.createPlayer();
-				this.world.addBody(character);
-				player1.subtractLives(1);
-			}
-			else {
-				player1.resetOnDeath();
-			}
-		}
-
-		if (outOfBounds(character2)) {
-			if(player2.getLives() > 0) {
-				player2.resetOnDeath();
-				character2 = player2.createPlayer();
-				this.world.addBody(character2);
-				player2.subtractLives(1);
-			}
-			else {
-				player2.resetOnDeath();
-			}
-		}
-		
-		if (outOfBounds(character3)) {
-			if(player3.getLives() > 0) {
-				player3.resetOnDeath();
-				character3 = player3.createPlayer();
-				this.world.addBody(character3);
-			}
-			else {
-				player3.resetOnDeath();
-			}
-		}
-		
-		if (outOfBounds(character4))  {
-			if(player4.getLives() > 0) {
-				player4.resetOnDeath();
-				character4 = player4.createPlayer();
-				this.world.addBody(character4);
-			}
-			else {
-				player4.resetOnDeath();
-			}
-		}
+		gameruleStock();
 
 		// Update character color based on whether it's on the ground or not
-		//TODO use for testing, delete later
-		//character.setColor(onGround(character) ? WHEEL_ON_COLOR : player1.getplayerColor());
-		//character2.setColor(onGround(character2) ? WHEEL_ON_COLOR : player2.getplayerColor());
+		// TODO use for testing, delete later
+		// character.setColor(onGround(character) ? WHEEL_ON_COLOR :
+		// player1.getplayerColor());
+		// character2.setColor(onGround(character2) ? WHEEL_ON_COLOR :
+		// player2.getplayerColor());
 	}
 
 	private boolean onGround(SimulationBody character) {
@@ -496,30 +446,79 @@ public class Platformer extends SimulationFrame {
 	}
 
 	protected void initPlayers(int p) {
-		//TODO delete p declaration later
-		p = 2;
+		// TODO delete p declaration later
 		if (p >= 1) {
-			player1 = new Player(4,2,Color.orange);
+			player1 = new Player(4, 2, 3, Color.orange);
 			character = player1.createPlayer();
 			this.world.addBody(character);
 		}
 		if (p >= 2) {
-			player2 = new Player(2,2,Color.red);
+			player2 = new Player(2, 2, 3, Color.red);
 			character2 = player2.createPlayer();
 			this.world.addBody(character2);
 		}
 		if (p >= 3) {
-			player3 = new Player(-2,2,Color.black);
+			player3 = new Player(-2, 2, 3, Color.black);
 			character3 = player3.createPlayer();
 			this.world.addBody(character3);
 		}
 		if (p >= 4) {
-			player4 = new Player(-4,2,Color.cyan);
+			player4 = new Player(-4, 2, 3, Color.cyan);
 			character4 = player4.createPlayer();
 			this.world.addBody(character4);
 		}
 
+	}
 
+	// What this detects at any point is whether a character is touching the out of
+	// bounds zones
+	// It works by reseting the players to their default spawn position upon
+	// collision,
+	// while moving what's left of their old body outside the play zone TODO maybe
+	// figure out how to delete the bodies
+	// TODO find a way to turn off the console prompts
+	protected void gameruleStock() {
+		if (outOfBounds(character)) {
+			if (player1.getLives() > 0) {
+				player1.resetOnDeath();
+				character = player1.createPlayer();
+				this.world.addBody(character);
+				player1.subtractLives(1);
+			} else {
+				player1.resetOnDeath();
+			}
+		}
+
+		if (outOfBounds(character2)) {
+			if (player2.getLives() > 0) {
+				player2.resetOnDeath();
+				character2 = player2.createPlayer();
+				this.world.addBody(character2);
+				player2.subtractLives(1);
+			} else {
+				player2.resetOnDeath();
+			}
+		}
+
+		if (outOfBounds(character3)) {
+			if (player3.getLives() > 0) {
+				player3.resetOnDeath();
+				character3 = player3.createPlayer();
+				this.world.addBody(character3);
+			} else {
+				player3.resetOnDeath();
+			}
+		}
+
+		if (outOfBounds(character4)) {
+			if (player4.getLives() > 0) {
+				player4.resetOnDeath();
+				character4 = player4.createPlayer();
+				this.world.addBody(character4);
+			} else {
+				player4.resetOnDeath();
+			}
+		}
 	}
 
 	// TODO start is out of bounds class, which will detect if a player touches

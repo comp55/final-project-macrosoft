@@ -1,10 +1,8 @@
 import java.awt.Color;
 
-import org.dyn4j.dynamics.BodyFixture;
 import org.dyn4j.geometry.Geometry;
 import org.dyn4j.geometry.MassType;
 import org.dyn4j.samples.framework.SimulationBody;
-import org.dyn4j.samples.framework.input.BooleanStateKeyboardInputHandler;
 
 //Remember always check to see if one of these is missing
 
@@ -19,11 +17,11 @@ public class Player extends Platformer {
 	private int lives;
 
 
-	public Player(int x, int y, Color color) {
+	public Player(int x, int y, int startingScore, Color color) {
 		startX = x;
 		startY = y;
 		playerColor = color;
-		lives = 2;
+		lives = startingScore;
 	}
 
 	// this should take in the players icon, and whatever control pattern they want.
