@@ -62,13 +62,11 @@ public class Platformer extends SimulationFrame {
 	/** The serial version id */
 	private static final long serialVersionUID = -313391186714427055L;
 
-	private String map = "map2";
-	private int numPlayers = 4;
-	private int startingScore = 1;
+	private String map;
+	private int numPlayers;
+	private int startingScore;
 	private Boolean gameOver = false;
-
-	private static final Color WHEEL_OFF_COLOR = Color.MAGENTA;
-	private static final Color WHEEL_ON_COLOR = Color.GREEN;
+	private String gamemode;
 
 	public static final Object CHARACTER = new Object();
 	public static final Object FLOOR = new Object();
@@ -112,7 +110,7 @@ public class Platformer extends SimulationFrame {
 	 * Default constructor for the window Map will be intigrated once we call this
 	 * class from menus
 	 */
-	public Platformer(/* String map */) {
+	public Platformer() {
 		super("Platformer");
 
 		this.p1_up = new BooleanStateKeyboardInputHandler(this.canvas, KeyEvent.VK_UP);
@@ -155,10 +153,25 @@ public class Platformer extends SimulationFrame {
 		this.p4_left.install();
 		this.p4_right.install();
 
-		// TODO uncomment once menu is integrated
-		// this.map = map;
 	}
 
+	
+	public void setMap (String m) {
+		map = m;
+	}
+	
+	public void setNumPlayers (int n) {
+		numPlayers = n;
+	}
+	
+	public void setStartingScore(int s) {
+		startingScore = s;
+	}
+	
+	public void setGamemode(String g) {
+		gamemode = g;
+	}
+	
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -681,6 +694,9 @@ public class Platformer extends SimulationFrame {
 	 */
 	public static void main(String[] args) {
 		Platformer simulation = new Platformer();
+		simulation.setMap("map2");
+		simulation.setNumPlayers(4);
+		simulation.setStartingScore(0);
 		simulation.run();
 	}
 }
