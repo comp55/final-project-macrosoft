@@ -65,6 +65,7 @@ public class Platformer extends SimulationFrame {
 	private String map = "map2";
 	private int numPlayers = 2;
 	private int startingScore = 1;
+	private Boolean gameOver = false;
 
 	private static final Color WHEEL_OFF_COLOR = Color.MAGENTA;
 	private static final Color WHEEL_ON_COLOR = Color.GREEN;
@@ -246,6 +247,31 @@ public class Platformer extends SimulationFrame {
 				super.collision(collision);
 			}
 		});
+	}
+	
+	
+	protected void initPlayers(int p) {
+		player1 = new Player(4, 2, startingScore, Color.orange);
+		player2 = new Player(2, 2, startingScore, Color.red);
+		player3 = new Player(-2, 2, startingScore, Color.black);
+		player4 = new Player(-4, 2, startingScore, Color.cyan);
+		
+		if (p >= 1) {
+			character = player1.createPlayer();
+			this.world.addBody(character);
+		}
+		if (p >= 2) {
+			character2 = player2.createPlayer();
+			this.world.addBody(character2);
+		}
+		if (p >= 3) {
+			character3 = player3.createPlayer();
+			this.world.addBody(character3);
+		}
+		if (p >= 4) {
+			character4 = player4.createPlayer();
+			this.world.addBody(character4);
+		}
 	}
 
 	/**
@@ -438,6 +464,10 @@ public class Platformer extends SimulationFrame {
 		}
 
 		gameruleStock();
+		
+		if(gameOver) {
+			this.pause();
+		}
 
 		// Update character color based on whether it's on the ground or not
 		// TODO use for testing, delete later
@@ -519,48 +549,51 @@ public class Platformer extends SimulationFrame {
 			g.setColor(Color.black);
 			g.setFont(new Font("SansSerif", Font.PLAIN, 50));
 			g.drawString("P1 WIN ", 100, 100);
-			this.pause();
+			gameOver = true;
 			break;
 		case 2:
 			g.setColor(Color.black);
 			g.setFont(new Font("SansSerif", Font.PLAIN, 50));
 			g.drawString("P2 WIN ", 100, 100);
-			this.pause();
+			gameOver = true;
 			break;
 		case 3:
 			g.setColor(Color.black);
 			g.setFont(new Font("SansSerif", Font.PLAIN, 50));
 			g.drawString("P3 WIN ", 100, 100);
-			this.pause();
+			gameOver = true;
 			break;
 		case 4:
 			g.setColor(Color.black);
 			g.setFont(new Font("SansSerif", Font.PLAIN, 50));
 			g.drawString("P4 WIN ", 100, 100);
-			this.pause();
+			gameOver = true;
 			break;
 		}
 
 	}
 
+	
+	// returns the number of the winning player
 	protected int winPlayer() {
 		if(activePlayers(player1.isOut(), player2.isOut(), player3.isOut(), player4.isOut()) == 1) {
 			if(!player1.isOut()) {
 				return 1;
 			}
-			else if (player2.isOut()) {
+			else if (!player2.isOut()) {
 				return 2;
 			}
-			else if (player3.isOut()) {
+			else if (!player3.isOut()) {
 				return 3;
 			}
-			else if (player4.isOut()) {
+			else if (!player4.isOut()) {
 				return 4;
 			}
 		}
 		return 0;
 	}
 
+	// returns number of players still 'alive'
 	protected int activePlayers(Boolean a, Boolean b, Boolean c, Boolean d) {
 		int count = 0;
 		
@@ -576,42 +609,17 @@ public class Platformer extends SimulationFrame {
 		if (!d) {
 			count++;
 		}
-		System.out.println("Count" + count);
 		return count;
 	}
+
+
 	
-	protected void initPlayers(int p) {
-		player1 = new Player(4, 2, startingScore, Color.orange);
-		player2 = new Player(2, 2, startingScore, Color.red);
-		player3 = new Player(-2, 2, startingScore, Color.black);
-		player4 = new Player(-4, 2, startingScore, Color.cyan);
-		
-		if (p >= 1) {
-			character = player1.createPlayer();
-			this.world.addBody(character);
-		}
-		if (p >= 2) {
-			character2 = player2.createPlayer();
-			this.world.addBody(character2);
-		}
-		if (p >= 3) {
-			character3 = player3.createPlayer();
-			this.world.addBody(character3);
-		}
-		if (p >= 4) {
-			character4 = player4.createPlayer();
-			this.world.addBody(character4);
-		}
-
-	}
-
-	// What this detects at any point is whether a character is touching the out of
-	// bounds zones
-	// It works by reseting the players to their default spawn position upon
-	// collision,
-	// while moving what's left of their old body outside the play zone TODO maybe
-	// figure out how to delete the bodies
-	// TODO find a way to turn off the console prompts
+	/*
+	 * Win rules for the 'Stock' game mode.
+	 * Detects if a player touches out of bounds zone.
+	 * When player goes out of bounds, it destroys that instance and
+	 * spawns a new character instance.
+	 */	
 	protected void gameruleStock() {
 		if (outOfBounds(character)) {
 			if (player1.getLives() > 0) {
@@ -662,8 +670,6 @@ public class Platformer extends SimulationFrame {
 		}
 	}
 
-	// TODO start is out of bounds class, which will detect if a player touches
-	// score zone and reset them
 
 	/**
 	 * Entry point for the example application.
