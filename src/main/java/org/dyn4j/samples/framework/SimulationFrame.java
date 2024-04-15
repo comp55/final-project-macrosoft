@@ -187,16 +187,16 @@ public abstract class SimulationFrame extends JFrame {
 				SimulationFrame.this.onBodyMousePickingEnd(body);
 			}
 		};
-		this.picking.install();
+//		this.picking.install();
 		this.panning = new MousePanningInputHandler(this.canvas);
-		this.panning.install();
-		// panning and picking are dependent
-		this.picking.getDependentBehaviors().add(this.panning);
-		this.panning.getDependentBehaviors().add(this.picking);
-		
+//		this.panning.install();
+//		// panning and picking are dependent
+//		this.picking.getDependentBehaviors().add(this.panning);
+//		this.panning.getDependentBehaviors().add(this.picking);
+//		
 		this.zoom = new MouseZoomInputHandler(this.canvas, MouseEvent.BUTTON1);
-		this.zoom.install();
-		
+//		this.zoom.install();
+//		
 		this.paused = new ToggleStateKeyboardInputHandler(this.canvas, KeyEvent.VK_SPACE);
 		this.step = new ToggleStateKeyboardInputHandler(this.canvas, KeyEvent.VK_ENTER);
 		this.reset = new BooleanStateKeyboardInputHandler(this.canvas, KeyEvent.VK_R);
@@ -207,27 +207,27 @@ public abstract class SimulationFrame extends JFrame {
 		this.renderFixtureAABBs = new ToggleStateKeyboardInputHandler(this.canvas, KeyEvent.VK_F);
 		this.renderFixtureRotationRadius = new ToggleStateKeyboardInputHandler(this.canvas, KeyEvent.VK_F);
 		this.renderBounds = new ToggleStateKeyboardInputHandler(this.canvas, KeyEvent.VK_Z);
-		
-		this.paused.install();
-		this.step.install();
-		this.step.setDependentBehaviorsAdditive(true);
-		this.step.getDependentBehaviors().add(this.paused);
-		this.reset.install();
-		this.resetCamera.install();
-		this.renderContacts.install();
-		this.renderBodyAABBs.install();
-		this.renderBodyRotationRadius.install();
-		this.renderFixtureAABBs.install();
-		this.renderFixtureRotationRadius.install();
-		this.renderBounds.install();
-
+//		
+//		this.paused.install();
+//		this.step.install();
+//		this.step.setDependentBehaviorsAdditive(true);
+//		this.step.getDependentBehaviors().add(this.paused);
+//		this.reset.install();
+//		this.resetCamera.install();
+//		this.renderContacts.install();
+//		this.renderBodyAABBs.install();
+//		this.renderBodyRotationRadius.install();
+//		this.renderFixtureAABBs.install();
+//		this.renderFixtureRotationRadius.install();
+//		this.renderBounds.install();
+//
 		this.printSimulation = new ToggleStateKeyboardInputHandler(this.canvas, KeyEvent.VK_NUMPAD0, KeyEvent.VK_0);
 		this.printStepNumber = new ToggleStateKeyboardInputHandler(this.canvas, KeyEvent.VK_NUMPAD1, KeyEvent.VK_1);
-		
-		this.printSimulation.install();
-		this.printStepNumber.install();
-		
-		this.printControls();
+//		
+//		this.printSimulation.install();
+//		this.printStepNumber.install();
+//		
+//		this.printControls();
 	}
 	
 	protected void printControl(String name, String input, String message) {

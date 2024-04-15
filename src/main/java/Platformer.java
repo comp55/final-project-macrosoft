@@ -63,7 +63,7 @@ public class Platformer extends SimulationFrame {
 	private static final long serialVersionUID = -313391186714427055L;
 
 	private String map = "map2";
-	private int numPlayers = 2;
+	private int numPlayers = 4;
 	private int startingScore = 1;
 	private Boolean gameOver = false;
 
@@ -504,6 +504,10 @@ public class Platformer extends SimulationFrame {
 		g.translate(-this.getWidth() * 0.5 - this.getCameraOffsetX(),
 				-this.getHeight() * 0.5 + this.getCameraOffsetY());
 
+		
+		int winWidth = (int)(this.getWidth() * 0.5);
+		int winHeight = (int)(this.getHeight() * 0.5);
+		
 		if (numPlayers >= 1) {
 			g.setColor(Color.black);
 			g.setFont(new Font("SansSerif", Font.PLAIN, 20));
@@ -546,27 +550,27 @@ public class Platformer extends SimulationFrame {
 		
 		switch (winPlayer()) {
 		case 1:
-			g.setColor(Color.black);
+			g.setColor(Color.red);
 			g.setFont(new Font("SansSerif", Font.PLAIN, 50));
-			g.drawString("P1 WIN ", 100, 100);
+			g.drawString("P1 WIN ", winWidth - 100, winHeight);
 			gameOver = true;
 			break;
 		case 2:
-			g.setColor(Color.black);
+			g.setColor(Color.red);
 			g.setFont(new Font("SansSerif", Font.PLAIN, 50));
-			g.drawString("P2 WIN ", 100, 100);
+			g.drawString("P2 WIN ", winWidth - 100, winHeight);
 			gameOver = true;
 			break;
 		case 3:
-			g.setColor(Color.black);
+			g.setColor(Color.red);
 			g.setFont(new Font("SansSerif", Font.PLAIN, 50));
-			g.drawString("P3 WIN ", 100, 100);
+			g.drawString("P3 WIN ", winWidth - 100, winHeight);
 			gameOver = true;
 			break;
 		case 4:
-			g.setColor(Color.black);
+			g.setColor(Color.red);
 			g.setFont(new Font("SansSerif", Font.PLAIN, 50));
-			g.drawString("P4 WIN ", 100, 100);
+			g.drawString("P4 WIN ", winWidth - 100, winHeight);
 			gameOver = true;
 			break;
 		}
@@ -613,7 +617,6 @@ public class Platformer extends SimulationFrame {
 	}
 
 
-	
 	/*
 	 * Win rules for the 'Stock' game mode.
 	 * Detects if a player touches out of bounds zone.
