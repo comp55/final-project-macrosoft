@@ -197,7 +197,7 @@ public abstract class SimulationFrame extends JFrame {
 		this.zoom = new MouseZoomInputHandler(this.canvas, MouseEvent.BUTTON1);
 //		this.zoom.install();
 //		
-		this.paused = new ToggleStateKeyboardInputHandler(this.canvas, KeyEvent.VK_SPACE);
+		this.paused = new ToggleStateKeyboardInputHandler(this.canvas, KeyEvent.VK_ESCAPE);
 		this.step = new ToggleStateKeyboardInputHandler(this.canvas, KeyEvent.VK_ENTER);
 		this.reset = new BooleanStateKeyboardInputHandler(this.canvas, KeyEvent.VK_R);
 		this.resetCamera = new BooleanStateKeyboardInputHandler(this.canvas, KeyEvent.VK_H);
@@ -208,7 +208,7 @@ public abstract class SimulationFrame extends JFrame {
 		this.renderFixtureRotationRadius = new ToggleStateKeyboardInputHandler(this.canvas, KeyEvent.VK_F);
 		this.renderBounds = new ToggleStateKeyboardInputHandler(this.canvas, KeyEvent.VK_Z);
 //		
-//		this.paused.install();
+		this.paused.install();
 //		this.step.install();
 //		this.step.setDependentBehaviorsAdditive(true);
 //		this.step.getDependentBehaviors().add(this.paused);

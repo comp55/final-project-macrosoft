@@ -78,10 +78,6 @@ public class Platformer extends SimulationFrame {
 	public static final Object ONE_WAY_PLATFORM = new Object();
 	public static final Object SCORE_ZONE = new Object();
 	
-	//These will be used for pause menu
-	private final BooleanStateKeyboardInputHandler shift;
-	private final BooleanStateKeyboardInputHandler esc;
-	private final Boolean isPaused;
 
 	private final BooleanStateKeyboardInputHandler p1_up;
 	private final BooleanStateKeyboardInputHandler p1_down;
@@ -135,9 +131,6 @@ public class Platformer extends SimulationFrame {
 	public Platformer() {
 		super("Platformer");
 
-		this.shift = new BooleanStateKeyboardInputHandler(this.canvas, KeyEvent.VK_SHIFT);
-		this.esc = new BooleanStateKeyboardInputHandler(this.canvas, KeyEvent.VK_ESCAPE);
-		isPaused = false;
 		
 		this.p1_up = new BooleanStateKeyboardInputHandler(this.canvas, KeyEvent.VK_UP);
 		this.p1_down = new BooleanStateKeyboardInputHandler(this.canvas, KeyEvent.VK_DOWN);
@@ -179,8 +172,6 @@ public class Platformer extends SimulationFrame {
 		this.p4_left.install();
 		this.p4_right.install();
 		
-		this.shift.install();
-		this.esc.install();
 
 	}
 
@@ -509,16 +500,6 @@ public class Platformer extends SimulationFrame {
 			this.pause();
 		}
 		
-		if (this.esc.isActiveButNotHandled() || this.shift.isActiveButNotHandled()) {
-			if(!isPaused) {
-				this.pause();
-			}
-			else {
-				//need to actually figure out how to unpause everything
-				//this.unpause();
-			}
-			
-		}
 
 		// Update character color based on whether it's on the ground or not
 		// TODO use for testing, delete later
@@ -566,7 +547,7 @@ public class Platformer extends SimulationFrame {
 			if (player1.isOut()) {
 				g.drawString("P1 OUT ", 20, 45);
 			} else {
-				g.drawString("P1 Lives: " + player1.getLives(), 20, 45);
+				g.drawString("P1 Lives: " + (player1.getLives()+1), 20, 45);
 			}
 		}
 
@@ -576,7 +557,7 @@ public class Platformer extends SimulationFrame {
 			if (player2.isOut()) {
 				g.drawString("P2 OUT ", 20, 70);
 			} else {
-				g.drawString("P2 Lives: " + player2.getLives(), 20, 70);
+				g.drawString("P2 Lives: " + (player2.getLives()+1), 20, 70);
 			}
 		}
 
@@ -586,7 +567,7 @@ public class Platformer extends SimulationFrame {
 			if (player3.isOut()) {
 				g.drawString("P3 OUT ", 20, 95);
 			} else {
-				g.drawString("P3 Lives: " + player3.getLives(), 20, 95);
+				g.drawString("P3 Lives: " + (player3.getLives()+1), 20, 95);
 			}
 		}
 
@@ -596,7 +577,7 @@ public class Platformer extends SimulationFrame {
 			if (player4.isOut()) {
 				g.drawString("P4 OUT ", 20, 120);
 			} else {
-				g.drawString("P4 Lives: " + player4.getLives(), 20, 120);
+				g.drawString("P4 Lives: " + (player4.getLives()+1), 20, 120);
 			}
 		}
 		
@@ -627,6 +608,12 @@ public class Platformer extends SimulationFrame {
 			break;
 		}
 		
+		
+		if(this.isPaused()) {
+			g.setColor(Color.red);
+			g.setFont(new Font("SansSerif", Font.PLAIN, 50));
+			g.drawString("PAUSED", winWidth - 100, winHeight);
+		}
 		//todo add clickable pause button and pause menu
 
 	}
@@ -737,7 +724,7 @@ public class Platformer extends SimulationFrame {
 		Platformer simulation = new Platformer();
 		simulation.setMap("map2");
 		simulation.setNumPlayers(4);
-		simulation.setStartingScore(0);
+		simulation.setStartingScore(2);
 		simulation.run();
 	}
 }
