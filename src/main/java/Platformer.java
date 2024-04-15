@@ -29,12 +29,17 @@ import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
 import java.awt.geom.AffineTransform;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.util.List;
+
+import javax.imageio.ImageIO;
 
 import org.dyn4j.dynamics.TimeStep;
 import org.dyn4j.dynamics.contact.ContactConstraint;
 import org.dyn4j.geometry.AABB;
 import org.dyn4j.geometry.Vector2;
+import org.dyn4j.samples.Images;
 import org.dyn4j.samples.framework.Camera;
 import org.dyn4j.samples.framework.SimulationBody;
 import org.dyn4j.samples.framework.SimulationFrame;
@@ -72,6 +77,11 @@ public class Platformer extends SimulationFrame {
 	public static final Object FLOOR = new Object();
 	public static final Object ONE_WAY_PLATFORM = new Object();
 	public static final Object SCORE_ZONE = new Object();
+	
+	//These will be used for pause menu
+	private final BooleanStateKeyboardInputHandler shift;
+	private final BooleanStateKeyboardInputHandler esc;
+	private final Boolean isPaused;
 
 	private final BooleanStateKeyboardInputHandler p1_up;
 	private final BooleanStateKeyboardInputHandler p1_down;
@@ -105,6 +115,18 @@ public class Platformer extends SimulationFrame {
 	private boolean onGround2 = true;
 	private boolean onGround3 = true;
 	private boolean onGround4 = true;
+	
+	//creates the tomato icon
+	/*private static final BufferedImage tomato = getImageSuppressExceptions("images/tomatoPlayer.PNG");
+	
+	* Helper function to read the images from the class path */
+	/*private static final BufferedImage getImageSuppressExceptions(String pathOnClasspath) {
+		try {
+			return ImageIO.read(Images.class.getResource(pathOnClasspath));
+		} catch (IOException e) {
+			return null;
+		}
+	}*/
 
 	/**
 	 * Default constructor for the window Map will be intigrated once we call this
@@ -113,6 +135,10 @@ public class Platformer extends SimulationFrame {
 	public Platformer() {
 		super("Platformer");
 
+		this.shift = new BooleanStateKeyboardInputHandler(this.canvas, KeyEvent.VK_SHIFT);
+		this.esc = new BooleanStateKeyboardInputHandler(this.canvas, KeyEvent.VK_ESCAPE);
+		isPaused = false;
+		
 		this.p1_up = new BooleanStateKeyboardInputHandler(this.canvas, KeyEvent.VK_UP);
 		this.p1_down = new BooleanStateKeyboardInputHandler(this.canvas, KeyEvent.VK_DOWN);
 		this.p1_left = new BooleanStateKeyboardInputHandler(this.canvas, KeyEvent.VK_LEFT);
@@ -152,6 +178,9 @@ public class Platformer extends SimulationFrame {
 		this.p4_down.install();
 		this.p4_left.install();
 		this.p4_right.install();
+		
+		this.shift.install();
+		this.esc.install();
 
 	}
 
@@ -184,9 +213,7 @@ public class Platformer extends SimulationFrame {
 		camera.scale = 20.0;
 	}
 
-	/**
-	 * Creates game objects and adds them to the world.
-	 */
+	//Creates game objects and adds them to the world.
 	protected void initializeWorld() {
 
 		// TODO this will set the map variable
@@ -481,6 +508,17 @@ public class Platformer extends SimulationFrame {
 		if(gameOver) {
 			this.pause();
 		}
+		
+		if (this.esc.isActiveButNotHandled() || this.shift.isActiveButNotHandled()) {
+			if(!isPaused) {
+				this.pause();
+			}
+			else {
+				//need to actually figure out how to unpause everything
+				//this.unpause();
+			}
+			
+		}
 
 		// Update character color based on whether it's on the ground or not
 		// TODO use for testing, delete later
@@ -510,6 +548,7 @@ public class Platformer extends SimulationFrame {
 		return false;
 	}
 
+	//TODO How does this work Chrys?
 	protected void render(Graphics2D g, double elapsedTime) {
 		super.render(g, elapsedTime);
 		AffineTransform tx = g.getTransform();
