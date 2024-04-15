@@ -1,12 +1,27 @@
 import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 
+import javax.imageio.ImageIO;
+
+import org.dyn4j.dynamics.BodyFixture;
+import org.dyn4j.geometry.Circle;
+import org.dyn4j.geometry.Convex;
 import org.dyn4j.geometry.Geometry;
 import org.dyn4j.geometry.MassType;
+import org.dyn4j.geometry.Rectangle;
+import org.dyn4j.geometry.Vector2;
 import org.dyn4j.samples.framework.SimulationBody;
+import org.dyn4j.samples.Images;
 
-//Remember always check to see if one of these is missing
+//Current testing for images
+//-Importing over simulate frame and simulate body similar to the image class does not work in tests
+//-Trying to make a new image class for the player to grab does not work because the body won't move with the image
+//-Current plan is to try and change either platformer or this class so that i can follow the framework set by the image test
 
-public class Player extends Platformer {
+public class Player extends Platformer{
 	// declarations
 	private SimulationBody character;
 	private String playerControls;
@@ -16,6 +31,17 @@ public class Player extends Platformer {
 	private Color playerColor;
 	private int lives;
 	private Boolean isOut = true;
+	
+	//new
+	/*
+	private static final BufferedImage TOMATO = getImageSuppressExceptions("images/tomatoPlayer.PNG");
+	private static final BufferedImage getImageSuppressExceptions(String pathOnClasspath) {
+		try {
+			return ImageIO.read(Images.class.getResource(pathOnClasspath));
+		} catch (IOException e) {
+			return null;
+		}
+	}*/
 
 
 	public Player(int x, int y, int startingScore, Color color) {
@@ -40,6 +66,9 @@ public class Player extends Platformer {
 		character.translate(startX, startY);
 		character.setUserData(CHARACTER);
 		character.setAtRestDetectionEnabled(false);
+		
+		//character.render(TOMATO, lives);
+		
 		return character;
 
 	}
@@ -102,6 +131,36 @@ public class Player extends Platformer {
 	public void setOut(Boolean isOut) {
 		this.isOut = isOut;
 	}
+	
+	//possible solution? need to edit and troll through code, chat gbt suggestion
+	/*
+	    protected void render(Graphics g) {
+	        super.paintComponent(g);
+	        Graphics2D g2d = (Graphics2D) g;
+
+	        if (playerImage != null && character != null) {
+	            // Draw player image at the position of the character body
+	            double x = character.getTransform().getTranslationX();
+	            double y = character.getTransform().getTranslationY();
+	            g2d.drawImage(playerImage, (int) x, (int) y, null);
+	        }
+	    }
+	
+	*/
+	
+	protected void renderFixture(Graphics2D g, double scale, BodyFixture fixture) {
+		Convex convex = fixture.getShape();
+		Circle c = (Circle) convex;
+		double r = c.getRadius();
+		Vector2 cc = c.getCenter();
+		int x = (int)Math.ceil((cc.x - r) * scale);
+		int y = (int)Math.ceil((cc.y - r) * scale);
+		int w = (int)Math.ceil(r * 2 * scale);
+			// lets us an image instead
+			g.drawImage(TOMATO, x, y, w, w, null);
+	}
+	
+	
 
 	
 
