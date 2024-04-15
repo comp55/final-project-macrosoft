@@ -278,6 +278,10 @@ public class Platformer extends SimulationFrame {
 				super.collision(collision);
 			}
 		});
+		
+		BackgroundMusic music = new BackgroundMusic("audio/FightSong.mp3");
+		music.play();
+		
 	}
 	
 	
