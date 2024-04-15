@@ -587,6 +587,8 @@ public class Platformer extends SimulationFrame {
 			gameOver = true;
 			break;
 		}
+		
+		//todo add clickable pause button and pause menu
 
 	}
 
