@@ -22,7 +22,7 @@ public class MainMenu {
     
     public MainMenu() {
     	
-    	backgroundMusic = new BackgroundMusic("audio/MainMenuTheme.mp3");
+    	backgroundMusic = new BackgroundMusic("audio/MainMenuTheme.mp3", true);
     	
         window();
         addButton(frame, "play", WINDOW_Y / 2 - BUTTON_HEIGHT / 2, new ActionListener() {
