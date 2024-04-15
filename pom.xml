@@ -21,6 +21,12 @@
   <properties>
     <maven.compiler.release>6</maven.compiler.release>
   </properties>
+  <repositories>
+		<repository>
+		    <id>jitpack.io</id>
+		    <url>https://jitpack.io</url>
+		</repository>
+	</repositories>
   <dependencies>
   	<dependency>
   		<groupId>org.jogamp.jogl</groupId>
@@ -37,6 +43,11 @@
   		<artifactId>dyn4j</artifactId>
   		<version>5.0.2</version>
   	</dependency>
+  	<dependency>
+	    <groupId>com.github.umjammer</groupId>
+	    <artifactId>jlayer</artifactId>
+	    <version>1.0.3</version>
+	</dependency>
   </dependencies>
   <build>
     <pluginManagement>
