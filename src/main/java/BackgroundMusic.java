@@ -9,9 +9,11 @@ public class BackgroundMusic {
     private String filePath;
     private AdvancedPlayer player;
     private Thread musicThread;
+    private boolean loop;
 
-    public BackgroundMusic(String filePath) {
+    public BackgroundMusic(String filePath, boolean loop) {
         this.filePath = filePath;
+        this.loop = loop;
     }
 
     public void play() {
@@ -19,10 +21,12 @@ public class BackgroundMusic {
             @Override
             public void run() {
                 try {
-                    FileInputStream fileInputStream = new FileInputStream(filePath);
-                    BufferedInputStream bufferedInputStream = new BufferedInputStream(fileInputStream);
-                    player = new AdvancedPlayer(bufferedInputStream);
-                    player.play();
+                	do {
+                        FileInputStream fileInputStream = new FileInputStream(filePath);
+                        BufferedInputStream bufferedInputStream = new BufferedInputStream(fileInputStream);
+                        player = new AdvancedPlayer(bufferedInputStream);
+                        player.play();
+                	} while (loop);
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
                 } catch (JavaLayerException e) {
@@ -35,6 +39,7 @@ public class BackgroundMusic {
 
     public void stop() {
         if (player != null) {
+        	loop = false;
             player.close();
         }
         if (musicThread != null) {
