@@ -11,10 +11,16 @@ public class MainMenu {
     
     private JFrame frame;
     private JLabel mainBackground;
+    private JLabel secondaryBackground;
     private JButton playButton;
     private JButton settingsButton;
     private JButton quitButton;
+    private JButton startButton;
+    private JButton howToPlayButton;
+    private JButton backToMainMenuButton;
     private JPanel quitConfirmationPanel;
+    private JPanel playPanel;
+    private JPanel howToPlayPanel;
     
     Sound backgroundMusic;
     Sound buttonClicked;
@@ -138,20 +144,28 @@ public class MainMenu {
     	case "quit":
     		quitButton = button;
     		break;
+    	case "start game":
+    		startButton = button;
+    		break;
+    	case "how to play":
+    		howToPlayButton = button;
+    		break;
+    	case "main menu":
+    		backToMainMenuButton = button;
     	}
     }
 
     public void playAction(ActionEvent e) {
         
-    	JPanel playPanel = new JPanel();
+    	playPanel = new JPanel();
     	playPanel.setLayout(null);
     	playPanel.setBounds(0, 0, WINDOW_X, WINDOW_Y);
     	
     	ImageIcon playBackgroundImage = new ImageIcon("images/intermissionbg.png");
-    	JLabel playBackground = new JLabel(playBackgroundImage);
-    	playBackground.setBounds(0, 0, WINDOW_X, WINDOW_Y);
+    	secondaryBackground = new JLabel(playBackgroundImage);
+    	secondaryBackground.setBounds(0, 0, WINDOW_X, WINDOW_Y);
     	
-    	createButton(playPanel, "start game", WINDOW_Y/2 - BUTTON_HEIGHT/2, new ActionListener() {
+    	addButton(playPanel, "start game", WINDOW_Y/2 - BUTTON_HEIGHT/2, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
             	buttonClicked.play();
@@ -162,15 +176,15 @@ public class MainMenu {
             }
         });
 
-        createButton(playPanel, "how to play", WINDOW_Y/2 + BUTTON_HEIGHT - 20, new ActionListener() {
+        addButton(playPanel, "how to play", WINDOW_Y/2 + BUTTON_HEIGHT - 20, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
             	buttonClicked.play();
-                // Implement functionality
+            	showHowToPlay();
             }
         });
 
-        createButton(playPanel, "main menu", WINDOW_Y/2 + BUTTON_HEIGHT*2 - 15, new ActionListener() {
+        addButton(playPanel, "main menu", WINDOW_Y/2 + BUTTON_HEIGHT*2 - 15, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
             	buttonClicked.play();
@@ -178,7 +192,7 @@ public class MainMenu {
             }
         });
     	
-    	playPanel.add(playBackground);
+    	playPanel.add(secondaryBackground);
     	
     	frame.setContentPane(playPanel);
     	frame.revalidate();
@@ -198,6 +212,84 @@ public class MainMenu {
 
     private void quitAction(ActionEvent e) {
         System.exit(0);
+    }
+    
+    private void showHowToPlay() {
+    	
+    	startButton.setVisible(false);
+    	howToPlayButton.setVisible(false);
+    	backToMainMenuButton.setVisible(false);
+    	
+    	if (howToPlayPanel == null) {
+    		
+        	howToPlayPanel = new JPanel();
+        	howToPlayPanel.setLayout(null);
+        	
+            int panelWidth = 900;
+            int panelHeight = 600;
+            int panelX = (WINDOW_X - panelWidth) / 2;
+            int panelY = (WINDOW_Y - panelHeight) / 2;
+            
+            howToPlayPanel.setBounds(panelX, panelY, panelWidth, panelHeight);
+            howToPlayPanel.setBackground(Color.WHITE);
+            howToPlayPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
+            
+            JLabel label = new JLabel("How to Play WIP");
+            label.setFont(new Font("Arial", Font.PLAIN, 20));
+            label.setHorizontalAlignment(JLabel.CENTER);
+            label.setBounds(0, 20, panelWidth, 30);
+            howToPlayPanel.add(label);
+            
+            final JButton backButton = new JButton("back");
+            backButton.setBounds(170, 80, 80, 30);
+            backButton.setFont(new Font("Arial", Font.PLAIN, 20));
+            backButton.setBackground(new Color(0, 0, 0, 0));
+            backButton.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
+            backButton.setFocusable(false);
+            backButton.setFocusPainted(false);
+            backButton.setContentAreaFilled(false);
+            backButton.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseEntered(MouseEvent e) {
+                    backButton.setForeground(Color.RED);
+                    backButton.setFont(new Font("Arial", Font.BOLD, 20));
+                    backButton.setBorder(BorderFactory.createLineBorder(Color.BLACK, 4));
+                }
+
+                @Override
+                public void mouseExited(MouseEvent e) {
+                    backButton.setForeground(Color.BLACK);
+                    backButton.setFont(new Font("Arial", Font.PLAIN, 20));
+                    backButton.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
+                }
+            });
+            backButton.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                	
+                	buttonClicked.play();
+
+                	startButton.setVisible(true);
+                	howToPlayButton.setVisible(true);
+                	backToMainMenuButton.setVisible(true);
+
+                	frame.getContentPane().remove(howToPlayPanel);
+                	frame.revalidate();
+                	frame.repaint();
+                    
+                	howToPlayPanel = null;
+                }
+            });
+            howToPlayPanel.add(backButton);
+
+            frame.setContentPane(secondaryBackground);
+            frame.getContentPane().add(howToPlayPanel);
+            frame.revalidate();
+            frame.repaint();
+            
+    	} else {
+    		howToPlayPanel.setVisible(true);
+    	}
     }
     
     private void showQuitConfirmation() {
