@@ -16,30 +16,35 @@ public class MainMenu {
     private JButton quitButton;
     private JPanel quitConfirmationPanel;
     
-    BackgroundMusic backgroundMusic;
+    Sound backgroundMusic;
+    Sound buttonClicked;
     
     PlayerSelection playerSelec;
     
     public MainMenu() {
     	
-    	backgroundMusic = new BackgroundMusic("audio/MainMenuTheme.mp3", true);
+    	buttonClicked = new Sound("audio/ClickSound.mp3", false);
+    	backgroundMusic = new Sound("audio/MainMenuTheme.mp3", true);
     	
         window();
         addButton(frame, "play", WINDOW_Y / 2 - BUTTON_HEIGHT / 2, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+            	buttonClicked.play();
                 playAction(e);
             }
         });
         addButton(frame, "settings", WINDOW_Y / 2 + BUTTON_HEIGHT - 20, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+            	buttonClicked.play();
                 settingsAction(e);
             }
         });
         addButton(frame, "quit", WINDOW_Y / 2 + BUTTON_HEIGHT * 2 - 15, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+            	buttonClicked.play();
                 showQuitConfirmation();
             }
         });
@@ -149,6 +154,7 @@ public class MainMenu {
     	createButton(playPanel, "start game", WINDOW_Y/2 - BUTTON_HEIGHT/2, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+            	buttonClicked.play();
                 // Implement functionality
             	System.out.println("Trying to get playerSelec");
             	playerSelec = new PlayerSelection();
@@ -159,6 +165,7 @@ public class MainMenu {
         createButton(playPanel, "how to play", WINDOW_Y/2 + BUTTON_HEIGHT - 20, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+            	buttonClicked.play();
                 // Implement functionality
             }
         });
@@ -166,6 +173,7 @@ public class MainMenu {
         createButton(playPanel, "main menu", WINDOW_Y/2 + BUTTON_HEIGHT*2 - 15, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+            	buttonClicked.play();
                 returnToMainMenu();
             }
         });
@@ -193,7 +201,7 @@ public class MainMenu {
     }
     
     private void showQuitConfirmation() {
-        // Hide main menu buttons
+
         playButton.setVisible(false);
         settingsButton.setVisible(false);
         quitButton.setVisible(false);
@@ -274,7 +282,9 @@ public class MainMenu {
             noButton.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    // Show main menu buttons again
+                	
+                	buttonClicked.play();
+
                     playButton.setVisible(true);
                     settingsButton.setVisible(true);
                     quitButton.setVisible(true);
@@ -283,7 +293,6 @@ public class MainMenu {
                     frame.revalidate();
                     frame.repaint();
                     
-                    // Reset quitConfirmationPanel to null
                     quitConfirmationPanel = null;
                 }
             });
