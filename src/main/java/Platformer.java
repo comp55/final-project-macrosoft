@@ -35,9 +35,12 @@ import java.util.List;
 
 import javax.imageio.ImageIO;
 
+import org.dyn4j.dynamics.BodyFixture;
 import org.dyn4j.dynamics.TimeStep;
 import org.dyn4j.dynamics.contact.ContactConstraint;
 import org.dyn4j.geometry.AABB;
+import org.dyn4j.geometry.Circle;
+import org.dyn4j.geometry.Convex;
 import org.dyn4j.geometry.Vector2;
 import org.dyn4j.samples.Images;
 import org.dyn4j.samples.framework.Camera;
@@ -278,8 +281,47 @@ public class Platformer extends SimulationFrame {
 				super.collision(collision);
 			}
 		});
+		
+		//BackgroundMusic music = new BackgroundMusic("audio/FightSong.mp3");
+		//music.play();
+		
 	}
 	
+	private final class ImageBody extends SimulationBody {
+		/** The image to use, if required */
+		private final BufferedImage image;
+		
+		public ImageBody(BufferedImage image) {
+			this.image = image;
+		}
+		
+		/* (non-Javadoc)
+		 * @see org.dyn4j.samples.SimulationBody#renderFixture(java.awt.Graphics2D, double, org.dyn4j.dynamics.BodyFixture, java.awt.Color)
+		 */
+		@Override
+		protected void renderFixture(Graphics2D g, double scale, BodyFixture fixture, Color color) {
+			// do we need to render an image?
+			if (this.image != null) {
+				// get the shape on the fixture
+				Convex convex = fixture.getShape();
+				// check the shape type
+				if (convex instanceof Circle) {
+					// cast the shape to get the radius
+					Circle c = (Circle) convex;
+					double r = c.getRadius();
+					Vector2 cc = c.getCenter();
+					int x = (int)Math.ceil((cc.x - r) * scale);
+					int y = (int)Math.ceil((cc.y - r) * scale);
+					int w = (int)Math.ceil(r * 2 * scale);
+						// lets us an image instead
+						g.drawImage(this.image, x, y, w, w, null);
+				}
+			} else {
+				// default rendering
+				super.renderFixture(g, scale, fixture, color);
+			}
+		}
+	}
 	
 	protected void initPlayers(int p) {
 		player1 = new Player(4, 2, startingScore, Color.orange);
@@ -529,7 +571,6 @@ public class Platformer extends SimulationFrame {
 		return false;
 	}
 
-	//TODO How does this work Chrys?
 	protected void render(Graphics2D g, double elapsedTime) {
 		super.render(g, elapsedTime);
 		AffineTransform tx = g.getTransform();
@@ -717,8 +758,6 @@ public class Platformer extends SimulationFrame {
 
 	/**
 	 * Entry point for the example application.
-	 * 
-	 * @param args command line arguments
 	 */
 	public static void main(String[] args) {
 		Platformer simulation = new Platformer();

@@ -12,8 +12,9 @@ public class BackgroundMusic {
     private boolean loop;
 
     public BackgroundMusic(String filePath, boolean loop) {
-    	this.loop = loop;
+    	
         this.filePath = filePath;
+        this.loop = loop;
     }
 
     public void play() {
