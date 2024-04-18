@@ -71,7 +71,7 @@ public class MainMenu {
         title.setVerticalAlignment(JLabel.CENTER);
         title.setBounds(0, 0, WINDOW_X, WINDOW_Y / 2);
 
-        JLabel versionLabel = new JLabel("ver 0.00053");
+        JLabel versionLabel = new JLabel("ver 0.00103");
         versionLabel.setFont(new Font("Arial", Font.PLAIN, 12));
         versionLabel.setForeground(Color.GRAY);
         versionLabel.setHorizontalAlignment(JLabel.RIGHT);
