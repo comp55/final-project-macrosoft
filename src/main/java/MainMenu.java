@@ -11,35 +11,46 @@ public class MainMenu {
     
     private JFrame frame;
     private JLabel mainBackground;
+    private JLabel secondaryBackground;
     private JButton playButton;
     private JButton settingsButton;
     private JButton quitButton;
+    private JButton startButton;
+    private JButton howToPlayButton;
+    private JButton backToMainMenuButton;
     private JPanel quitConfirmationPanel;
+    private JPanel playPanel;
+    private JPanel howToPlayPanel;
     
-    BackgroundMusic backgroundMusic;
+    Sound backgroundMusic;
+    Sound buttonClicked;
     
     PlayerSelection playerSelec;
     
     public MainMenu() {
     	
-    	backgroundMusic = new BackgroundMusic("audio/MainMenuTheme.mp3", true);
+    	buttonClicked = new Sound("audio/ClickSound.mp3", false);
+    	backgroundMusic = new Sound("audio/MainMenuTheme.mp3", true);
     	
         window();
         addButton(frame, "play", WINDOW_Y / 2 - BUTTON_HEIGHT / 2, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+            	buttonClicked.play();
                 playAction(e);
             }
         });
         addButton(frame, "settings", WINDOW_Y / 2 + BUTTON_HEIGHT - 20, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+            	buttonClicked.play();
                 settingsAction(e);
             }
         });
         addButton(frame, "quit", WINDOW_Y / 2 + BUTTON_HEIGHT * 2 - 15, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+            	buttonClicked.play();
                 showQuitConfirmation();
             }
         });
@@ -60,7 +71,7 @@ public class MainMenu {
         title.setVerticalAlignment(JLabel.CENTER);
         title.setBounds(0, 0, WINDOW_X, WINDOW_Y / 2);
 
-        JLabel versionLabel = new JLabel("ver 0.00053");
+        JLabel versionLabel = new JLabel("ver 0.00103");
         versionLabel.setFont(new Font("Arial", Font.PLAIN, 12));
         versionLabel.setForeground(Color.GRAY);
         versionLabel.setHorizontalAlignment(JLabel.RIGHT);
@@ -133,22 +144,31 @@ public class MainMenu {
     	case "quit":
     		quitButton = button;
     		break;
+    	case "start game":
+    		startButton = button;
+    		break;
+    	case "how to play":
+    		howToPlayButton = button;
+    		break;
+    	case "main menu":
+    		backToMainMenuButton = button;
     	}
     }
 
     public void playAction(ActionEvent e) {
         
-    	JPanel playPanel = new JPanel();
+    	playPanel = new JPanel();
     	playPanel.setLayout(null);
     	playPanel.setBounds(0, 0, WINDOW_X, WINDOW_Y);
     	
     	ImageIcon playBackgroundImage = new ImageIcon("images/intermissionbg.png");
-    	JLabel playBackground = new JLabel(playBackgroundImage);
-    	playBackground.setBounds(0, 0, WINDOW_X, WINDOW_Y);
+    	secondaryBackground = new JLabel(playBackgroundImage);
+    	secondaryBackground.setBounds(0, 0, WINDOW_X, WINDOW_Y);
     	
-    	createButton(playPanel, "start game", WINDOW_Y/2 - BUTTON_HEIGHT/2, new ActionListener() {
+    	addButton(playPanel, "start game", WINDOW_Y/2 - BUTTON_HEIGHT/2, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+            	buttonClicked.play();
                 // Implement functionality
             	System.out.println("Trying to get playerSelec");
             	playerSelec = new PlayerSelection();
@@ -156,21 +176,23 @@ public class MainMenu {
             }
         });
 
-        createButton(playPanel, "how to play", WINDOW_Y/2 + BUTTON_HEIGHT - 20, new ActionListener() {
+        addButton(playPanel, "how to play", WINDOW_Y/2 + BUTTON_HEIGHT - 20, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // Implement functionality
+            	buttonClicked.play();
+            	showHowToPlay();
             }
         });
 
-        createButton(playPanel, "main menu", WINDOW_Y/2 + BUTTON_HEIGHT*2 - 15, new ActionListener() {
+        addButton(playPanel, "main menu", WINDOW_Y/2 + BUTTON_HEIGHT*2 - 15, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+            	buttonClicked.play();
                 returnToMainMenu();
             }
         });
     	
-    	playPanel.add(playBackground);
+    	playPanel.add(secondaryBackground);
     	
     	frame.setContentPane(playPanel);
     	frame.revalidate();
@@ -192,8 +214,86 @@ public class MainMenu {
         System.exit(0);
     }
     
+    private void showHowToPlay() {
+    	
+    	startButton.setVisible(false);
+    	howToPlayButton.setVisible(false);
+    	backToMainMenuButton.setVisible(false);
+    	
+    	if (howToPlayPanel == null) {
+    		
+        	howToPlayPanel = new JPanel();
+        	howToPlayPanel.setLayout(null);
+        	
+            int panelWidth = 900;
+            int panelHeight = 600;
+            int panelX = (WINDOW_X - panelWidth) / 2;
+            int panelY = (WINDOW_Y - panelHeight) / 2;
+            
+            howToPlayPanel.setBounds(panelX, panelY, panelWidth, panelHeight);
+            howToPlayPanel.setBackground(Color.WHITE);
+            howToPlayPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
+            
+            JLabel label = new JLabel("How to Play WIP");
+            label.setFont(new Font("Arial", Font.PLAIN, 20));
+            label.setHorizontalAlignment(JLabel.CENTER);
+            label.setBounds(0, 20, panelWidth, 30);
+            howToPlayPanel.add(label);
+            
+            final JButton backButton = new JButton("back");
+            backButton.setBounds(170, 80, 80, 30);
+            backButton.setFont(new Font("Arial", Font.PLAIN, 20));
+            backButton.setBackground(new Color(0, 0, 0, 0));
+            backButton.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
+            backButton.setFocusable(false);
+            backButton.setFocusPainted(false);
+            backButton.setContentAreaFilled(false);
+            backButton.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseEntered(MouseEvent e) {
+                    backButton.setForeground(Color.RED);
+                    backButton.setFont(new Font("Arial", Font.BOLD, 20));
+                    backButton.setBorder(BorderFactory.createLineBorder(Color.BLACK, 4));
+                }
+
+                @Override
+                public void mouseExited(MouseEvent e) {
+                    backButton.setForeground(Color.BLACK);
+                    backButton.setFont(new Font("Arial", Font.PLAIN, 20));
+                    backButton.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
+                }
+            });
+            backButton.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                	
+                	buttonClicked.play();
+
+                	startButton.setVisible(true);
+                	howToPlayButton.setVisible(true);
+                	backToMainMenuButton.setVisible(true);
+
+                	frame.getContentPane().remove(howToPlayPanel);
+                	frame.revalidate();
+                	frame.repaint();
+                    
+                	howToPlayPanel = null;
+                }
+            });
+            howToPlayPanel.add(backButton);
+
+            frame.setContentPane(secondaryBackground);
+            frame.getContentPane().add(howToPlayPanel);
+            frame.revalidate();
+            frame.repaint();
+            
+    	} else {
+    		howToPlayPanel.setVisible(true);
+    	}
+    }
+    
     private void showQuitConfirmation() {
-        // Hide main menu buttons
+
         playButton.setVisible(false);
         settingsButton.setVisible(false);
         quitButton.setVisible(false);
@@ -274,7 +374,9 @@ public class MainMenu {
             noButton.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    // Show main menu buttons again
+                	
+                	buttonClicked.play();
+
                     playButton.setVisible(true);
                     settingsButton.setVisible(true);
                     quitButton.setVisible(true);
@@ -283,7 +385,6 @@ public class MainMenu {
                     frame.revalidate();
                     frame.repaint();
                     
-                    // Reset quitConfirmationPanel to null
                     quitConfirmationPanel = null;
                 }
             });

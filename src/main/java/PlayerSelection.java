@@ -44,7 +44,7 @@ public class PlayerSelection {
     }
 
     private JButton createButton(JFrame frame, JPanel buttonPanel, String text, int y, ActionListener actionListener) {
-        JButton button = new JButton();
+        final JButton button = new JButton();
         button.setText(text);
         button.setFont(new Font("Arial", Font.PLAIN, 20));
         button.setBounds(WINDOW_X / 2 - BUTTON_WIDTH / 2, y, BUTTON_WIDTH, BUTTON_HEIGHT);

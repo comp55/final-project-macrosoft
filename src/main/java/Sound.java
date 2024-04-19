@@ -5,13 +5,14 @@ import java.io.BufferedInputStream;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 
-public class BackgroundMusic {
+public class Sound {
     private String filePath;
     private AdvancedPlayer player;
     private Thread musicThread;
     private boolean loop;
 
-    public BackgroundMusic(String filePath, boolean loop) {
+    public Sound(String filePath, boolean loop) {
+    	
         this.filePath = filePath;
         this.loop = loop;
     }
@@ -22,7 +23,7 @@ public class BackgroundMusic {
             public void run() {
                 try {
                 	do {
-                        FileInputStream fileInputStream = new FileInputStream(filePath);
+                		FileInputStream fileInputStream = new FileInputStream(filePath);
                         BufferedInputStream bufferedInputStream = new BufferedInputStream(fileInputStream);
                         player = new AdvancedPlayer(bufferedInputStream);
                         player.play();
