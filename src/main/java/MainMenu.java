@@ -20,37 +20,46 @@ public class MainMenu {
     private JButton backToMainMenuButton;
     private JPanel quitConfirmationPanel;
     private JPanel playPanel;
+    private JPanel settingsPanel;
+    private JPanel gameSetupPanel;
     private JPanel howToPlayPanel;
     
     Sound backgroundMusic;
+    Sound gameSetupMusic;
     Sound buttonClicked;
     
-    PlayerSelection playerSelec;
+	private int panelWidth;
+	private int panelHeight;
+	private int panelX;
+	private int panelY;
     
     public MainMenu() {
     	
     	buttonClicked = new Sound("audio/ClickSound.mp3", false);
     	backgroundMusic = new Sound("audio/MainMenuTheme.mp3", true);
+    	gameSetupMusic = new Sound("audio/GetReady.mp3", true);
     	
         window();
         addButton(frame, "play", WINDOW_Y / 2 - BUTTON_HEIGHT / 2, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-            	buttonClicked.play();
+                buttonClicked.play();
                 playAction(e);
             }
         });
+
         addButton(frame, "settings", WINDOW_Y / 2 + BUTTON_HEIGHT - 20, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-            	buttonClicked.play();
+                buttonClicked.play();
                 settingsAction(e);
             }
         });
+
         addButton(frame, "quit", WINDOW_Y / 2 + BUTTON_HEIGHT * 2 - 15, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-            	buttonClicked.play();
+                buttonClicked.play();
                 showQuitConfirmation();
             }
         });
@@ -71,7 +80,7 @@ public class MainMenu {
         title.setVerticalAlignment(JLabel.CENTER);
         title.setBounds(0, 0, WINDOW_X, WINDOW_Y / 2);
 
-        JLabel versionLabel = new JLabel("ver 0.00103");
+        JLabel versionLabel = new JLabel("ver 0.00110");
         versionLabel.setFont(new Font("Arial", Font.PLAIN, 12));
         versionLabel.setForeground(Color.GRAY);
         versionLabel.setHorizontalAlignment(JLabel.RIGHT);
@@ -99,7 +108,7 @@ public class MainMenu {
         frame.setVisible(true);
     }
     
-    private JButton createButton(Container container, String text, int y, ActionListener actionListener) {
+    private JButton createBigButton(Container container, String text, int y, ActionListener actionListener) {
         final JButton button = new JButton();
         button.setText(text);
         button.setFont(new Font("Arial", Font.PLAIN, 20));
@@ -113,15 +122,15 @@ public class MainMenu {
         button.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent e) {
-            	button.setForeground(Color.RED);
-            	button.setFont(new Font("Arial", Font.BOLD, 20));
+                button.setForeground(Color.RED);
+                button.setFont(new Font("Arial", Font.BOLD, 20));
                 button.setBorder(BorderFactory.createLineBorder(Color.BLACK, 4));
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
-            	button.setForeground(Color.BLACK);
-            	button.setFont(new Font("Arial", Font.PLAIN, 20));
+                button.setForeground(Color.BLACK);
+                button.setFont(new Font("Arial", Font.PLAIN, 20));
                 button.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
             }
         });
@@ -129,32 +138,70 @@ public class MainMenu {
         button.addActionListener(actionListener);
         container.add(button);
         return button;
-        
+    }
+
+    private JButton createSmallButton(Container container, String text, int y, ActionListener actionListener) {
+        final JButton button = new JButton();
+        button.setText(text);
+        button.setFont(new Font("Arial", Font.PLAIN, 16)); // Smaller font size for smaller button
+        button.setBackground(new Color(0, 0, 0, 0));
+        button.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
+        button.setFocusable(false);
+        button.setFocusPainted(false);
+        button.setContentAreaFilled(false);
+        button.setBounds(WINDOW_X / 2 - 100 / 2, y, 100, 30); // Adjusted size for smaller button
+
+        button.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                button.setForeground(Color.RED);
+                button.setFont(new Font("Arial", Font.BOLD, 16)); // Smaller font size for smaller button
+                button.setBorder(BorderFactory.createLineBorder(Color.BLACK, 4));
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                button.setForeground(Color.BLACK);
+                button.setFont(new Font("Arial", Font.PLAIN, 16)); // Smaller font size for smaller button
+                button.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
+            }
+        });
+
+        button.addActionListener(actionListener);
+        container.add(button);
+        return button;
     }
 
     private void addButton(Container container, String text, int y, ActionListener actionListener) {
-    	JButton button = createButton(container, text, y, actionListener);
-    	switch (text) {
-    	case "play":
-    		playButton = button;
-    		break;
-    	case "settings":
-    		settingsButton = button;
-    		break;
-    	case "quit":
-    		quitButton = button;
-    		break;
-    	case "start game":
-    		startButton = button;
-    		break;
-    	case "how to play":
-    		howToPlayButton = button;
-    		break;
-    	case "main menu":
-    		backToMainMenuButton = button;
-    	}
+        JButton button;
+        if (text.equals("back") || text.equals("yes") || text.equals("no")) {
+            button = createSmallButton(container, text, y, actionListener);
+        } else {
+            button = createBigButton(container, text, y, actionListener);
+        }
+        
+        switch (text) {
+            case "play":
+                playButton = button;
+                break;
+            case "settings":
+                settingsButton = button;
+                break;
+            case "quit":
+                quitButton = button;
+                break;
+            case "start game":
+                startButton = button;
+                break;
+            case "how to play":
+                howToPlayButton = button;
+                break;
+            case "main menu":
+                backToMainMenuButton = button;
+                break;
+        }
     }
-
+    
     public void playAction(ActionEvent e) {
         
     	playPanel = new JPanel();
@@ -169,10 +216,9 @@ public class MainMenu {
             @Override
             public void actionPerformed(ActionEvent e) {
             	buttonClicked.play();
-                // Implement functionality
-            	System.out.println("Trying to get playerSelec");
-            	playerSelec = new PlayerSelection();
-            	playerSelec.selectionLoad(frame);
+            	backgroundMusic.stop();
+            	gameSetupMusic.play();
+            	showGameSetup();
             }
         });
 
@@ -200,7 +246,9 @@ public class MainMenu {
     	
     }
     
-    private void returnToMainMenu() {
+
+
+	private void returnToMainMenu() {
     	frame.setContentPane(mainBackground);
     	frame.revalidate();
     	frame.repaint();
@@ -214,6 +262,90 @@ public class MainMenu {
         System.exit(0);
     }
     
+    private void showGameSetup() {
+    	
+    	startButton.setVisible(false);
+    	howToPlayButton.setVisible(false);
+    	backToMainMenuButton.setVisible(false);
+    	
+    	if (gameSetupPanel == null) {
+    		
+    		gameSetupPanel = new JPanel();
+    		gameSetupPanel.setLayout(null);
+    		
+    		panelWidth = 900;
+            panelHeight = 600;
+            panelX = (WINDOW_X - panelWidth) / 2;
+            panelY = (WINDOW_Y - panelHeight) / 2;
+            
+            gameSetupPanel.setBounds(panelX, panelY, panelWidth, panelHeight);
+            gameSetupPanel.setBackground(Color.WHITE);
+            gameSetupPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
+            
+            JLabel label = new JLabel("Game Setup WIP");
+            label.setFont(new Font("Arial", Font.PLAIN, 20));
+            label.setHorizontalAlignment(JLabel.CENTER);
+            label.setBounds(0, 20, panelWidth, 30);
+            gameSetupPanel.add(label);
+            
+            final JButton backButton = new JButton("back");
+            backButton.setBounds(50, 80, 80, 30);
+            backButton.setFont(new Font("Arial", Font.PLAIN, 20));
+            backButton.setBackground(new Color(0, 0, 0, 0));
+            backButton.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
+            backButton.setFocusable(false);
+            backButton.setFocusPainted(false);
+            backButton.setContentAreaFilled(false);
+            backButton.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseEntered(MouseEvent e) {
+                    backButton.setForeground(Color.RED);
+                    backButton.setFont(new Font("Arial", Font.BOLD, 20));
+                    backButton.setBorder(BorderFactory.createLineBorder(Color.BLACK, 4));
+                }
+
+                @Override
+                public void mouseExited(MouseEvent e) {
+                    backButton.setForeground(Color.BLACK);
+                    backButton.setFont(new Font("Arial", Font.PLAIN, 20));
+                    backButton.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
+                }
+            });
+            backButton.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                	
+                	buttonClicked.play();
+                	gameSetupMusic.stop();
+                	backgroundMusic.play();
+
+                	startButton.setVisible(true);
+                	howToPlayButton.setVisible(true);
+                	backToMainMenuButton.setVisible(true);
+
+                	frame.getContentPane().remove(gameSetupPanel);
+                	frame.setContentPane(playPanel);
+                    frame.getContentPane().add(secondaryBackground);
+                	frame.revalidate();
+                	frame.repaint();
+                    
+                	gameSetupPanel = null;
+                }
+            });
+            
+            gameSetupPanel.add(backButton);
+
+            frame.setContentPane(secondaryBackground);
+            frame.getContentPane().add(gameSetupPanel);
+            frame.revalidate();
+            frame.repaint();
+            
+    	} else {
+    		gameSetupPanel.setVisible(true);
+    	}
+            
+    }
+    
     private void showHowToPlay() {
     	
     	startButton.setVisible(false);
@@ -225,10 +357,10 @@ public class MainMenu {
         	howToPlayPanel = new JPanel();
         	howToPlayPanel.setLayout(null);
         	
-            int panelWidth = 900;
-            int panelHeight = 600;
-            int panelX = (WINDOW_X - panelWidth) / 2;
-            int panelY = (WINDOW_Y - panelHeight) / 2;
+            panelWidth = 900;
+            panelHeight = 600;
+            panelX = (WINDOW_X - panelWidth) / 2;
+            panelY = (WINDOW_Y - panelHeight) / 2;
             
             howToPlayPanel.setBounds(panelX, panelY, panelWidth, panelHeight);
             howToPlayPanel.setBackground(Color.WHITE);
@@ -241,7 +373,7 @@ public class MainMenu {
             howToPlayPanel.add(label);
             
             final JButton backButton = new JButton("back");
-            backButton.setBounds(170, 80, 80, 30);
+            backButton.setBounds(50, 80, 80, 30);
             backButton.setFont(new Font("Arial", Font.PLAIN, 20));
             backButton.setBackground(new Color(0, 0, 0, 0));
             backButton.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
@@ -274,6 +406,8 @@ public class MainMenu {
                 	backToMainMenuButton.setVisible(true);
 
                 	frame.getContentPane().remove(howToPlayPanel);
+                	frame.setContentPane(playPanel);
+                    frame.getContentPane().add(secondaryBackground);
                 	frame.revalidate();
                 	frame.repaint();
                     
@@ -290,6 +424,7 @@ public class MainMenu {
     	} else {
     		howToPlayPanel.setVisible(true);
     	}
+    	
     }
     
     private void showQuitConfirmation() {
@@ -302,10 +437,10 @@ public class MainMenu {
             quitConfirmationPanel = new JPanel();
             quitConfirmationPanel.setLayout(null);
 
-            int panelWidth = 300;
-            int panelHeight = 150;
-            int panelX = (WINDOW_X - panelWidth) / 2;
-            int panelY = (WINDOW_Y - panelHeight) / 2;
+            panelWidth = 300;
+            panelHeight = 150;
+            panelX = (WINDOW_X - panelWidth) / 2;
+            panelY = (WINDOW_Y - panelHeight) / 2;
 
             quitConfirmationPanel.setBounds(panelX, panelY, panelWidth, panelHeight);
             quitConfirmationPanel.setBackground(Color.WHITE);
@@ -394,6 +529,7 @@ public class MainMenu {
             frame.getContentPane().add(quitConfirmationPanel);
             frame.revalidate();
             frame.repaint();
+            
         } else {
             quitConfirmationPanel.setVisible(true);
         }
