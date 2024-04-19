@@ -55,7 +55,7 @@ public class Images extends SimulationFrame {
 	// images
 
 	/** The basketball image */
-	private static final BufferedImage BASKETBALL = getImageSuppressExceptions("/org/dyn4j/samples/resources/Basketball.png");
+	private static final BufferedImage BASKETBALL = getImageSuppressExceptions("imagesGame/tomatoPlayer.png");
 	
 	/** The create image */
 	private static final BufferedImage CRATE = getImageSuppressExceptions("/org/dyn4j/samples/resources/Crate.png");

@@ -24,6 +24,7 @@
  */
 //package org.dyn4j.samples;
 
+
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
@@ -34,6 +35,8 @@ import java.io.IOException;
 import java.util.List;
 
 import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
+import javax.swing.JFrame;
 
 import org.dyn4j.dynamics.BodyFixture;
 import org.dyn4j.dynamics.TimeStep;
@@ -75,6 +78,8 @@ public class Platformer extends SimulationFrame {
 	private int startingScore;
 	private Boolean gameOver = false;
 	private String gamemode;
+	
+	private JFrame frame;
 
 	public static final Object CHARACTER = new Object();
 	public static final Object FLOOR = new Object();
@@ -216,6 +221,15 @@ public class Platformer extends SimulationFrame {
 		 * default : // default Statement }
 		 */
 
+		ImageIcon logo = new ImageIcon("images/logo.png");
+		frame.setIconImage(logo.getImage());
+
+        frame.setContentPane(mainBackground);
+        frame.add(title);
+        frame.add(versionLabel);
+        frame.add(copyrightLabel);
+        frame.setVisible(true);
+        
 		// loads level from a text file
 		LoadLevel loading = new LoadLevel(map);
 		int length = loading.getLength();
