@@ -56,28 +56,30 @@ public class Player extends Platformer{
 	// characters need to be placed in the play class
 	public SimulationBody createPlayer() {
 
+		ImageBody character = new ImageBody(TOMATO);
+		character.image = TOMATO;
 		// TODO change this so that instead of pushing a color it pushes what image it
 		// needs too be
 		/*character = new SimulationBody(playerColor);
-		this.isOut = false;
+		this.isOut = false;*/
 		// TODO keep this the same but make sure you can edit these settings
 		character.addFixture(Geometry.createCircle(0.5), 1.0, 200.0, 0.1);
 		character.setMass(MassType.NORMAL);
 		character.translate(startX, startY);
 		character.setUserData(CHARACTER);
-		character.setAtRestDetectionEnabled(false);*/
+		character.setAtRestDetectionEnabled(false);
 		
-		ImageBody circle = new ImageBody(TOMATO);
-		circle.image = TOMATO;
-		circle.addFixture(Geometry.createCircle(0.5), 1, 0.2, 0.5);
-		circle.setMass(MassType.NORMAL);
-		circle.translate(2.0, 2.0);
+		//ImageBody character = new ImageBody(TOMATO);
+		//character.image = TOMATO;
+		//character.addFixture(Geometry.createCircle(0.5), 1, 0.2, 0.5);
+		//character.setMass(MassType.NORMAL);
+		//character.translate(2.0, 2.0);
 		// test adding some force
-		circle.applyForce(new Vector2(-100.0, 0.0));
+		//character.applyForce(new Vector2(-100.0, 0.0));
 		// set some linear damping to simulate rolling friction
-		circle.setLinearDamping(0.05);
+		//character.setLinearDamping(0.05);
 		
-		return circle;
+		return character;
 
 	}
 	
