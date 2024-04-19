@@ -220,15 +220,6 @@ public class Platformer extends SimulationFrame {
 		 * switch(mapNum) { case value1 : // Statements case value2 : // Statements
 		 * default : // default Statement }
 		 */
-
-		ImageIcon logo = new ImageIcon("images/logo.png");
-		frame.setIconImage(logo.getImage());
-
-        frame.setContentPane(mainBackground);
-        frame.add(title);
-        frame.add(versionLabel);
-        frame.add(copyrightLabel);
-        frame.setVisible(true);
         
 		// loads level from a text file
 		LoadLevel loading = new LoadLevel(map);

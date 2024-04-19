@@ -15,6 +15,7 @@ import org.dyn4j.geometry.Rectangle;
 import org.dyn4j.geometry.Vector2;
 import org.dyn4j.samples.framework.SimulationBody;
 import org.dyn4j.samples.Images;
+import org.dyn4j.samples.Images.ImageBody;
 
 //Current testing for images
 //-Importing over simulate frame and simulate body similar to the image class does not work in tests
@@ -32,16 +33,15 @@ public class Player extends Platformer{
 	private int lives;
 	private Boolean isOut = true;
 	
-	//new
-	/*
-	private static final BufferedImage TOMATO = getImageSuppressExceptions("images/tomatoPlayer.PNG");
+	private static final BufferedImage TOMATO = getImageSuppressExceptions("/imagesG/tomatoPlayer.PNG");
+	
 	private static final BufferedImage getImageSuppressExceptions(String pathOnClasspath) {
 		try {
 			return ImageIO.read(Images.class.getResource(pathOnClasspath));
 		} catch (IOException e) {
 			return null;
 		}
-	}*/
+	}
 
 
 	public Player(int x, int y, int startingScore, Color color) {
@@ -58,111 +58,32 @@ public class Player extends Platformer{
 
 		// TODO change this so that instead of pushing a color it pushes what image it
 		// needs too be
-		character = new SimulationBody(playerColor);
+		/*character = new SimulationBody(playerColor);
 		this.isOut = false;
 		// TODO keep this the same but make sure you can edit these settings
 		character.addFixture(Geometry.createCircle(0.5), 1.0, 200.0, 0.1);
 		character.setMass(MassType.NORMAL);
 		character.translate(startX, startY);
 		character.setUserData(CHARACTER);
-		character.setAtRestDetectionEnabled(false);
+		character.setAtRestDetectionEnabled(false);*/
 		
-		//character.render(TOMATO, lives);
+		ImageBody circle = new ImageBody(TOMATO);
+		circle.image = TOMATO;
+		circle.addFixture(Geometry.createCircle(0.5), 1, 0.2, 0.5);
+		circle.setMass(MassType.NORMAL);
+		circle.translate(2.0, 2.0);
+		// test adding some force
+		circle.applyForce(new Vector2(-100.0, 0.0));
+		// set some linear damping to simulate rolling friction
+		circle.setLinearDamping(0.05);
 		
-		return character;
+		return circle;
 
-	}
-
-	// These can also be use in case I find its easier to store player movements on
-	// the map page, which might need to happen
-	// current testing has concluded that I can't have everything a player would
-	// need stored in the player class
-	// map class needs to be used
-	public String getPlayerIcon() {
-		return playerIcon;
-	}
-
-	public void setPlayerIcon(String playerIcon) {
-		this.playerIcon = playerIcon;
-	}
-
-	public String getPlayerControls() {
-		return playerControls;
-	}
-	
-	public Color getplayerColor() {
-		return playerColor;
-	}
-	
-	public void setPlayerControls(String playerControls) {
-		this.playerControls = playerControls;
-	}
-	
-	public void resetOnDeath() {
-		character.translate(100, 100);
-		//character.
-	}
-	
-	public int getLives() {
-		return lives;
-	}
-
-	public void subtractLives(int s) {
-		lives = lives - s;
-	}
-
-	// This is much more complicated than i thought, see dyn4j samples images for
-	// more details
-	public void SetPlayerCharacterImage(String playerImage) {
-
-	}
-
-	// needs to be here for listeners testing
-	@Override
-	protected void initializeWorld() {
-		// TODO Auto-generated method stub
-
-	}
-
-	public Boolean isOut() {
-		return isOut;
-	}
-
-	public void setOut(Boolean isOut) {
-		this.isOut = isOut;
-	}
-	
-	//possible solution? need to edit and troll through code, chat gbt suggestion
-	/*
-	    protected void render(Graphics g) {
-	        super.paintComponent(g);
-	        Graphics2D g2d = (Graphics2D) g;
-
-	        if (playerImage != null && character != null) {
-	            // Draw player image at the position of the character body
-	            double x = character.getTransform().getTranslationX();
-	            double y = character.getTransform().getTranslationY();
-	            g2d.drawImage(playerImage, (int) x, (int) y, null);
-	        }
-	    }
-	
-	*/
-	
-	protected void renderFixture(Graphics2D g, double scale, BodyFixture fixture) {
-		Convex convex = fixture.getShape();
-		Circle c = (Circle) convex;
-		double r = c.getRadius();
-		Vector2 cc = c.getCenter();
-		int x = (int)Math.ceil((cc.x - r) * scale);
-		int y = (int)Math.ceil((cc.y - r) * scale);
-		int w = (int)Math.ceil(r * 2 * scale);
-			// lets us an image instead
-			g.drawImage(TOMATO, x, y, w, w, null);
 	}
 	
 	private final class ImageBody extends SimulationBody {
 		/** The image to use, if required */
-		private final BufferedImage image;
+		private BufferedImage image;
 		
 		public ImageBody(BufferedImage image) {
 			this.image = image;
@@ -195,12 +116,64 @@ public class Player extends Platformer{
 			}
 		}
 	}
-	
-	
 
-	
+	// These can also be use in case I find its easier to store player movements on
+	// the map page, which might need to happen
+	// current testing has concluded that I can't have everything a player would
+	// need stored in the player class
+	// map class needs to be used
+	public String getPlayerIcon() {
+		return playerIcon;
+	}
 
-	// start working on powerups changing abilites
-	// players speed needs to be determined in the map
+	public void setPlayerIcon(String playerIcon) {
+		this.playerIcon = playerIcon;
+	}
+
+	public String getPlayerControls() {
+		return playerControls;
+	}
+	
+	public Color getplayerColor() {
+		return playerColor;
+	}
+	
+	public void setPlayerControls(String playerControls) {
+		this.playerControls = playerControls;
+	}
+	
+	//TODO maybe delete?
+	public void resetOnDeath() {
+		character.translate(100, 100);
+	}
+	
+	public int getLives() {
+		return lives;
+	}
+
+	public void subtractLives(int s) {
+		lives = lives - s;
+	}
+
+	// This is much more complicated than i thought, see dyn4j samples images for
+	// more details
+	public void SetPlayerCharacterImage(String playerImage) {
+
+	}
+
+	// needs to be here for listeners testing
+	@Override
+	protected void initializeWorld() {
+		// TODO Auto-generated method stub
+
+	}
+
+	public Boolean isOut() {
+		return isOut;
+	}
+
+	public void setOut(Boolean isOut) {
+		this.isOut = isOut;
+	}
 
 }
