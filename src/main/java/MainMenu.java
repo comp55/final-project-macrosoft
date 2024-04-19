@@ -274,6 +274,8 @@ public class MainMenu {
                 	backToMainMenuButton.setVisible(true);
 
                 	frame.getContentPane().remove(howToPlayPanel);
+                	frame.setContentPane(playPanel);
+                    frame.getContentPane().add(secondaryBackground);
                 	frame.revalidate();
                 	frame.repaint();
                     
@@ -290,6 +292,7 @@ public class MainMenu {
     	} else {
     		howToPlayPanel.setVisible(true);
     	}
+    	
     }
     
     private void showQuitConfirmation() {
@@ -394,6 +397,7 @@ public class MainMenu {
             frame.getContentPane().add(quitConfirmationPanel);
             frame.revalidate();
             frame.repaint();
+            
         } else {
             quitConfirmationPanel.setVisible(true);
         }
