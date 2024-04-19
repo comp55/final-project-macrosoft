@@ -33,7 +33,7 @@ public class Player extends Platformer{
 	private int lives;
 	private Boolean isOut = true;
 	
-	private static final BufferedImage TOMATO = getImageSuppressExceptions("/imagesG/tomatoPlayer.PNG");
+	private static final BufferedImage TOMATO = getImageSuppressExceptions("/imagesG/tomatoPlayer2.PNG");
 	
 	private static final BufferedImage getImageSuppressExceptions(String pathOnClasspath) {
 		try {
@@ -57,13 +57,12 @@ public class Player extends Platformer{
 	public SimulationBody createPlayer() {
 
 		ImageBody character = new ImageBody(TOMATO);
-		character.image = TOMATO;
-		// TODO change this so that instead of pushing a color it pushes what image it
 		// needs too be
-		/*character = new SimulationBody(playerColor);
-		this.isOut = false;*/
+		//character = new SimulationBody(playerColor);
+		this.isOut = false;
 		// TODO keep this the same but make sure you can edit these settings
-		character.addFixture(Geometry.createCircle(0.5), 1.0, 200.0, 0.1);
+		//character.addFixture(Geometry.createCircle(0.5), 1.0, 200.0, 0.1);
+		character.addFixture(Geometry.createCircle(0.7), 0.5, 2000.0, 0.3);
 		character.setMass(MassType.NORMAL);
 		character.translate(startX, startY);
 		character.setUserData(CHARACTER);
@@ -106,11 +105,11 @@ public class Player extends Platformer{
 					Circle c = (Circle) convex;
 					double r = c.getRadius();
 					Vector2 cc = c.getCenter();
-					int x = (int)Math.ceil((cc.x - r) * scale);
-					int y = (int)Math.ceil((cc.y - r) * scale);
-					int w = (int)Math.ceil(r * 2 * scale);
+					int x = (int)Math.ceil((cc.x - r) * 20);
+					int y = (int)Math.ceil((cc.y - r) * 20);
+					int w = (int)Math.ceil(r * 2 * (22));
 						// lets us an image instead
-						g.drawImage(this.image, x, y, w, w, null);
+						g.drawImage(this.image, x, y, w +25, w +10, null);
 				}
 			} else {
 				// default rendering
