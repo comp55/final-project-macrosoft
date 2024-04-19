@@ -105,6 +105,7 @@ public class Player extends Platformer{
 					Circle c = (Circle) convex;
 					double r = c.getRadius();
 					Vector2 cc = c.getCenter();
+					//TODO make the numbers a constant
 					int x = (int)Math.ceil((cc.x - r) * 20);
 					int y = (int)Math.ceil((cc.y - r) * 20);
 					int w = (int)Math.ceil(r * 2 * (22));
