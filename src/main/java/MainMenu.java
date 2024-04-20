@@ -34,6 +34,8 @@ public class MainMenu {
 	private int panelHeight;
 	private int panelX;
 	private int panelY;
+	
+	private Platformer platformer;
     
     public MainMenu() {
     	
@@ -315,7 +317,24 @@ public class MainMenu {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     buttonClicked.play();
+                    gameSetupMusic.stop();
+                    
+                    platformer = new Platformer();
+                    gameSetup();
+                    
                 }
+
+				private void gameSetup() {
+					
+					platformer.setMap("map2");
+			        platformer.setNumPlayers(4);
+			        platformer.setStartingScore(2);
+			        
+			        platformer.run();
+			        
+			        frame.dispose();
+					
+				}
             }, false);
 
             frame.setContentPane(secondaryBackground);
