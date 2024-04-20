@@ -287,8 +287,8 @@ public class Platformer extends SimulationFrame {
 			}
 		});
 		
-		//BackgroundMusic music = new BackgroundMusic("audio/FightSong.mp3");
-		//music.play();
+		Sound music = new Sound("audio/FightSong.mp3", true);
+		music.play();
 		
 	}
 	
