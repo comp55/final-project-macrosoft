@@ -6,8 +6,10 @@ public class MainMenu {
 
     private static final int WINDOW_X = 1024;
     private static final int WINDOW_Y = 768;
-    private static final int BUTTON_WIDTH = 200;
-    private static final int BUTTON_HEIGHT = 50;
+    private static final int BIG_BUTTON_WIDTH = 200;
+    private static final int BIG_BUTTON_HEIGHT = 50;
+    private static final int SMALL_BUTTON_WIDTH = 100;
+    private static final int SMALL_BUTTON_HEIGHT = 30;
     
     private JFrame frame;
     private JLabel mainBackground;
@@ -40,29 +42,29 @@ public class MainMenu {
     	gameSetupMusic = new Sound("audio/GetReady.mp3", true);
     	
         window();
-        addButton(frame, "play", WINDOW_Y / 2 - BUTTON_HEIGHT / 2, new ActionListener() {
+        addButton(frame, "play", WINDOW_X / 2 - BIG_BUTTON_WIDTH / 2, WINDOW_Y / 2 - BIG_BUTTON_HEIGHT / 2, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 buttonClicked.play();
                 playAction(e);
             }
-        });
+        }, false);
 
-        addButton(frame, "settings", WINDOW_Y / 2 + BUTTON_HEIGHT - 20, new ActionListener() {
+        addButton(frame, "settings", WINDOW_X / 2 - BIG_BUTTON_WIDTH / 2, WINDOW_Y / 2 + BIG_BUTTON_HEIGHT - 20, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 buttonClicked.play();
                 settingsAction(e);
             }
-        });
+        }, false);
 
-        addButton(frame, "quit", WINDOW_Y / 2 + BUTTON_HEIGHT * 2 - 15, new ActionListener() {
+        addButton(frame, "quit", WINDOW_X / 2 - BIG_BUTTON_WIDTH / 2, WINDOW_Y / 2 + BIG_BUTTON_HEIGHT * 2 - 15, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 buttonClicked.play();
                 showQuitConfirmation();
             }
-        });
+        }, false);
         
         backgroundMusic.play();
         
@@ -108,7 +110,7 @@ public class MainMenu {
         frame.setVisible(true);
     }
     
-    private JButton createBigButton(Container container, String text, int y, ActionListener actionListener) {
+    private JButton createBigButton(Container container, String text, int x, int y, ActionListener actionListener) {
         final JButton button = new JButton();
         button.setText(text);
         button.setFont(new Font("Arial", Font.PLAIN, 20));
@@ -117,7 +119,7 @@ public class MainMenu {
         button.setFocusable(false);
         button.setFocusPainted(false);
         button.setContentAreaFilled(false);
-        button.setBounds(WINDOW_X / 2 - BUTTON_WIDTH / 2, y, BUTTON_WIDTH, BUTTON_HEIGHT);
+        button.setBounds(x, y, BIG_BUTTON_WIDTH, BIG_BUTTON_HEIGHT);
 
         button.addMouseListener(new MouseAdapter() {
             @Override
@@ -140,7 +142,7 @@ public class MainMenu {
         return button;
     }
 
-    private JButton createSmallButton(Container container, String text, int y, ActionListener actionListener) {
+    private JButton createSmallButton(Container container, String text, int x, int y, ActionListener actionListener) {
         final JButton button = new JButton();
         button.setText(text);
         button.setFont(new Font("Arial", Font.PLAIN, 16)); // Smaller font size for smaller button
@@ -149,7 +151,7 @@ public class MainMenu {
         button.setFocusable(false);
         button.setFocusPainted(false);
         button.setContentAreaFilled(false);
-        button.setBounds(WINDOW_X / 2 - 100 / 2, y, 100, 30); // Adjusted size for smaller button
+        button.setBounds(x, y, SMALL_BUTTON_WIDTH, SMALL_BUTTON_HEIGHT); // Adjusted size for smaller button
 
         button.addMouseListener(new MouseAdapter() {
             @Override
@@ -172,12 +174,12 @@ public class MainMenu {
         return button;
     }
 
-    private void addButton(Container container, String text, int y, ActionListener actionListener) {
+    private void addButton(Container container, String text, int x, int y, ActionListener actionListener, boolean isSmall) {
         JButton button;
-        if (text.equals("back") || text.equals("yes") || text.equals("no")) {
-            button = createSmallButton(container, text, y, actionListener);
+        if (isSmall) {
+            button = createSmallButton(container, text, x, y, actionListener);
         } else {
-            button = createBigButton(container, text, y, actionListener);
+            button = createBigButton(container, text, x, y, actionListener);
         }
         
         switch (text) {
@@ -212,7 +214,7 @@ public class MainMenu {
     	secondaryBackground = new JLabel(playBackgroundImage);
     	secondaryBackground.setBounds(0, 0, WINDOW_X, WINDOW_Y);
     	
-    	addButton(playPanel, "start game", WINDOW_Y/2 - BUTTON_HEIGHT/2, new ActionListener() {
+    	addButton(playPanel, "start game", WINDOW_X / 2 - BIG_BUTTON_WIDTH / 2, WINDOW_Y/2 - BIG_BUTTON_HEIGHT/2, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
             	buttonClicked.play();
@@ -220,23 +222,23 @@ public class MainMenu {
             	gameSetupMusic.play();
             	showGameSetup();
             }
-        });
+        }, false);
 
-        addButton(playPanel, "how to play", WINDOW_Y/2 + BUTTON_HEIGHT - 20, new ActionListener() {
+        addButton(playPanel, "how to play", WINDOW_X / 2 - BIG_BUTTON_WIDTH / 2, WINDOW_Y/2 + BIG_BUTTON_HEIGHT - 20, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
             	buttonClicked.play();
             	showHowToPlay();
             }
-        });
+        }, false);
 
-        addButton(playPanel, "main menu", WINDOW_Y/2 + BUTTON_HEIGHT*2 - 15, new ActionListener() {
+        addButton(playPanel, "main menu", WINDOW_X / 2 - BIG_BUTTON_WIDTH / 2, WINDOW_Y/2 + BIG_BUTTON_HEIGHT*2 - 15, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
             	buttonClicked.play();
                 returnToMainMenu();
             }
-        });
+        }, false);
     	
     	playPanel.add(secondaryBackground);
     	
@@ -288,52 +290,33 @@ public class MainMenu {
             label.setBounds(0, 20, panelWidth, 30);
             gameSetupPanel.add(label);
             
-            final JButton backButton = new JButton("back");
-            backButton.setBounds(50, 80, 80, 30);
-            backButton.setFont(new Font("Arial", Font.PLAIN, 20));
-            backButton.setBackground(new Color(0, 0, 0, 0));
-            backButton.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
-            backButton.setFocusable(false);
-            backButton.setFocusPainted(false);
-            backButton.setContentAreaFilled(false);
-            backButton.addMouseListener(new MouseAdapter() {
-                @Override
-                public void mouseEntered(MouseEvent e) {
-                    backButton.setForeground(Color.RED);
-                    backButton.setFont(new Font("Arial", Font.BOLD, 20));
-                    backButton.setBorder(BorderFactory.createLineBorder(Color.BLACK, 4));
-                }
-
-                @Override
-                public void mouseExited(MouseEvent e) {
-                    backButton.setForeground(Color.BLACK);
-                    backButton.setFont(new Font("Arial", Font.PLAIN, 20));
-                    backButton.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
-                }
-            });
-            backButton.addActionListener(new ActionListener() {
+            addButton(gameSetupPanel, "back", 50, 80, new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                	
-                	buttonClicked.play();
-                	gameSetupMusic.stop();
-                	backgroundMusic.play();
+                    buttonClicked.play();
+                    gameSetupMusic.stop();
+                    backgroundMusic.play();
 
-                	startButton.setVisible(true);
-                	howToPlayButton.setVisible(true);
-                	backToMainMenuButton.setVisible(true);
+                    startButton.setVisible(true);
+                    howToPlayButton.setVisible(true);
+                    backToMainMenuButton.setVisible(true);
 
-                	frame.getContentPane().remove(gameSetupPanel);
-                	frame.setContentPane(playPanel);
+                    frame.getContentPane().remove(gameSetupPanel);
+                    frame.setContentPane(playPanel);
                     frame.getContentPane().add(secondaryBackground);
-                	frame.revalidate();
-                	frame.repaint();
-                    
-                	gameSetupPanel = null;
+                    frame.revalidate();
+                    frame.repaint();
+
+                    gameSetupPanel = null;
                 }
-            });
+            }, true);
             
-            gameSetupPanel.add(backButton);
+            addButton(gameSetupPanel, "ready",  450 - BIG_BUTTON_WIDTH / 2, 500, new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    buttonClicked.play();
+                }
+            }, false);
 
             frame.setContentPane(secondaryBackground);
             frame.getContentPane().add(gameSetupPanel);
@@ -372,49 +355,24 @@ public class MainMenu {
             label.setBounds(0, 20, panelWidth, 30);
             howToPlayPanel.add(label);
             
-            final JButton backButton = new JButton("back");
-            backButton.setBounds(50, 80, 80, 30);
-            backButton.setFont(new Font("Arial", Font.PLAIN, 20));
-            backButton.setBackground(new Color(0, 0, 0, 0));
-            backButton.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
-            backButton.setFocusable(false);
-            backButton.setFocusPainted(false);
-            backButton.setContentAreaFilled(false);
-            backButton.addMouseListener(new MouseAdapter() {
-                @Override
-                public void mouseEntered(MouseEvent e) {
-                    backButton.setForeground(Color.RED);
-                    backButton.setFont(new Font("Arial", Font.BOLD, 20));
-                    backButton.setBorder(BorderFactory.createLineBorder(Color.BLACK, 4));
-                }
-
-                @Override
-                public void mouseExited(MouseEvent e) {
-                    backButton.setForeground(Color.BLACK);
-                    backButton.setFont(new Font("Arial", Font.PLAIN, 20));
-                    backButton.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
-                }
-            });
-            backButton.addActionListener(new ActionListener() {
+            addButton(howToPlayPanel, "back", 50, 80, new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                	
-                	buttonClicked.play();
+                    buttonClicked.play();
 
-                	startButton.setVisible(true);
-                	howToPlayButton.setVisible(true);
-                	backToMainMenuButton.setVisible(true);
+                    startButton.setVisible(true);
+                    howToPlayButton.setVisible(true);
+                    backToMainMenuButton.setVisible(true);
 
-                	frame.getContentPane().remove(howToPlayPanel);
-                	frame.setContentPane(playPanel);
+                    frame.getContentPane().remove(howToPlayPanel);
+                    frame.setContentPane(playPanel);
                     frame.getContentPane().add(secondaryBackground);
-                	frame.revalidate();
-                	frame.repaint();
-                    
-                	howToPlayPanel = null;
+                    frame.revalidate();
+                    frame.repaint();
+
+                    howToPlayPanel = null;
                 }
-            });
-            howToPlayPanel.add(backButton);
+            }, true);
 
             frame.setContentPane(secondaryBackground);
             frame.getContentPane().add(howToPlayPanel);
@@ -452,78 +410,27 @@ public class MainMenu {
             label.setBounds(0, 20, panelWidth, 30);
             quitConfirmationPanel.add(label);
 
-            final JButton yesButton = new JButton("yes");
-            yesButton.setBounds(50, 80, 80, 30);
-            yesButton.setFont(new Font("Arial", Font.PLAIN, 20));
-            yesButton.setBackground(new Color(0, 0, 0, 0));
-            yesButton.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
-            yesButton.setFocusable(false);
-            yesButton.setFocusPainted(false);
-            yesButton.setContentAreaFilled(false);
-            yesButton.addMouseListener(new MouseAdapter() {
-                @Override
-                public void mouseEntered(MouseEvent e) {
-                    yesButton.setForeground(Color.RED);
-                    yesButton.setFont(new Font("Arial", Font.BOLD, 20));
-                    yesButton.setBorder(BorderFactory.createLineBorder(Color.BLACK, 4));
-                }
-
-                @Override
-                public void mouseExited(MouseEvent e) {
-                    yesButton.setForeground(Color.BLACK);
-                    yesButton.setFont(new Font("Arial", Font.PLAIN, 20));
-                    yesButton.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
-                }
-            });
-            yesButton.addActionListener(new ActionListener() {
+            addButton(quitConfirmationPanel, "yes", 50, 80, new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
+                    buttonClicked.play();
                     quitAction(e);
                 }
-            });
-            quitConfirmationPanel.add(yesButton);
+            }, true);
 
-            final JButton noButton = new JButton("no");
-            noButton.setBounds(170, 80, 80, 30);
-            noButton.setFont(new Font("Arial", Font.PLAIN, 20));
-            noButton.setBackground(new Color(0, 0, 0, 0));
-            noButton.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
-            noButton.setFocusable(false);
-            noButton.setFocusPainted(false);
-            noButton.setContentAreaFilled(false);
-            noButton.addMouseListener(new MouseAdapter() {
-                @Override
-                public void mouseEntered(MouseEvent e) {
-                    noButton.setForeground(Color.RED);
-                    noButton.setFont(new Font("Arial", Font.BOLD, 20));
-                    noButton.setBorder(BorderFactory.createLineBorder(Color.BLACK, 4));
-                }
-
-                @Override
-                public void mouseExited(MouseEvent e) {
-                    noButton.setForeground(Color.BLACK);
-                    noButton.setFont(new Font("Arial", Font.PLAIN, 20));
-                    noButton.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
-                }
-            });
-            noButton.addActionListener(new ActionListener() {
+            addButton(quitConfirmationPanel, "no", 170, 80, new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                	
-                	buttonClicked.play();
-
+                    buttonClicked.play();
                     playButton.setVisible(true);
                     settingsButton.setVisible(true);
                     quitButton.setVisible(true);
-
                     frame.getContentPane().remove(quitConfirmationPanel);
                     frame.revalidate();
                     frame.repaint();
-                    
                     quitConfirmationPanel = null;
                 }
-            });
-            quitConfirmationPanel.add(noButton);
+            }, true);
 
             frame.setContentPane(mainBackground);
             frame.getContentPane().add(quitConfirmationPanel);
