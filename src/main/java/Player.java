@@ -20,7 +20,16 @@ public class Player extends Platformer{
 	private int lives;
 	private Boolean isOut = true;
 	
-	private String TOMATO = "tomatoPlayer2.png";
+	private static final String TOMATO = "tomatoPlayer.png";
+	private static final String ORANGE = "orangePlayer.png";
+	private static final String APPLE = "applePlayer.png";
+	private static final String WATERMELON = "watermelonPlayer.png";
+	
+	//Made public so that power ups could interact in the future
+	public final double CHARSCALE = 0.7;
+	public final double CHARWEIGHT = 0.5;
+	public final double CHARSPEED = 2000.0;
+	public final double CHARBOUNCE = 0.3;
 	
 
 
@@ -35,35 +44,36 @@ public class Player extends Platformer{
 	// this should take in the players icon, and whatever control pattern they want.
 	// once thats done create the actual body but don't place it.
 	// characters need to be placed in the play class
-	public ImageBody createPlayer() {
+	public ImageBody createPlayer(String selectedChar) {
 
-		ImageBody character = new ImageBody(TOMATO);
-		
 		// needs too be
 		//character = new SimulationBody(playerColor);
+		ImageBody character = new ImageBody(identifyPlayerChar(selectedChar));
 		this.isOut = false;
-		// TODO keep this the same but make sure you can edit these settings
-		//character.addFixture(Geometry.createCircle(0.5), 1.0, 200.0, 0.1);
-		character.addFixture(Geometry.createCircle(0.7), 0.5, 2000.0, 0.3);
+		character.addFixture(Geometry.createCircle(CHARSCALE), CHARWEIGHT, CHARSPEED, CHARBOUNCE);
 		character.setMass(MassType.NORMAL);
 		character.translate(startX, startY);
 		character.setUserData(CHARACTER);
 		character.setAtRestDetectionEnabled(false);
 		
-		//ImageBody character = new ImageBody(TOMATO);
-		//character.image = TOMATO;
-		//character.addFixture(Geometry.createCircle(0.5), 1, 0.2, 0.5);
-		//character.setMass(MassType.NORMAL);
-		//character.translate(2.0, 2.0);
-		// test adding some force
-		//character.applyForce(new Vector2(-100.0, 0.0));
-		// set some linear damping to simulate rolling friction
-		//character.setLinearDamping(0.05);
-		
 		return character;
 
 	}
 	
+
+	private String identifyPlayerChar(String selectedChar) {
+		switch (selectedChar) {
+		case("a"):
+			return APPLE;
+		case("t"):
+			return TOMATO;
+		case("o"):
+			return ORANGE;
+		case("w"):
+			return WATERMELON;
+		}
+		return APPLE;
+	}
 	
 	// These can also be use in case I find its easier to store player movements on
 	// the map page, which might need to happen

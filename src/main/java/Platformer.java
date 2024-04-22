@@ -300,19 +300,19 @@ public class Platformer extends SimulationFrame {
 		player4 = new Player(-4, 2, startingScore, Color.cyan);
 		
 		if (p >= 1) {
-			character = player1.createPlayer();
+			character = player1.createPlayer("a");
 			this.world.addBody(character);
 		}
 		if (p >= 2) {
-			character2 = player2.createPlayer();
+			character2 = player2.createPlayer("t");
 			this.world.addBody(character2);
 		}
 		if (p >= 3) {
-			character3 = player3.createPlayer();
+			character3 = player3.createPlayer("o");
 			this.world.addBody(character3);
 		}
 		if (p >= 4) {
-			character4 = player4.createPlayer();
+			character4 = player4.createPlayer("w");
 			this.world.addBody(character4);
 		}
 	}
@@ -685,7 +685,7 @@ public class Platformer extends SimulationFrame {
 			if (player1.getLives() > 0) {
 				this.world.removeBody(character);
 				player1.subtractLives(1);
-				character = player1.createPlayer();
+				character = player1.createPlayer("a");
 				this.world.addBody(character);
 			} else {
 				this.world.removeBody(character);
@@ -697,7 +697,7 @@ public class Platformer extends SimulationFrame {
 			if (player2.getLives() > 0) {
 				this.world.removeBody(character2);
 				player2.subtractLives(1);
-				character2 = player2.createPlayer();
+				character2 = player2.createPlayer("t");
 				this.world.addBody(character2);
 			} else {
 				this.world.removeBody(character2);
@@ -709,7 +709,7 @@ public class Platformer extends SimulationFrame {
 			if (player3.getLives() > 0) {
 				this.world.removeBody(character3);
 				player3.subtractLives(1);
-				character3 = player3.createPlayer();
+				character3 = player3.createPlayer("o");
 				this.world.addBody(character3);
 			} else {
 				this.world.removeBody(character3);
@@ -721,7 +721,7 @@ public class Platformer extends SimulationFrame {
 			if (player4.getLives() > 0) {
 				this.world.removeBody(character4);
 				player4.subtractLives(1);
-				character4 = player4.createPlayer();
+				character4 = player4.createPlayer("w");
 				this.world.addBody(character4);
 			} else {
 				this.world.removeBody(character4);
