@@ -24,7 +24,6 @@
  */
 //package org.dyn4j.samples;
 
-
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
@@ -75,14 +74,13 @@ public class Platformer extends SimulationFrame {
 	private String p2_img;
 	private String p3_img;
 	private String p4_img;
-	
+
 	private JFrame frame;
 
 	public static final Object CHARACTER = new Object();
 	public static final Object FLOOR = new Object();
 	public static final Object ONE_WAY_PLATFORM = new Object();
 	public static final Object SCORE_ZONE = new Object();
-	
 
 	private final BooleanStateKeyboardInputHandler p1_up;
 	private final BooleanStateKeyboardInputHandler p1_down;
@@ -116,18 +114,20 @@ public class Platformer extends SimulationFrame {
 	private boolean onGround2 = true;
 	private boolean onGround3 = true;
 	private boolean onGround4 = true;
-	
-	//creates the tomato icon
-	/*private static final BufferedImage tomato = getImageSuppressExceptions("images/tomatoPlayer.PNG");
-	
-	* Helper function to read the images from the class path */
-	/*private static final BufferedImage getImageSuppressExceptions(String pathOnClasspath) {
-		try {
-			return ImageIO.read(Images.class.getResource(pathOnClasspath));
-		} catch (IOException e) {
-			return null;
-		}
-	}*/
+
+	// creates the tomato icon
+	/*
+	 * private static final BufferedImage tomato =
+	 * getImageSuppressExceptions("images/tomatoPlayer.PNG");
+	 * 
+	 * Helper function to read the images from the class path
+	 */
+	/*
+	 * private static final BufferedImage getImageSuppressExceptions(String
+	 * pathOnClasspath) { try { return
+	 * ImageIO.read(Images.class.getResource(pathOnClasspath)); } catch (IOException
+	 * e) { return null; } }
+	 */
 
 	/**
 	 * Default constructor for the window Map will be intigrated once we call this
@@ -136,7 +136,6 @@ public class Platformer extends SimulationFrame {
 	public Platformer() {
 		super("Platformer");
 
-		
 		this.p1_up = new BooleanStateKeyboardInputHandler(this.canvas, KeyEvent.VK_UP);
 		this.p1_down = new BooleanStateKeyboardInputHandler(this.canvas, KeyEvent.VK_DOWN);
 		this.p1_left = new BooleanStateKeyboardInputHandler(this.canvas, KeyEvent.VK_LEFT);
@@ -176,34 +175,32 @@ public class Platformer extends SimulationFrame {
 		this.p4_down.install();
 		this.p4_left.install();
 		this.p4_right.install();
-		
 
 	}
 
-	
-	public void setMap (String m) {
+	public void setMap(String m) {
 		map = m;
 	}
-	
-	public void setNumPlayers (int n) {
+
+	public void setNumPlayers(int n) {
 		numPlayers = n;
 	}
-	
+
 	public void setStartingScore(int s) {
 		startingScore = s;
 	}
-	
+
 	public void setGamemode(String g) {
 		gamemode = g;
 	}
-	
+
 	public void setPlayerIMG(String p1, String p2, String p3, String p4) {
 		p1_img = p1;
 		p2_img = p2;
 		p3_img = p3;
 		p4_img = p4;
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -216,7 +213,7 @@ public class Platformer extends SimulationFrame {
 		camera.scale = 20.0;
 	}
 
-	//Creates game objects and adds them to the world.
+	// Creates game objects and adds them to the world.
 	protected void initializeWorld() {
 
 		// TODO this will set the map variable
@@ -224,7 +221,7 @@ public class Platformer extends SimulationFrame {
 		 * switch(mapNum) { case value1 : // Statements case value2 : // Statements
 		 * default : // default Statement }
 		 */
-        
+
 		// loads level from a text file
 		LoadLevel loading = new LoadLevel(map);
 		int length = loading.getLength();
@@ -290,19 +287,18 @@ public class Platformer extends SimulationFrame {
 				super.collision(collision);
 			}
 		});
-		
+
 		Sound music = new Sound("audio/FightSong.mp3", true);
-		//music.play();
-		
+		// music.play();
+
 	}
-	
-	
+
 	protected void initPlayers(int p) {
 		player1 = new Player(4, 2, startingScore, Color.orange);
 		player2 = new Player(2, 2, startingScore, Color.red);
 		player3 = new Player(-2, 2, startingScore, Color.black);
 		player4 = new Player(-4, 2, startingScore, Color.cyan);
-		
+
 		if (p >= 1) {
 			character = player1.createPlayer(p1_img);
 			this.world.addBody(character);
@@ -349,7 +345,6 @@ public class Platformer extends SimulationFrame {
 	private boolean allowOneWayUp(SimulationBody character, SimulationBody platform) {
 		AABB wAABB = character.createAABB();
 		AABB pAABB = platform.createAABB();
-		
 
 		// NOTE: this would need to change based on the shape of the platform and it's
 		// orientation
@@ -511,13 +506,11 @@ public class Platformer extends SimulationFrame {
 			}
 		}
 
-		
 		gameruleStock();
-		
-		if(gameOver) {
+
+		if (gameOver) {
 			this.pause();
 		}
-		
 
 		// Update character color based on whether it's on the ground or not
 		// TODO use for testing, delete later
@@ -547,9 +540,6 @@ public class Platformer extends SimulationFrame {
 		return false;
 	}
 
-	
-	
-	
 	protected void render(Graphics2D g, double elapsedTime) {
 		super.render(g, elapsedTime);
 		AffineTransform tx = g.getTransform();
@@ -557,17 +547,16 @@ public class Platformer extends SimulationFrame {
 		g.translate(-this.getWidth() * 0.5 - this.getCameraOffsetX(),
 				-this.getHeight() * 0.5 + this.getCameraOffsetY());
 
-		
-		int winWidth = (int)(this.getWidth() * 0.5);
-		int winHeight = (int)(this.getHeight() * 0.5);
-		
+		int winWidth = (int) (this.getWidth() * 0.5);
+		int winHeight = (int) (this.getHeight() * 0.5);
+
 		if (numPlayers >= 1) {
 			g.setColor(Color.black);
 			g.setFont(new Font("SansSerif", Font.PLAIN, 20));
 			if (player1.isOut()) {
 				g.drawString("P1 OUT ", 20, 45);
 			} else {
-				g.drawString("P1 Lives: " + (player1.getLives()+1), 20, 45);
+				g.drawString("P1 Lives: " + (player1.getLives() + 1), 20, 45);
 			}
 		}
 
@@ -577,7 +566,7 @@ public class Platformer extends SimulationFrame {
 			if (player2.isOut()) {
 				g.drawString("P2 OUT ", 20, 70);
 			} else {
-				g.drawString("P2 Lives: " + (player2.getLives()+1), 20, 70);
+				g.drawString("P2 Lives: " + (player2.getLives() + 1), 20, 70);
 			}
 		}
 
@@ -587,7 +576,7 @@ public class Platformer extends SimulationFrame {
 			if (player3.isOut()) {
 				g.drawString("P3 OUT ", 20, 95);
 			} else {
-				g.drawString("P3 Lives: " + (player3.getLives()+1), 20, 95);
+				g.drawString("P3 Lives: " + (player3.getLives() + 1), 20, 95);
 			}
 		}
 
@@ -597,10 +586,10 @@ public class Platformer extends SimulationFrame {
 			if (player4.isOut()) {
 				g.drawString("P4 OUT ", 20, 120);
 			} else {
-				g.drawString("P4 Lives: " + (player4.getLives()+1), 20, 120);
+				g.drawString("P4 Lives: " + (player4.getLives() + 1), 20, 120);
 			}
 		}
-		
+
 		switch (winPlayer()) {
 		case 1:
 			g.setColor(Color.red);
@@ -627,31 +616,26 @@ public class Platformer extends SimulationFrame {
 			gameOver = true;
 			break;
 		}
-		
-		
-		if(this.isPaused()) {
+
+		if (this.isPaused()) {
 			g.setColor(Color.red);
 			g.setFont(new Font("SansSerif", Font.PLAIN, 50));
 			g.drawString("PAUSED", winWidth - 100, winHeight);
 		}
-		//todo add clickable pause button and pause menu
+		// todo add clickable pause button and pause menu
 
 	}
 
-	
 	// returns the number of the winning player
 	protected int winPlayer() {
-		if(activePlayers(player1.isOut(), player2.isOut(), player3.isOut(), player4.isOut()) == 1) {
-			if(!player1.isOut()) {
+		if (activePlayers(player1.isOut(), player2.isOut(), player3.isOut(), player4.isOut()) == 1) {
+			if (!player1.isOut()) {
 				return 1;
-			}
-			else if (!player2.isOut()) {
+			} else if (!player2.isOut()) {
 				return 2;
-			}
-			else if (!player3.isOut()) {
+			} else if (!player3.isOut()) {
 				return 3;
-			}
-			else if (!player4.isOut()) {
+			} else if (!player4.isOut()) {
 				return 4;
 			}
 		}
@@ -661,14 +645,14 @@ public class Platformer extends SimulationFrame {
 	// returns number of players still 'alive'
 	protected int activePlayers(Boolean a, Boolean b, Boolean c, Boolean d) {
 		int count = 0;
-		
-		if(!a) {
+
+		if (!a) {
 			count++;
 		}
-		if(!b) {
+		if (!b) {
 			count++;
 		}
-		if(!c) {
+		if (!c) {
 			count++;
 		}
 		if (!d) {
@@ -677,13 +661,11 @@ public class Platformer extends SimulationFrame {
 		return count;
 	}
 
-
 	/*
-	 * Win rules for the 'Stock' game mode.
-	 * Detects if a player touches out of bounds zone.
-	 * When player goes out of bounds, it destroys that instance and
+	 * Win rules for the 'Stock' game mode. Detects if a player touches out of
+	 * bounds zone. When player goes out of bounds, it destroys that instance and
 	 * spawns a new character instance.
-	 */	
+	 */
 	protected void gameruleStock() {
 		if (outOfBounds(character)) {
 			if (player1.getLives() > 0) {
@@ -734,13 +716,12 @@ public class Platformer extends SimulationFrame {
 		}
 	}
 
-
 	/**
 	 * Entry point for the example application.
 	 */
 	public static void main(String[] args) {
 		Platformer simulation = new Platformer();
-		simulation.setPlayerIMG("t", "t", "t", "w");
+		simulation.setPlayerIMG("t", "a", "o", "w");
 		simulation.setMap("map2");
 		simulation.setNumPlayers(4);
 		simulation.setStartingScore(2);
