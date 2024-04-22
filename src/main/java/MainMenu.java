@@ -1,7 +1,6 @@
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
-import javax.swing.border.LineBorder;
 import javax.swing.plaf.basic.BasicComboBoxUI;
 import javax.swing.plaf.basic.BasicComboPopup;
 import javax.swing.plaf.basic.ComboPopup;
@@ -20,6 +19,7 @@ public class MainMenu {
     private static final int SQUARE_BUTTON_SIZE = 100;
     
     private JFrame frame;
+    private JLabel title;
     private JLabel mainBackground;
     private JLabel secondaryBackground;
 	private JButton highlightedButton;
@@ -61,7 +61,7 @@ public class MainMenu {
             @Override
             public void actionPerformed(ActionEvent e) {
                 buttonClicked.play();
-                playAction(e);
+                showIntermediary(e);
             }
         }, false);
 
@@ -69,7 +69,7 @@ public class MainMenu {
             @Override
             public void actionPerformed(ActionEvent e) {
                 buttonClicked.play();
-                settingsAction(e);
+                showSettings(e);
             }
         }, false);
 
@@ -90,14 +90,14 @@ public class MainMenu {
         mainBackground = new JLabel(backgroundImage);
         mainBackground.setBounds(0, 0, WINDOW_X, WINDOW_Y);
 
-        JLabel title = new JLabel();
+        title = new JLabel();
         title.setText("fruitless conflict");
         title.setFont(new Font("Arial", Font.PLAIN, 50));
         title.setHorizontalAlignment(JLabel.CENTER);
         title.setVerticalAlignment(JLabel.CENTER);
         title.setBounds(0, 0, WINDOW_X, WINDOW_Y / 2);
 
-        JLabel versionLabel = new JLabel("ver 0.00115");
+        JLabel versionLabel = new JLabel("ver 0.00128");
         versionLabel.setFont(new Font("Arial", Font.PLAIN, 12));
         versionLabel.setForeground(Color.GRAY);
         versionLabel.setHorizontalAlignment(JLabel.RIGHT);
@@ -309,7 +309,7 @@ public class MainMenu {
     	container.add(button);
     }
     
-    public void playAction(ActionEvent e) {
+    public void showIntermediary(ActionEvent e) {
         
     	playPanel = new JPanel();
     	playPanel.setLayout(null);
@@ -361,12 +361,60 @@ public class MainMenu {
     	frame.repaint();
     }
 
-    private void settingsAction(ActionEvent e) {
-        // Implement functionality
-    }
+    private void showSettings(ActionEvent e) {
+    	
+    	playButton.setVisible(false);
+        settingsButton.setVisible(false);
+        quitButton.setVisible(false);
+        title.setVisible(false);
+        
+        if (settingsPanel == null) {
+    		
+        	settingsPanel = new JPanel();
+        	settingsPanel.setLayout(null);
+        	
+            panelWidth = 900;
+            panelHeight = 600;
+            panelX = (WINDOW_X - panelWidth) / 2;
+            panelY = (WINDOW_Y - panelHeight) / 2;
+            
+            settingsPanel.setBounds(panelX, panelY, panelWidth, panelHeight);
+            settingsPanel.setBackground(Color.WHITE);
+            settingsPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
+            
+            JLabel label = new JLabel("Settings WIP");
+            label.setFont(DEFAULT_FONT);
+            label.setHorizontalAlignment(JLabel.CENTER);
+            label.setBounds(0, 20, panelWidth, 30);
+            settingsPanel.add(label);
+            
+            addButton(settingsPanel, "back", 50, 80, new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    buttonClicked.play();
 
-    private void quitAction(ActionEvent e) {
-        System.exit(0);
+                    playButton.setVisible(true);
+                    settingsButton.setVisible(true);
+                    quitButton.setVisible(true);
+                    title.setVisible(true);
+
+                    frame.getContentPane().remove(settingsPanel);
+                    frame.setContentPane(mainBackground);
+                    frame.revalidate();
+                    frame.repaint();
+
+                    settingsPanel = null;
+                }
+            }, true);
+
+            frame.setContentPane(mainBackground);
+            frame.getContentPane().add(settingsPanel);
+            frame.revalidate();
+            frame.repaint();
+            
+    	} else {
+    		settingsPanel.setVisible(true);
+    	}
     }
     
     private void showGameSetup() {
@@ -740,7 +788,7 @@ public class MainMenu {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     buttonClicked.play();
-                    quitAction(e);
+                    System.exit(0);
                 }
             }, true);
 
