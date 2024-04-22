@@ -38,6 +38,13 @@ public class Player extends Platformer{
 	private static final BufferedImage APPLE = getImageSuppressExceptions("/imagesG/applePlayer.PNG");
 	private static final BufferedImage WATERMELON = getImageSuppressExceptions("/imagesG/watermelonPlayer.PNG");
 	
+	//Made public so that power ups could interact in the future
+	public final double CHARSCALE = 0.7;
+	public final double CHARWEIGHT = 0.5;
+	public final double CHARSPEED = 2000.0;
+	public final double CHARBOUNCE = 0.3;
+	
+	
 	private static final BufferedImage getImageSuppressExceptions(String pathOnClasspath) {
 		try {
 			return ImageIO.read(Images.class.getResource(pathOnClasspath));
@@ -60,12 +67,8 @@ public class Player extends Platformer{
 	public SimulationBody createPlayer(String selectedChar) {
 
 		ImageBody character = new ImageBody(identifyPlayerChar(selectedChar));
-		// needs too be
-		//character = new SimulationBody(playerColor);
 		this.isOut = false;
-		// TODO keep this the same but make sure you can edit these settings
-		//character.addFixture(Geometry.createCircle(0.5), 1.0, 200.0, 0.1);
-		character.addFixture(Geometry.createCircle(0.7), 0.5, 2000.0, 0.3);
+		character.addFixture(Geometry.createCircle(CHARSCALE), CHARWEIGHT, CHARSPEED, CHARBOUNCE);
 		character.setMass(MassType.NORMAL);
 		character.translate(startX, startY);
 		character.setUserData(CHARACTER);
