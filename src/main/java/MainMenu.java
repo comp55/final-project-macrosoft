@@ -1,19 +1,28 @@
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
+import javax.swing.border.LineBorder;
+import javax.swing.plaf.basic.BasicComboBoxUI;
+import javax.swing.plaf.basic.BasicComboPopup;
+import javax.swing.plaf.basic.ComboPopup;
+
 
 public class MainMenu {
 
+	private static final Font DEFAULT_FONT = new Font("Arial", Font.PLAIN, 20);
+	private static final Font BOLD_DEFAULT_FONT = new Font("Arial", Font.BOLD, 20);
     private static final int WINDOW_X = 1024;
     private static final int WINDOW_Y = 768;
     private static final int BIG_BUTTON_WIDTH = 200;
     private static final int BIG_BUTTON_HEIGHT = 50;
     private static final int SMALL_BUTTON_WIDTH = 100;
     private static final int SMALL_BUTTON_HEIGHT = 30;
+    private static final int SQUARE_BUTTON_SIZE = 100;
     
     private JFrame frame;
     private JLabel mainBackground;
     private JLabel secondaryBackground;
+	private JButton highlightedButton;
     private JButton playButton;
     private JButton settingsButton;
     private JButton quitButton;
@@ -36,6 +45,7 @@ public class MainMenu {
 	private int panelY;
 	
 	private Platformer platformer;
+
     
     public MainMenu() {
     	
@@ -115,7 +125,7 @@ public class MainMenu {
     private JButton createBigButton(Container container, String text, int x, int y, ActionListener actionListener) {
         final JButton button = new JButton();
         button.setText(text);
-        button.setFont(new Font("Arial", Font.PLAIN, 20));
+        button.setFont(DEFAULT_FONT);
         button.setBackground(new Color(0, 0, 0, 0));
         button.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
         button.setFocusable(false);
@@ -126,7 +136,7 @@ public class MainMenu {
         button.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent e) {
-                button.setForeground(Color.RED);
+                button.setForeground(new Color(255, 165, 0));
                 button.setFont(new Font("Arial", Font.BOLD, 20));
                 button.setBorder(BorderFactory.createLineBorder(Color.BLACK, 4));
             }
@@ -134,7 +144,7 @@ public class MainMenu {
             @Override
             public void mouseExited(MouseEvent e) {
                 button.setForeground(Color.BLACK);
-                button.setFont(new Font("Arial", Font.PLAIN, 20));
+                button.setFont(DEFAULT_FONT);
                 button.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
             }
         });
@@ -147,26 +157,26 @@ public class MainMenu {
     private JButton createSmallButton(Container container, String text, int x, int y, ActionListener actionListener) {
         final JButton button = new JButton();
         button.setText(text);
-        button.setFont(new Font("Arial", Font.PLAIN, 16)); // Smaller font size for smaller button
+        button.setFont(new Font("Arial", Font.PLAIN, 16));
         button.setBackground(new Color(0, 0, 0, 0));
         button.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
         button.setFocusable(false);
         button.setFocusPainted(false);
         button.setContentAreaFilled(false);
-        button.setBounds(x, y, SMALL_BUTTON_WIDTH, SMALL_BUTTON_HEIGHT); // Adjusted size for smaller button
+        button.setBounds(x, y, SMALL_BUTTON_WIDTH, SMALL_BUTTON_HEIGHT);
 
         button.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent e) {
-                button.setForeground(Color.RED);
-                button.setFont(new Font("Arial", Font.BOLD, 16)); // Smaller font size for smaller button
+                button.setForeground(new Color(255, 165, 0));
+                button.setFont(new Font("Arial", Font.BOLD, 16));
                 button.setBorder(BorderFactory.createLineBorder(Color.BLACK, 4));
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
                 button.setForeground(Color.BLACK);
-                button.setFont(new Font("Arial", Font.PLAIN, 16)); // Smaller font size for smaller button
+                button.setFont(new Font("Arial", Font.PLAIN, 16));
                 button.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
             }
         });
@@ -174,6 +184,46 @@ public class MainMenu {
         button.addActionListener(actionListener);
         container.add(button);
         return button;
+    }
+    
+    private JButton createSquareButton(Container container, ImageIcon icon, int x, int y, ActionListener actionListener) {
+        Image image = icon.getImage();
+        Image scaledImage = image.getScaledInstance(SQUARE_BUTTON_SIZE, SQUARE_BUTTON_SIZE, Image.SCALE_SMOOTH);
+        ImageIcon scaledIcon = new ImageIcon(scaledImage);
+
+        final JButton button = new JButton(scaledIcon);
+        button.setBackground(new Color(0, 0, 0, 0));
+        button.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
+        button.setFocusable(false);
+        button.setFocusPainted(false);
+        button.setContentAreaFilled(false);
+        button.setBounds(x, y, SQUARE_BUTTON_SIZE, SQUARE_BUTTON_SIZE);
+
+        button.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                button.setBorder(BorderFactory.createLineBorder(new Color(255, 165, 0), 4));
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                if (button != highlightedButton) {
+                    button.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
+                }
+            }
+
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if (highlightedButton != null && highlightedButton != button) {
+                    highlightedButton.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
+                }
+                highlightedButton = button;
+            }
+        });
+
+        button.addActionListener(actionListener);
+        return button;
+        
     }
 
     private void addButton(Container container, String text, int x, int y, ActionListener actionListener, boolean isSmall) {
@@ -204,6 +254,11 @@ public class MainMenu {
                 backToMainMenuButton = button;
                 break;
         }
+    }
+    
+    private void addSquareButton(Container container, ImageIcon icon, int x, int y, ActionListener actionListener) {
+    	JButton button = createSquareButton(container, icon, x, y, actionListener);
+        container.add(button);
     }
     
     public void playAction(ActionEvent e) {
@@ -286,11 +341,92 @@ public class MainMenu {
             gameSetupPanel.setBackground(Color.WHITE);
             gameSetupPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
             
-            JLabel label = new JLabel("Game Setup WIP");
-            label.setFont(new Font("Arial", Font.PLAIN, 20));
+            JLabel label = new JLabel("game setup");
+            label.setFont(BOLD_DEFAULT_FONT);
             label.setHorizontalAlignment(JLabel.CENTER);
             label.setBounds(0, 20, panelWidth, 30);
             gameSetupPanel.add(label);
+            
+            JLabel mapLabel = new JLabel("select a map:");
+            mapLabel.setFont(DEFAULT_FONT);
+            mapLabel.setHorizontalAlignment(JLabel.LEFT);
+            mapLabel.setBounds(200, 50, panelWidth, 30);
+            gameSetupPanel.add(mapLabel);
+            
+            JLabel playerLabel = new JLabel("select number of players:");
+            playerLabel.setFont(DEFAULT_FONT);
+            playerLabel.setHorizontalAlignment(JLabel.LEFT);
+            playerLabel.setBounds(200, 190, panelWidth, 30);
+            gameSetupPanel.add(playerLabel);
+            
+            BasicComboBoxUI comboBoxUI = new BasicComboBoxUI() {
+                
+                @Override
+                protected JButton createArrowButton() { 
+                    JButton arrowButton = new JButton("");
+                    arrowButton.setContentAreaFilled(false);
+                    arrowButton.setFocusable(false);
+                    arrowButton.setBorder(BorderFactory.createEmptyBorder());
+                    return arrowButton;
+                }
+                
+                @Override
+                protected ComboPopup createPopup() {
+                    BasicComboPopup popup = (BasicComboPopup) super.createPopup();
+                    popup.getList().addMouseListener(new MouseAdapter() {
+                        @Override
+                        public void mouseEntered(MouseEvent e) {
+                            popup.getList().setSelectionBackground(new Color(255, 165, 0)); 
+                        }
+
+                        @Override
+                        public void mouseExited(MouseEvent e) {
+                            popup.getList().setSelectionBackground(UIManager.getColor("List.selectionBackground"));
+                        }
+                    });
+                    return popup;
+                }
+
+            };
+            
+            String[] playerOptions = {"2", "3", "4"};
+            JComboBox<String> playerComboBox = new JComboBox<>(playerOptions);
+            playerComboBox.setFont(DEFAULT_FONT);
+            playerComboBox.setBounds(430, 190, 50, 30);
+            playerComboBox.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
+            playerComboBox.setUI(comboBoxUI);
+            gameSetupPanel.add(playerComboBox);
+            
+            playerComboBox.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    String selectedOption = (String) playerComboBox.getSelectedItem();
+                    int numPlayers = Integer.parseInt(selectedOption); //Make this actually work
+                }
+            });
+            
+            addSquareButton(gameSetupPanel, new ImageIcon("images/logo.png"), 200, 80, new ActionListener() {
+            	@Override
+            	public void actionPerformed(ActionEvent e) {
+            		buttonClicked.play();         		
+            	}
+            });
+            
+            addSquareButton(gameSetupPanel, new ImageIcon("images/logo.png"), 310, 80, new ActionListener() {
+            	@Override
+            	public void actionPerformed(ActionEvent e) {
+            		buttonClicked.play();
+            		
+            	}
+            });
+            
+            addSquareButton(gameSetupPanel, new ImageIcon("images/logo.png"), 420, 80, new ActionListener() {
+            	@Override
+            	public void actionPerformed(ActionEvent e) {
+            		buttonClicked.play();
+            		
+            	}
+            });
             
             addButton(gameSetupPanel, "back", 50, 80, new ActionListener() {
                 @Override
@@ -369,7 +505,7 @@ public class MainMenu {
             howToPlayPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
             
             JLabel label = new JLabel("How to Play WIP");
-            label.setFont(new Font("Arial", Font.PLAIN, 20));
+            label.setFont(DEFAULT_FONT);
             label.setHorizontalAlignment(JLabel.CENTER);
             label.setBounds(0, 20, panelWidth, 30);
             howToPlayPanel.add(label);
@@ -424,7 +560,7 @@ public class MainMenu {
             quitConfirmationPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
 
             JLabel label = new JLabel("quit the game?");
-            label.setFont(new Font("Arial", Font.PLAIN, 20));
+            label.setFont(DEFAULT_FONT);
             label.setHorizontalAlignment(JLabel.CENTER);
             label.setBounds(0, 20, panelWidth, 30);
             quitConfirmationPanel.add(label);
