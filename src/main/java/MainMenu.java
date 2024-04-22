@@ -45,6 +45,8 @@ public class MainMenu {
 	private int panelY;
 	
 	private Platformer platformer;
+	private int numPlayers = 2;
+	private int startingScore = 0;
 
     
     public MainMenu() {
@@ -359,6 +361,12 @@ public class MainMenu {
             playerLabel.setBounds(200, 190, panelWidth, 30);
             gameSetupPanel.add(playerLabel);
             
+            JLabel scoreLabel = new JLabel("select starting score:");
+            scoreLabel.setFont(DEFAULT_FONT);
+            scoreLabel.setHorizontalAlignment(JLabel.LEFT);
+            scoreLabel.setBounds(200, 230, panelWidth, 30);
+            gameSetupPanel.add(scoreLabel);
+            
             BasicComboBoxUI comboBoxUI = new BasicComboBoxUI() {
                 
                 @Override
@@ -389,6 +397,37 @@ public class MainMenu {
 
             };
             
+            BasicComboBoxUI comboBoxUI2 = new BasicComboBoxUI() {
+                
+                @Override
+                protected JButton createArrowButton() { 
+                    JButton arrowButton = new JButton("");
+                    arrowButton.setContentAreaFilled(false);
+                    arrowButton.setFocusable(false);
+                    arrowButton.setBorder(BorderFactory.createEmptyBorder());
+                    return arrowButton;
+                }
+                
+                @Override
+                protected ComboPopup createPopup() {
+                    BasicComboPopup popup = (BasicComboPopup) super.createPopup();
+                    popup.getList().addMouseListener(new MouseAdapter() {
+                        @Override
+                        public void mouseEntered(MouseEvent e) {
+                            popup.getList().setSelectionBackground(new Color(255, 165, 0)); 
+                        }
+
+                        @Override
+                        public void mouseExited(MouseEvent e) {
+                            popup.getList().setSelectionBackground(UIManager.getColor("List.selectionBackground"));
+                        }
+                    });
+                    return popup;
+                }
+
+            };
+            
+            
             String[] playerOptions = {"2", "3", "4"};
             JComboBox<String> playerComboBox = new JComboBox<>(playerOptions);
             playerComboBox.setFont(DEFAULT_FONT);
@@ -397,11 +436,28 @@ public class MainMenu {
             playerComboBox.setUI(comboBoxUI);
             gameSetupPanel.add(playerComboBox);
             
+            String[] scoreOptions = {"1", "2", "3"};
+            JComboBox<String> scoreOptionsBox = new JComboBox<>(scoreOptions);
+            scoreOptionsBox.setFont(DEFAULT_FONT);
+            scoreOptionsBox.setBounds(430, 230, 50, 30);
+            scoreOptionsBox.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
+            scoreOptionsBox.setUI(comboBoxUI2);
+            gameSetupPanel.add(scoreOptionsBox);
+            
+            
             playerComboBox.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     String selectedOption = (String) playerComboBox.getSelectedItem();
-                    int numPlayers = Integer.parseInt(selectedOption); //Make this actually work
+                    numPlayers = Integer.parseInt(selectedOption); //Make this actually work
+                }
+            });
+            
+            scoreOptionsBox.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    String selectedOption2 = (String) scoreOptionsBox.getSelectedItem();
+                    startingScore = Integer.parseInt(selectedOption2)-1; //Make this actually work
                 }
             });
             
@@ -463,9 +519,9 @@ public class MainMenu {
 				private void gameSetup() {
 					
 					platformer.setMap("map2");
-			        platformer.setNumPlayers(4);
-			        platformer.setStartingScore(2);
-			        
+			        platformer.setNumPlayers(numPlayers);
+			        platformer.setStartingScore(startingScore);
+					platformer.setPlayerIMG("t", "a", "o", "w");
 			        platformer.run();
 			        
 			        frame.dispose();
