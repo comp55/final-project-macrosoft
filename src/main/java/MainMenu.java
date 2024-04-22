@@ -47,6 +47,7 @@ public class MainMenu {
 	private Platformer platformer;
 	private int numPlayers = 2;
 	private int startingScore = 0;
+	private int currentPlayer = 1;
 
     
     public MainMenu() {
@@ -188,7 +189,7 @@ public class MainMenu {
         return button;
     }
     
-    private JButton createSquareButton(Container container, ImageIcon icon, int x, int y, ActionListener actionListener) {
+    private JButton createMapButton(Container container, ImageIcon icon, int x, int y, ActionListener actionListener) {
         Image image = icon.getImage();
         Image scaledImage = image.getScaledInstance(SQUARE_BUTTON_SIZE, SQUARE_BUTTON_SIZE, Image.SCALE_SMOOTH);
         ImageIcon scaledIcon = new ImageIcon(scaledImage);
@@ -205,6 +206,46 @@ public class MainMenu {
             @Override
             public void mouseEntered(MouseEvent e) {
                 button.setBorder(BorderFactory.createLineBorder(new Color(255, 165, 0), 4));
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                if (button != highlightedButton) {
+                    button.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
+                }
+            }
+
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if (highlightedButton != null && highlightedButton != button) {
+                    highlightedButton.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
+                }
+                highlightedButton = button;
+            }
+        });
+
+        button.addActionListener(actionListener);
+        return button;
+        
+    }
+    
+    private JButton createCharacterButton(Container container, ImageIcon icon, int x, int y, ActionListener actionListener) {
+        Image image = icon.getImage();
+        Image scaledImage = image.getScaledInstance(SQUARE_BUTTON_SIZE, SQUARE_BUTTON_SIZE, Image.SCALE_SMOOTH);
+        ImageIcon scaledIcon = new ImageIcon(scaledImage);
+
+        final JButton button = new JButton(scaledIcon);
+        button.setBackground(new Color(0, 0, 0, 0));
+        button.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
+        button.setFocusable(false);
+        button.setFocusPainted(false);
+        button.setContentAreaFilled(false);
+        button.setBounds(x, y, SQUARE_BUTTON_SIZE, SQUARE_BUTTON_SIZE);
+
+        button.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                button.setBorder(BorderFactory.createLineBorder(new Color(255, 0, 0), 4));
             }
 
             @Override
@@ -258,9 +299,14 @@ public class MainMenu {
         }
     }
     
-    private void addSquareButton(Container container, ImageIcon icon, int x, int y, ActionListener actionListener) {
-    	JButton button = createSquareButton(container, icon, x, y, actionListener);
+    private void addMapButton(Container container, ImageIcon icon, int x, int y, ActionListener actionListener) {
+    	JButton button = createMapButton(container, icon, x, y, actionListener);
         container.add(button);
+    }
+    
+    private void addCharacterButton(Container container, ImageIcon icon, int x, int y, ActionListener actionListener) {
+    	JButton button = createCharacterButton(container, icon, x, y, actionListener);
+    	container.add(button);
     }
     
     public void playAction(ActionEvent e) {
@@ -361,11 +407,17 @@ public class MainMenu {
             playerLabel.setBounds(200, 190, panelWidth, 30);
             gameSetupPanel.add(playerLabel);
             
-            JLabel scoreLabel = new JLabel("select starting score:");
+            JLabel scoreLabel = new JLabel("select starting lives:");
             scoreLabel.setFont(DEFAULT_FONT);
             scoreLabel.setHorizontalAlignment(JLabel.LEFT);
             scoreLabel.setBounds(200, 230, panelWidth, 30);
             gameSetupPanel.add(scoreLabel);
+            
+            JLabel characterLabel = new JLabel("select a fruit for player:");
+            characterLabel.setFont(DEFAULT_FONT);
+            characterLabel.setHorizontalAlignment(JLabel.LEFT);
+            characterLabel.setBounds(200, 270, panelWidth, 30);
+            gameSetupPanel.add(characterLabel);
             
             BasicComboBoxUI comboBoxUI = new BasicComboBoxUI() {
                 
@@ -427,6 +479,35 @@ public class MainMenu {
 
             };
             
+            BasicComboBoxUI comboBoxUI3 = new BasicComboBoxUI() {
+                
+                @Override
+                protected JButton createArrowButton() { 
+                    JButton arrowButton = new JButton("");
+                    arrowButton.setContentAreaFilled(false);
+                    arrowButton.setFocusable(false);
+                    arrowButton.setBorder(BorderFactory.createEmptyBorder());
+                    return arrowButton;
+                }
+                
+                @Override
+                protected ComboPopup createPopup() {
+                    BasicComboPopup popup = (BasicComboPopup) super.createPopup();
+                    popup.getList().addMouseListener(new MouseAdapter() {
+                        @Override
+                        public void mouseEntered(MouseEvent e) {
+                            popup.getList().setSelectionBackground(new Color(255, 165, 0)); 
+                        }
+
+                        @Override
+                        public void mouseExited(MouseEvent e) {
+                            popup.getList().setSelectionBackground(UIManager.getColor("List.selectionBackground"));
+                        }
+                    });
+                    return popup;
+                }
+
+            };
             
             String[] playerOptions = {"2", "3", "4"};
             JComboBox<String> playerComboBox = new JComboBox<>(playerOptions);
@@ -444,12 +525,19 @@ public class MainMenu {
             scoreOptionsBox.setUI(comboBoxUI2);
             gameSetupPanel.add(scoreOptionsBox);
             
+            String[] playerSelect = {"1", "2", "3", "4"};
+            JComboBox<String> playerSelectBox = new JComboBox<>(playerSelect);
+            playerSelectBox.setFont(DEFAULT_FONT);
+            playerSelectBox.setBounds(430, 270, 50, 30);
+            playerSelectBox.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
+            playerSelectBox.setUI(comboBoxUI3);
+            gameSetupPanel.add(playerSelectBox);
             
             playerComboBox.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     String selectedOption = (String) playerComboBox.getSelectedItem();
-                    numPlayers = Integer.parseInt(selectedOption); //Make this actually work
+                    numPlayers = Integer.parseInt(selectedOption);
                 }
             });
             
@@ -457,30 +545,57 @@ public class MainMenu {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     String selectedOption2 = (String) scoreOptionsBox.getSelectedItem();
-                    startingScore = Integer.parseInt(selectedOption2)-1; //Make this actually work
+                    startingScore = Integer.parseInt(selectedOption2)-1;
                 }
             });
             
-            addSquareButton(gameSetupPanel, new ImageIcon("images/logo.png"), 200, 80, new ActionListener() {
+            playerSelectBox.addActionListener(new ActionListener() {
+            	@Override
+            	public void actionPerformed(ActionEvent e) {
+            		String selectedOption3 = (String) playerSelectBox.getSelectedItem();
+            		currentPlayer  = Integer.parseInt(selectedOption3);
+            	}
+            });
+            
+            addMapButton(gameSetupPanel, new ImageIcon("images/PlateMap.png"), 200, 80, new ActionListener() {
             	@Override
             	public void actionPerformed(ActionEvent e) {
             		buttonClicked.play();         		
             	}
             });
             
-            addSquareButton(gameSetupPanel, new ImageIcon("images/logo.png"), 310, 80, new ActionListener() {
+            addMapButton(gameSetupPanel, new ImageIcon("images/SinkMap.png"), 310, 80, new ActionListener() {
             	@Override
             	public void actionPerformed(ActionEvent e) {
             		buttonClicked.play();
-            		
             	}
             });
             
-            addSquareButton(gameSetupPanel, new ImageIcon("images/logo.png"), 420, 80, new ActionListener() {
+            addCharacterButton(gameSetupPanel, new ImageIcon("images/applePlayer.PNG"), 200, 310, new ActionListener() {
             	@Override
             	public void actionPerformed(ActionEvent e) {
             		buttonClicked.play();
-            		
+            	}
+            });
+            
+            addCharacterButton(gameSetupPanel, new ImageIcon("images/orangePlayer.PNG"), 310, 310, new ActionListener() {
+            	@Override
+            	public void actionPerformed(ActionEvent e) {
+            		buttonClicked.play();
+            	}
+            });
+            
+            addCharacterButton(gameSetupPanel, new ImageIcon("images/tomatoPlayer.PNG"), 420, 310, new ActionListener() {
+            	@Override
+            	public void actionPerformed(ActionEvent e) {
+            		buttonClicked.play();
+            	}
+            });
+            
+            addCharacterButton(gameSetupPanel, new ImageIcon("images/watermelonPlayer.PNG"), 530, 310, new ActionListener() {
+            	@Override
+            	public void actionPerformed(ActionEvent e) {
+            		buttonClicked.play();
             	}
             });
             
