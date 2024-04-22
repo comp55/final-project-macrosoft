@@ -30,22 +30,15 @@ import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
 import java.awt.geom.AffineTransform;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
+
 import java.util.List;
 
-import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 
-import org.dyn4j.dynamics.BodyFixture;
 import org.dyn4j.dynamics.TimeStep;
 import org.dyn4j.dynamics.contact.ContactConstraint;
 import org.dyn4j.geometry.AABB;
-import org.dyn4j.geometry.Circle;
-import org.dyn4j.geometry.Convex;
 import org.dyn4j.geometry.Vector2;
-import org.dyn4j.samples.Images;
 import org.dyn4j.samples.framework.Camera;
 import org.dyn4j.samples.framework.SimulationBody;
 import org.dyn4j.samples.framework.SimulationFrame;
@@ -78,6 +71,10 @@ public class Platformer extends SimulationFrame {
 	private int startingScore;
 	private Boolean gameOver = false;
 	private String gamemode;
+	private String p1_img;
+	private String p2_img;
+	private String p3_img;
+	private String p4_img;
 	
 	private JFrame frame;
 
@@ -200,6 +197,13 @@ public class Platformer extends SimulationFrame {
 		gamemode = g;
 	}
 	
+	public void setPlayerIMG(String p1, String p2, String p3, String p4) {
+		p1_img = p1;
+		p2_img = p2;
+		p3_img = p3;
+		p4_img = p4;
+	}
+	
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -300,19 +304,19 @@ public class Platformer extends SimulationFrame {
 		player4 = new Player(-4, 2, startingScore, Color.cyan);
 		
 		if (p >= 1) {
-			character = player1.createPlayer("a");
+			character = player1.createPlayer(p1_img);
 			this.world.addBody(character);
 		}
 		if (p >= 2) {
-			character2 = player2.createPlayer("t");
+			character2 = player2.createPlayer(p2_img);
 			this.world.addBody(character2);
 		}
 		if (p >= 3) {
-			character3 = player3.createPlayer("o");
+			character3 = player3.createPlayer(p3_img);
 			this.world.addBody(character3);
 		}
 		if (p >= 4) {
-			character4 = player4.createPlayer("w");
+			character4 = player4.createPlayer(p4_img);
 			this.world.addBody(character4);
 		}
 	}
@@ -685,7 +689,7 @@ public class Platformer extends SimulationFrame {
 			if (player1.getLives() > 0) {
 				this.world.removeBody(character);
 				player1.subtractLives(1);
-				character = player1.createPlayer("a");
+				character = player1.createPlayer(p1_img);
 				this.world.addBody(character);
 			} else {
 				this.world.removeBody(character);
@@ -697,7 +701,7 @@ public class Platformer extends SimulationFrame {
 			if (player2.getLives() > 0) {
 				this.world.removeBody(character2);
 				player2.subtractLives(1);
-				character2 = player2.createPlayer("t");
+				character2 = player2.createPlayer(p2_img);
 				this.world.addBody(character2);
 			} else {
 				this.world.removeBody(character2);
@@ -709,7 +713,7 @@ public class Platformer extends SimulationFrame {
 			if (player3.getLives() > 0) {
 				this.world.removeBody(character3);
 				player3.subtractLives(1);
-				character3 = player3.createPlayer("o");
+				character3 = player3.createPlayer(p3_img);
 				this.world.addBody(character3);
 			} else {
 				this.world.removeBody(character3);
@@ -721,7 +725,7 @@ public class Platformer extends SimulationFrame {
 			if (player4.getLives() > 0) {
 				this.world.removeBody(character4);
 				player4.subtractLives(1);
-				character4 = player4.createPlayer("w");
+				character4 = player4.createPlayer(p4_img);
 				this.world.addBody(character4);
 			} else {
 				this.world.removeBody(character4);
@@ -736,6 +740,7 @@ public class Platformer extends SimulationFrame {
 	 */
 	public static void main(String[] args) {
 		Platformer simulation = new Platformer();
+		simulation.setPlayerIMG("t", "t", "t", "w");
 		simulation.setMap("map2");
 		simulation.setNumPlayers(4);
 		simulation.setStartingScore(2);
