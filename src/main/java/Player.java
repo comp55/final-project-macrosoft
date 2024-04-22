@@ -33,7 +33,10 @@ public class Player extends Platformer{
 	private int lives;
 	private Boolean isOut = true;
 	
-	private static final BufferedImage TOMATO = getImageSuppressExceptions("/imagesG/tomatoPlayer2.PNG");
+	private static final BufferedImage TOMATO = getImageSuppressExceptions("/imagesG/tomatoPlayer.PNG");
+	private static final BufferedImage ORANGE = getImageSuppressExceptions("/imagesG/orangePlayer.PNG");
+	private static final BufferedImage APPLE = getImageSuppressExceptions("/imagesG/applePlayer.PNG");
+	private static final BufferedImage WATERMELON = getImageSuppressExceptions("/imagesG/watermelonPlayer.PNG");
 	
 	private static final BufferedImage getImageSuppressExceptions(String pathOnClasspath) {
 		try {
@@ -54,9 +57,9 @@ public class Player extends Platformer{
 	// this should take in the players icon, and whatever control pattern they want.
 	// once thats done create the actual body but don't place it.
 	// characters need to be placed in the play class
-	public SimulationBody createPlayer() {
+	public SimulationBody createPlayer(String selectedChar) {
 
-		ImageBody character = new ImageBody(TOMATO);
+		ImageBody character = new ImageBody(identifyPlayerChar(selectedChar));
 		// needs too be
 		//character = new SimulationBody(playerColor);
 		this.isOut = false;
@@ -68,18 +71,22 @@ public class Player extends Platformer{
 		character.setUserData(CHARACTER);
 		character.setAtRestDetectionEnabled(false);
 		
-		//ImageBody character = new ImageBody(TOMATO);
-		//character.image = TOMATO;
-		//character.addFixture(Geometry.createCircle(0.5), 1, 0.2, 0.5);
-		//character.setMass(MassType.NORMAL);
-		//character.translate(2.0, 2.0);
-		// test adding some force
-		//character.applyForce(new Vector2(-100.0, 0.0));
-		// set some linear damping to simulate rolling friction
-		//character.setLinearDamping(0.05);
-		
 		return character;
 
+	}
+	
+	private BufferedImage identifyPlayerChar(String selectedChar) {
+		switch (selectedChar) {
+		case("a"):
+			return APPLE;
+		case("t"):
+			return TOMATO;
+		case("o"):
+			return ORANGE;
+		case("w"):
+			return WATERMELON;
+		}
+		return APPLE;
 	}
 	
 	private final class ImageBody extends SimulationBody {
