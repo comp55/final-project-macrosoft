@@ -245,7 +245,16 @@ public class MainMenu {
         button.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent e) {
-                button.setBorder(BorderFactory.createLineBorder(new Color(255, 0, 0), 4));
+            	if (currentPlayer == 1) {
+                    button.setBorder(BorderFactory.createLineBorder(new Color(255, 0, 0), 4));
+            	} else if (currentPlayer == 2) {
+            		button.setBorder(BorderFactory.createLineBorder(new Color(0, 0, 255), 4));
+            	} else if (currentPlayer == 3) {
+            		button.setBorder(BorderFactory.createLineBorder(new Color(0, 255, 0), 4));
+            	} else if (currentPlayer == 4) {
+            		button.setBorder(BorderFactory.createLineBorder(new Color(255, 255, 0), 4));
+            	}
+
             }
 
             @Override
