@@ -225,6 +225,8 @@ public class Platformer extends SimulationFrame {
 		// loads level from a text file
 		LoadLevel loading = new LoadLevel(map);
 		int length = loading.getLength();
+		
+		this.world.addBody(loading.loadStaticIMG("plateMap.png", 0, -3, 300, 300, -600, -600));
 
 		for (int i = 0; i < length; i++) {
 			this.world.addBody(loading.loadMap(i));

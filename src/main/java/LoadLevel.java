@@ -43,9 +43,24 @@ public class LoadLevel extends Platformer {
 			System.out.println("An error occurred.");
 			e.printStackTrace();
 		}
-
+		
 		length = levelLoadText.size();
+		
 	}
+	
+	public ImageBody loadStaticIMG(String imgS, int bodyX, int bodyY, int imgX, int imgY, int imgW, int imgH) {
+		
+		ImageBody img = new ImageBody(imgS);
+		img .addFixture(Geometry.createCircle(0.00001), 0, 0, 0);
+		img.setMass(MassType.INFINITE);
+		img.translate(bodyX, bodyY);
+		img.setCustomImageStatus(true);
+		img.setImageOptions(imgX, imgY, imgW, imgH);
+		return img;
+		
+	}
+	
+	
 
 	public SimulationBody loadMap(int val) {
 
