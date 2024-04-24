@@ -619,7 +619,7 @@ public class MainMenu {
             	@Override
             	public void actionPerformed(ActionEvent e) {
             		buttonClicked.play();
-            		chosenMap = "map1";
+            		chosenMap = "map2";
             	}
             });
             
@@ -627,7 +627,7 @@ public class MainMenu {
             	@Override
             	public void actionPerformed(ActionEvent e) {
             		buttonClicked.play();
-            		chosenMap = "map2";
+            		chosenMap = "map1";
             	}
             });
             
@@ -697,7 +697,7 @@ public class MainMenu {
 
 				private void gameSetup() {
 					
-					platformer.setMap("chosenMap");
+					platformer.setMap(chosenMap);
 			        platformer.setNumPlayers(numPlayers);
 			        platformer.setStartingScore(startingScore);
 					platformer.setPlayerIMG(playerCharacter[0], playerCharacter[1], playerCharacter[2], playerCharacter[3]);
