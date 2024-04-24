@@ -23,11 +23,12 @@ public class Player extends Platformer {
 	private static final String APPLE = "applePlayer.png";
 	private static final String WATERMELON = "watermelonPlayer.png";
 
-	// Made public so that power ups could interact in the future
-	public final double CHARSCALE = 0.7;
-	public final double CHARWEIGHT = 0.5;
-	public final double CHARSPEED = 2000.0;
-	public final double CHARBOUNCE = 0.3;
+	private final double CHARSCALE = 0.7;
+	private final double CHARWEIGHT = 0.5;
+	private final double CHARSPEED = 2000.0;
+	private final double CHARBOUNCE = 0.3;
+	
+	private double powerUpMultiplier = 0;
 
 	public Player(int x, int y, int startingScore, Color color) {
 		startX = x;
@@ -127,6 +128,15 @@ public class Player extends Platformer {
 
 	public void setOut(Boolean isOut) {
 		this.isOut = isOut;
+	}
+	
+	//For future powerups, things such as character.setMass(null) can be implimented then attached to a timer so they reset once a certain time has elotted
+	public void changePowrUpMult(double x) {
+		powerUpMultiplier = x;
+	}
+	
+	public double getPowrUpMult() {
+		return powerUpMultiplier;
 	}
 
 }
