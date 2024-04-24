@@ -729,7 +729,6 @@ public class Platformer extends SimulationFrame {
 		this.stop();
 		this.dispose();
 		
-		
 	}
 	
 	/**
