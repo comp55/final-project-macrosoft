@@ -42,6 +42,7 @@ import org.dyn4j.samples.framework.Camera;
 import org.dyn4j.samples.framework.SimulationBody;
 import org.dyn4j.samples.framework.SimulationFrame;
 import org.dyn4j.samples.framework.input.BooleanStateKeyboardInputHandler;
+import org.dyn4j.samples.framework.input.ToggleStateKeyboardInputHandler;
 import org.dyn4j.world.ContactCollisionData;
 import org.dyn4j.world.PhysicsWorld;
 import org.dyn4j.world.listener.ContactListenerAdapter;
@@ -102,6 +103,8 @@ public class Platformer extends SimulationFrame {
 	private final BooleanStateKeyboardInputHandler p4_left;
 	private final BooleanStateKeyboardInputHandler p4_right;
 
+	private final ToggleStateKeyboardInputHandler quit;
+	
 	private Player player1;
 	private Player player2;
 	private Player player3;
@@ -155,6 +158,8 @@ public class Platformer extends SimulationFrame {
 		this.p4_down = new BooleanStateKeyboardInputHandler(this.canvas, KeyEvent.VK_K);
 		this.p4_left = new BooleanStateKeyboardInputHandler(this.canvas, KeyEvent.VK_J);
 		this.p4_right = new BooleanStateKeyboardInputHandler(this.canvas, KeyEvent.VK_L);
+		
+		this.quit = new ToggleStateKeyboardInputHandler(this.canvas, KeyEvent.VK_Q);
 
 		this.p1_up.install();
 		this.p1_down.install();
@@ -175,6 +180,8 @@ public class Platformer extends SimulationFrame {
 		this.p4_down.install();
 		this.p4_left.install();
 		this.p4_right.install();
+		
+		this.quit.install();
 
 	}
 
@@ -226,7 +233,7 @@ public class Platformer extends SimulationFrame {
 		LoadLevel loading = new LoadLevel(map);
 		int length = loading.getLength();
 		
-		this.world.addBody(loading.loadStaticIMG("plateMap.png", 0, -3, 300, 300, -600, -600));
+		this.world.addBody(loading.loadStaticIMG("plateMap.png", 0, -3, 400, 400, -800, -800));
 
 		for (int i = 0; i < length; i++) {
 			this.world.addBody(loading.loadMap(i));
@@ -511,7 +518,7 @@ public class Platformer extends SimulationFrame {
 		gameruleStock();
 
 		if (gameOver) {
-			this.pause();
+			closeToMenu();
 		}
 	}
 
@@ -711,6 +718,19 @@ public class Platformer extends SimulationFrame {
 		}
 	}
 
+	
+	private void close() {
+		this.stop();
+		this.dispose();
+	}
+	
+	private void closeToMenu() {
+		MainMenu m = new MainMenu();
+		this.stop();
+		this.dispose();
+		
+	}
+	
 	/**
 	 * Entry point for the example application.
 	 */
@@ -718,8 +738,8 @@ public class Platformer extends SimulationFrame {
 		Platformer simulation = new Platformer();
 		simulation.setPlayerIMG("t", "a", "o", "w");
 		simulation.setMap("map2");
-		simulation.setNumPlayers(4);
-		simulation.setStartingScore(2);
+		simulation.setNumPlayers(2);
+		simulation.setStartingScore(0);
 		simulation.run();
 	}
 }
