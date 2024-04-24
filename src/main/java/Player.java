@@ -130,7 +130,8 @@ public class Player extends Platformer {
 		this.isOut = isOut;
 	}
 	
-	//For future powerups, things such as character.setMass(null) can be implimented then attached to a timer so they reset once a certain time has elotted
+	//For future powerups, things such as character.setMass(null) 
+	//can be implimented then attached to a timer so they reset once a certain time has elotted
 	public void changePowrUpMult(double x) {
 		powerUpMultiplier = x;
 	}

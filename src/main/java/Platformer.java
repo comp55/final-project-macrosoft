@@ -511,13 +511,6 @@ public class Platformer extends SimulationFrame {
 		if (gameOver) {
 			this.pause();
 		}
-
-		// Update character color based on whether it's on the ground or not
-		// TODO use for testing, delete later
-		// character.setColor(onGround(character) ? WHEEL_ON_COLOR :
-		// player1.getplayerColor());
-		// character2.setColor(onGround(character2) ? WHEEL_ON_COLOR :
-		// player2.getplayerColor());
 	}
 
 	private boolean onGround(SimulationBody character) {
