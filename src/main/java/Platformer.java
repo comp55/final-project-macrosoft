@@ -42,6 +42,7 @@ import org.dyn4j.samples.framework.Camera;
 import org.dyn4j.samples.framework.SimulationBody;
 import org.dyn4j.samples.framework.SimulationFrame;
 import org.dyn4j.samples.framework.input.BooleanStateKeyboardInputHandler;
+import org.dyn4j.samples.framework.input.ToggleStateKeyboardInputHandler;
 import org.dyn4j.world.ContactCollisionData;
 import org.dyn4j.world.PhysicsWorld;
 import org.dyn4j.world.listener.ContactListenerAdapter;
@@ -101,6 +102,7 @@ public class Platformer extends SimulationFrame {
 	private final BooleanStateKeyboardInputHandler p4_down;
 	private final BooleanStateKeyboardInputHandler p4_left;
 	private final BooleanStateKeyboardInputHandler p4_right;
+	private final ToggleStateKeyboardInputHandler quit;
 
 	private Player player1;
 	private Player player2;
@@ -156,6 +158,8 @@ public class Platformer extends SimulationFrame {
 		this.p4_left = new BooleanStateKeyboardInputHandler(this.canvas, KeyEvent.VK_J);
 		this.p4_right = new BooleanStateKeyboardInputHandler(this.canvas, KeyEvent.VK_L);
 
+		this.quit = new ToggleStateKeyboardInputHandler(this.canvas, KeyEvent.VK_BACK_SPACE);
+		
 		this.p1_up.install();
 		this.p1_down.install();
 		this.p1_left.install();
@@ -175,6 +179,8 @@ public class Platformer extends SimulationFrame {
 		this.p4_down.install();
 		this.p4_left.install();
 		this.p4_right.install();
+		
+		this.quit.install();
 
 	}
 
@@ -513,6 +519,12 @@ public class Platformer extends SimulationFrame {
 		if (gameOver) {
 			this.pause();
 		}
+		
+		if(this.isPaused()) {
+			if (quit.isActive()) {
+				closeToMenu();
+			}
+		}
 
 		// Update character color based on whether it's on the ground or not
 		// TODO use for testing, delete later
@@ -594,24 +606,28 @@ public class Platformer extends SimulationFrame {
 
 		switch (winPlayer()) {
 		case 1:
+			showMenuBox(g, winWidth, winHeight);
 			g.setColor(Color.red);
 			g.setFont(new Font("SansSerif", Font.PLAIN, 50));
 			g.drawString("P1 WIN ", winWidth - 100, winHeight);
 			gameOver = true;
 			break;
 		case 2:
+			showMenuBox(g, winWidth, winHeight);
 			g.setColor(Color.red);
 			g.setFont(new Font("SansSerif", Font.PLAIN, 50));
 			g.drawString("P2 WIN ", winWidth - 100, winHeight);
 			gameOver = true;
 			break;
 		case 3:
+			showMenuBox(g, winWidth, winHeight);
 			g.setColor(Color.red);
 			g.setFont(new Font("SansSerif", Font.PLAIN, 50));
 			g.drawString("P3 WIN ", winWidth - 100, winHeight);
 			gameOver = true;
 			break;
 		case 4:
+			showMenuBox(g, winWidth, winHeight);
 			g.setColor(Color.red);
 			g.setFont(new Font("SansSerif", Font.PLAIN, 50));
 			g.drawString("P4 WIN ", winWidth - 100, winHeight);
