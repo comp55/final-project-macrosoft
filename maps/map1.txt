@@ -3,6 +3,9 @@
 # SHAPES: RECTANGLE, ELLIPSE, HALF-ELLIPSE, TRIANGLE
 #
 #This is the sink map
+!1
+#bodyX, bodyY, imgX, imgY, imgW, imgH
+$SinkMap.png;0;0;400;400;-800;-800
 #
 #main floor
 RECTANGLE;20.0;1.2;-15;-3;0;INFINITE;FLOOR

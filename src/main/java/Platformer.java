@@ -717,6 +717,18 @@ public class Platformer extends SimulationFrame {
 			}
 		}
 	}
+	
+	private void close() {
+		this.stop();
+		this.dispose();
+	}
+
+	private void closeToMenu() {
+		MainMenu m = new MainMenu();
+		this.stop();
+		this.dispose();
+
+	}
 
 	/**
 	 * Entry point for the example application.
@@ -724,7 +736,7 @@ public class Platformer extends SimulationFrame {
 	public static void main(String[] args) {
 		Platformer simulation = new Platformer();
 		simulation.setPlayerIMG("t", "a", "o", "w");
-		simulation.setMap("map2");
+		simulation.setMap("map1");
 		simulation.setNumPlayers(4);
 		simulation.setStartingScore(2);
 		simulation.run();
