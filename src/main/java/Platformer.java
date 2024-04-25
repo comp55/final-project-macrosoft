@@ -619,17 +619,30 @@ public class Platformer extends SimulationFrame {
 			break;
 		}
 
-		if (this.isPaused()) {
+		if (this.isPaused() & !gameOver) {
+			showMenuBox(g, winWidth, winHeight);
 			g.setColor(Color.red);
 			g.setFont(new Font("SansSerif", Font.PLAIN, 50));
-			g.drawString("PAUSED", winWidth - 100, winHeight);
+			g.drawString("PAUSED", winWidth - 100, winHeight - 150);
 		}
 		// todo add clickable pause button and pause menu
 
 	}
+	
+	private void showMenuBox(Graphics2D g, int x, int y) {
+		final int w = 600;
+		final int h = 400;
+		x = (int) (x - (w * 0.5));
+		y = (int) (y - (h * 0.5));
+		
+		g.setColor(Color.white);
+		g.fillRect(x, y, w, h);
+		g.setColor(Color.black);
+		g.drawRect(x, y, w, h);
+	}
 
 	// returns the number of the winning player
-	protected int winPlayer() {
+	private int winPlayer() {
 		if (activePlayers(player1.isOut(), player2.isOut(), player3.isOut(), player4.isOut()) == 1) {
 			if (!player1.isOut()) {
 				return 1;
@@ -645,7 +658,7 @@ public class Platformer extends SimulationFrame {
 	}
 
 	// returns number of players still 'alive'
-	protected int activePlayers(Boolean a, Boolean b, Boolean c, Boolean d) {
+	private int activePlayers(Boolean a, Boolean b, Boolean c, Boolean d) {
 		int count = 0;
 
 		if (!a) {
@@ -727,7 +740,6 @@ public class Platformer extends SimulationFrame {
 		MainMenu m = new MainMenu();
 		this.stop();
 		this.dispose();
-
 	}
 
 	/**
@@ -737,8 +749,8 @@ public class Platformer extends SimulationFrame {
 		Platformer simulation = new Platformer();
 		simulation.setPlayerIMG("t", "a", "o", "w");
 		simulation.setMap("map1");
-		simulation.setNumPlayers(4);
-		simulation.setStartingScore(2);
+		simulation.setNumPlayers(2);
+		simulation.setStartingScore(0);
 		simulation.run();
 	}
 }
