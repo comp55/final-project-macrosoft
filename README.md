@@ -37,7 +37,7 @@ The intent of these samples is to provide a simple framework for building applic
 ### BasketBall
 Use angle, power, and position to attempt to make baskets. The sample only scores goals, so don't miss! If you are close you get 2 points, far away you get 3.  Only if you get it in when you launch it is counted.
 
-![BasketBall Sample](captures/BasketBall.gif?raw=true "BasketBall sample")
+![BasketBall Sample](media/DoubleMenu.png?raw=true "BasketBall sample")
 
 ### Billiards
 Use the cue stick to hit the cue ball to hit the other balls.  You must wait until the balls settle before your next hit.
