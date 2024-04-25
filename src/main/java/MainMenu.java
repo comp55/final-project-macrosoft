@@ -48,7 +48,8 @@ public class MainMenu {
 	private int numPlayers = 2;
 	private int startingScore = 0;
 	private int currentPlayer = 1;
-
+	private String chosenMap = "map1";
+	private String[] playerCharacter = {"o", "o", "o", "o"};
     
     public MainMenu() {
     	
@@ -245,7 +246,16 @@ public class MainMenu {
         button.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent e) {
-                button.setBorder(BorderFactory.createLineBorder(new Color(255, 0, 0), 4));
+            	if (currentPlayer == 1) {
+                    button.setBorder(BorderFactory.createLineBorder(new Color(255, 0, 0), 4));
+            	} else if (currentPlayer == 2) {
+            		button.setBorder(BorderFactory.createLineBorder(new Color(0, 0, 255), 4));
+            	} else if (currentPlayer == 3) {
+            		button.setBorder(BorderFactory.createLineBorder(new Color(0, 255, 0), 4));
+            	} else if (currentPlayer == 4) {
+            		button.setBorder(BorderFactory.createLineBorder(new Color(255, 255, 0), 4));
+            	}
+
             }
 
             @Override
@@ -608,7 +618,8 @@ public class MainMenu {
             addMapButton(gameSetupPanel, new ImageIcon("images/PlateMap.png"), 200, 80, new ActionListener() {
             	@Override
             	public void actionPerformed(ActionEvent e) {
-            		buttonClicked.play();         		
+            		buttonClicked.play();
+            		chosenMap = "map2";
             	}
             });
             
@@ -616,6 +627,7 @@ public class MainMenu {
             	@Override
             	public void actionPerformed(ActionEvent e) {
             		buttonClicked.play();
+            		chosenMap = "map1";
             	}
             });
             
@@ -623,6 +635,7 @@ public class MainMenu {
             	@Override
             	public void actionPerformed(ActionEvent e) {
             		buttonClicked.play();
+            		playerCharacter[currentPlayer-1] = "a";
             	}
             });
             
@@ -630,6 +643,7 @@ public class MainMenu {
             	@Override
             	public void actionPerformed(ActionEvent e) {
             		buttonClicked.play();
+            		playerCharacter[currentPlayer-1] = "o";
             	}
             });
             
@@ -637,6 +651,7 @@ public class MainMenu {
             	@Override
             	public void actionPerformed(ActionEvent e) {
             		buttonClicked.play();
+            		playerCharacter[currentPlayer-1] = "t";
             	}
             });
             
@@ -644,6 +659,7 @@ public class MainMenu {
             	@Override
             	public void actionPerformed(ActionEvent e) {
             		buttonClicked.play();
+            		playerCharacter[currentPlayer-1] = "w";
             	}
             });
             
@@ -681,10 +697,10 @@ public class MainMenu {
 
 				private void gameSetup() {
 					
-					platformer.setMap("map2");
+					platformer.setMap(chosenMap);
 			        platformer.setNumPlayers(numPlayers);
 			        platformer.setStartingScore(startingScore);
-					platformer.setPlayerIMG("t", "a", "o", "w");
+					platformer.setPlayerIMG(playerCharacter[0], playerCharacter[1], playerCharacter[2], playerCharacter[3]);
 			        platformer.run();
 			        
 			        frame.dispose();
