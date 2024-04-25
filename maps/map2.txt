@@ -1,9 +1,11 @@
 #this will be the plate
 #this took way longer to code than I thought
-#
+#setup
+!1
+#bodyX, bodyY, imgX, imgY, imgW, imgH
+$plateMap.png;0;0;400;400;-800;-800
 #
 #main floor
-#"plateMap.png";0;3;400;400;800;800
 RECTANGLE;30.0;1.2;0;-11.5;0;INFINITE;FLOOR
 #
 #little divets
