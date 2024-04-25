@@ -233,7 +233,12 @@ public class Platformer extends SimulationFrame {
 		LoadLevel loading = new LoadLevel(map);
 		int length = loading.getLength();
 		
-		this.world.addBody(loading.loadStaticIMG("plateMap.png", 0, -3, 400, 400, -800, -800));
+		if(map == "map2") {
+			this.world.addBody(loading.loadStaticIMG("plateMap.png", 0, -3, 400, 400, -800, -800));
+		}
+		else {
+			this.world.addBody(loading.loadStaticIMG("sinkMap.png", 0, -1, 400, 400, -800, -800));
+		}
 
 		for (int i = 0; i < length; i++) {
 			this.world.addBody(loading.loadMap(i));
@@ -737,7 +742,7 @@ public class Platformer extends SimulationFrame {
 	public static void main(String[] args) {
 		Platformer simulation = new Platformer();
 		simulation.setPlayerIMG("t", "a", "o", "w");
-		simulation.setMap("map2");
+		simulation.setMap("map1");
 		simulation.setNumPlayers(2);
 		simulation.setStartingScore(0);
 		simulation.run();
