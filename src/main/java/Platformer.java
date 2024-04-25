@@ -102,7 +102,7 @@ public class Platformer extends SimulationFrame {
 	private final BooleanStateKeyboardInputHandler p4_down;
 	private final BooleanStateKeyboardInputHandler p4_left;
 	private final BooleanStateKeyboardInputHandler p4_right;
-	private final ToggleStateKeyboardInputHandler quit;
+	private final BooleanStateKeyboardInputHandler quit;
 
 	private Player player1;
 	private Player player2;
@@ -113,9 +113,6 @@ public class Platformer extends SimulationFrame {
 	private SimulationBody character3;
 	private SimulationBody character4;
 	private boolean onGround = true;
-	private boolean onGround2 = true;
-	private boolean onGround3 = true;
-	private boolean onGround4 = true;
 
 	// creates the tomato icon
 	/*
@@ -158,7 +155,7 @@ public class Platformer extends SimulationFrame {
 		this.p4_left = new BooleanStateKeyboardInputHandler(this.canvas, KeyEvent.VK_J);
 		this.p4_right = new BooleanStateKeyboardInputHandler(this.canvas, KeyEvent.VK_L);
 
-		this.quit = new ToggleStateKeyboardInputHandler(this.canvas, KeyEvent.VK_BACK_SPACE);
+		this.quit = new BooleanStateKeyboardInputHandler(this.canvas, KeyEvent.VK_BACK_SPACE);
 		
 		this.p1_up.install();
 		this.p1_down.install();
@@ -648,13 +645,14 @@ public class Platformer extends SimulationFrame {
 	private void showMenuBox(Graphics2D g, int x, int y) {
 		final int w = 600;
 		final int h = 400;
-		x = (int) (x - (w * 0.5));
-		y = (int) (y - (h * 0.5));
+		int xPos = (int) (x - (w * 0.5));
+		int yPos = (int) (y - (h * 0.5));
 		
 		g.setColor(Color.white);
-		g.fillRect(x, y, w, h);
+		g.fillRect(xPos, yPos, w, h);
 		g.setColor(Color.black);
-		g.drawRect(x, y, w, h);
+		g.drawRect(xPos, yPos, w, h);
+		g.drawString("Press Backspace to quit and return to the menu", x - 200, y + 150);
 	}
 
 	// returns the number of the winning player
