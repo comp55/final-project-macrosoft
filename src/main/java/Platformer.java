@@ -113,9 +113,6 @@ public class Platformer extends SimulationFrame {
 	private SimulationBody character3;
 	private SimulationBody character4;
 	private boolean onGround = true;
-	private boolean onGround2 = true;
-	private boolean onGround3 = true;
-	private boolean onGround4 = true;
 
 	// creates the tomato icon
 	/*
