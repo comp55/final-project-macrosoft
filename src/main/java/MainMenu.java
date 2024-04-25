@@ -725,6 +725,10 @@ public class MainMenu {
     	howToPlayButton.setVisible(false);
     	backToMainMenuButton.setVisible(false);
     	
+    	ImageIcon backgroundImage = new ImageIcon("images/Keyboard.png");
+        JLabel keyBackground = new JLabel(backgroundImage);
+        keyBackground.setBounds(150, 250, 800, 300);
+    	
     	if (howToPlayPanel == null) {
     		
         	howToPlayPanel = new JPanel();
@@ -761,6 +765,7 @@ public class MainMenu {
             addButton(howToPlayPanel, "back", 50, 80, new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
+
                     buttonClicked.play();
 
                     startButton.setVisible(true);
@@ -768,7 +773,7 @@ public class MainMenu {
                     backToMainMenuButton.setVisible(true);
 
                     frame.getContentPane().remove(howToPlayPanel);
-                    frame.getContentPane().remove(mainBackground);
+                    frame.getContentPane().remove(keyBackground);
                     frame.setContentPane(playPanel);
                     frame.getContentPane().add(secondaryBackground);
                     frame.revalidate();
@@ -778,13 +783,10 @@ public class MainMenu {
                 }
             }, true);
             
-            ImageIcon backgroundImage = new ImageIcon("images/Keyboard.png");
-            mainBackground = new JLabel(backgroundImage);
-            mainBackground.setBounds(150, 250, 800, 300);
             
             
             frame.setContentPane(secondaryBackground);
-            frame.getContentPane().add(mainBackground);
+            frame.getContentPane().add(keyBackground);
             frame.getContentPane().add(howToPlayPanel);
             frame.revalidate();
             frame.repaint();
