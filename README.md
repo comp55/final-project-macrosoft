@@ -1,71 +1,89 @@
-# dyn4j-samples
-A collection of samples that use the dyn4j library in a variety of ways.
+# Overview of our game!
+	
+ Please! Make sure you check out DYN4J, which is the engine our game uses in order to run, you can find it here: https://dyn4j.org
 
-The intent of these samples is to provide a simple framework for building applications with the dyn4j library. The samples show how to use features like joints, static collision detection, raycasting, CCD, and so on. They also provide some creative ways to solve common problems like one-way platforms, jumping, destruction, player control, and so on. That said, none of these are intended to be complete solutions or even the correct solution for your use-case.
+ 
+Welcome to Fruitless Conflict, your premiere 2010 era early flash game fruit murder simulator! That’s a lot of words! But don’t worry, our game is very simple.
+ 
+ ![PlatformExamples](media/BetterPlatformer.png?raw=true "Platform sample")
+	
+ You, and up to 3 friends, can assume the role of one of these 4 fruits playing on a couple different maps. Your objective is to knock the other fruits off the map and be the last player standing. 
+ 
+ You do this by moving your characters around and using your character's speed and mass to knock other players back. A player must be knocked off the map in order to lose a life, and once they lose all their lives they are out of the game.
+ 
+  You control the game with one keyboard, using the arrow keys, wasd, tfgh, and ijkl keys for controlling player characters. And that’s the extent of controls!
+  
+![CharacterMenuExamples](media/DoubleMenu.png?raw=true "Char sample")
 
-* All samples support zoom and pan using the mouse and mouse wheel
-* All samples support object manipulation with the mouse
-* All samples have features like reset, reset camera, toggle rendering, etc.
-* Each sample may have it's own controls - see the console output when running for the full list of controls
 
-| Sample | Description | Concepts |
-| --- | --- | --- |
-| [BasketBall](https://github.com/dyn4j/dyn4j-samples/tree/master/src/main/java/org/dyn4j/samples/BasketBall.java) | A side view basketball game | Player Input, DistanceJoint, RevoluteJoint, Image Mapping/Texturing, Filtering, Bounds Listening |
-| [Billiards](https://github.com/dyn4j/dyn4j-samples/tree/master/src/main/java/org/dyn4j/samples/Billiards.java) | A top down billiards simulation | Density, Friction, Damping, Player Input |
-| [Bowling](https://github.com/dyn4j/dyn4j-samples/tree/master/src/main/java/org/dyn4j/samples/Bowling.java) | A side view of a bowling ball hitting pins | Density, Friction, Restitution, CategoryFilter |
-| [Bridge](https://github.com/dyn4j/dyn4j-samples/tree/master/src/main/java/org/dyn4j/samples/Bridge.java) | A side view of a bridge made from joined bodies | RevoluteJoint |
-| [Bucket](https://github.com/dyn4j/dyn4j-samples/tree/master/src/main/java/org/dyn4j/samples/Bucket.java) | A side view of a bucket with 200 random objects | Larger world |
-| [Concave](https://github.com/dyn4j/dyn4j-samples/tree/master/src/main/java/org/dyn4j/samples/Concave.java) | A side view of a concave object | Concave vs. Convex, Convex Composition |
-| [Crank](https://github.com/dyn4j/dyn4j-samples/tree/master/src/main/java/org/dyn4j/samples/Crank.java) | A side view of a piston | RevoluteJoint, PrismaticJoint |
-| [Decomposition](https://github.com/dyn4j/dyn4j-samples/tree/master/src/main/java/org/dyn4j/samples/Decomposition.java) | A side view of a few simple polygons decomposed | Convex Decomposition |
-| [Destructible](https://github.com/dyn4j/dyn4j-samples/tree/master/src/main/java/org/dyn4j/samples/Destructible.java) | A side view of destruction of a body and joint | Remove/Add Buffering |
-| [Images](https://github.com/dyn4j/dyn4j-samples/tree/master/src/main/java/org/dyn4j/samples/Images.java) | A side view of a scene where images are mapped to bodies | Image Mapping/Texturing |
-| [LinkTerrain](https://github.com/dyn4j/dyn4j-samples/tree/master/src/main/java/org/dyn4j/samples/LinkTerrain.java) | A side view of a link-based floor | Smooth Sliding, Link |
-| [Maze](https://github.com/dyn4j/dyn4j-samples/tree/master/src/main/java/org/dyn4j/samples/Maze.java) | A top down view of a maze with a player controled body | MotorJoint, Player Control |
-| [Organize](https://github.com/dyn4j/dyn4j-samples/tree/master/src/main/java/org/dyn4j/samples/Organize.java) | A side view of a scene where bodies are randomly joined and self organize | DistanceJoint |
-| [Platformer](https://github.com/dyn4j/dyn4j-samples/tree/master/src/main/java/org/dyn4j/samples/Platformer.java) | A side view of a platformer simulation | OnGround, Player Control, One-way Platform, Jumping |
-| [Pyramid](https://github.com/dyn4j/dyn4j-samples/tree/master/src/main/java/org/dyn4j/samples/Pyramid.java) | A side view of a Pyramid of stacked boxes | Stacking |
-| [Ragdoll](https://github.com/dyn4j/dyn4j-samples/tree/master/src/main/java/org/dyn4j/samples/Ragdoll.java) | A side view of a ragdoll made from joints | RevoluteJoint |
-| [Stacking](https://github.com/dyn4j/dyn4j-samples/tree/master/src/main/java/org/dyn4j/samples/Stacking.java) | A side view of a scene where the player can add boxes dynamically | Stacking, Add Bodies |
-| [Tank](https://github.com/dyn4j/dyn4j-samples/tree/master/src/main/java/org/dyn4j/samples/Tank.java) | A top down tank simulation | Raycasting, Player Control, FrictionJoint, RevoluteJoint |
-| [Thrust](https://github.com/dyn4j/dyn4j-samples/tree/master/src/main/java/org/dyn4j/samples/Thrust.java) | A side view of a scene with a rocket | Applying Forces |
-| [Tracking](https://github.com/dyn4j/dyn4j-samples/tree/master/src/main/java/org/dyn4j/samples/Tracking.java) | A scene where contact tracking is printed to the console | Contact Tracking |
-| [Truck](https://github.com/dyn4j/dyn4j-samples/tree/master/src/main/java/org/dyn4j/samples/Truck.java) | A scene where a truck filled with boxes moves through a world | WheelJoint, Fixture Composition |
-| [UsingGraphics2D](https://github.com/dyn4j/dyn4j-samples/tree/master/src/main/java/org/dyn4j/samples/UsingGraphics2D.java) | A scene with just a bunch of shapes rendered via Java 2D | Java 2D |
-| [UsingJogl](https://github.com/dyn4j/dyn4j-samples/tree/master/src/main/java/org/dyn4j/samples/UsingJogl.java) | A scene with a few shapes rendered via OpenGL via JOGL | JOGL |
+When you first enter the game, you will see our very simple menu. To navigate to our play, select the play button and then start a game. You will be presented with how many people you wish to play with. Please note there is no AI opponents!  
+You will get a selection between 2 maps, dinner plate and kitchen sink. You can set up how many lives, players, and what fruit each player wants to be. Once you're done, click ready and begin playing! If you're confused, make sure to read the how to play!
 
-### BasketBall
-Use angle, power, and position to attempt to make baskets. The sample only scores goals, so don't miss! If you are close you get 2 points, far away you get 3.  Only if you get it in when you launch it is counted.
+![MenuExamples](media/CharacterSelect.png?raw=true "Menu sample")
 
-![BasketBall Sample](captures/BasketBall.gif?raw=true "BasketBall sample")
+  This whole game is meant to emulate early 2010s flash games, with an emphasis on simple controls and easy to understand gameplay that is engaging and repeatable. We also wanted to add in an element of community, being able to share a single keyboard to play with others making the game far more fun, and invoking memories of times when kids would play flash games in the school computer labs once they where done with work.
 
-### Billiards
-Use the cue stick to hit the cue ball to hit the other balls.  You must wait until the balls settle before your next hit.
 
-![Billiards Sample](captures/Billiards.gif?raw=true "Billiards sample")
+  
+# Features not yet implimented:
+-Power ups
 
-### Platformer
-Use the ball to "run" around the level and jump. You can jump onto platforms above you no matter where you are, but if you land on them, they are solid. You can drop down from the top level as well. Green means you are touching the ground and can jump. Purple means you are not touching the ground.
+  -These we where close to implementing, We have things set up and ready for use, including some variables in player class, a timer in simulate frame that platformer extends, and ideas written down in our documentation. 
 
-![Platformer Sample](captures/Platformer.gif?raw=true "Platformer sample")
+  --
+  
+-More maps
 
-### Ragdoll
-Use your mouse to drag around and contort the ragdoll
+  -If you want to make your own map, you can! All you have to do is make a text file and put it into the maps folder, then add details
+  
+  -any LINE starting with a # is treated as a comment
+  
+  -current map format: SHAPE; SIZE X; SIZE Y; TRANSLATE X; TRANSLATE Y; ROTATION; MASS; USER DATA
+  
+  -SHAPES: RECTANGLE, ELLIPSE, HALF-ELLIPSE, TRIANGLE
+  
+  -Above is some documentation on maps, feel free to use it if you wish
 
-![Ragdoll Sample](captures/Ragdoll.gif?raw=true "Ragdoll sample")
+  --
+  
+-Ground pound
 
-### Tank
-Drive a tank! Independently operating the tracks and barrel. The barrel will be pushed aside by obstacles. The barrel is "shooting" a ray to see what it would hit. You can press a key to destroy the closest object you are aiming at.
+  -This was a though up ability for players to be able to slam into the ground after a certain amount of time in the air, this could be used as an attack and a way to stop yourself from flying off stage.
 
-![Tank Sample](captures/Tank.gif?raw=true "Tank sample")
+  --
+  
+-More modes
 
-### Thrust
-How hard can it be to fly a rocket? Using only front, back and side thrusters (applied force) fly a rocket around an enclosed area. Challenge yourself to land without tipping over or flying in a smooth trajectory.
+  -In our initial design, we wanted to implement a 2v2 mode where the players would be on teams, and players on the same team could not interact with each other but could with the enemy. We do have a way to implement more game   
+    modes in our platformer class.
+    
+  -In our main code, we call line up GameRulesStock() to be activated when play is clicked, so all we would need to do is create a different list of rules to be called when another mode like 2v2 is selected.
 
-![Thrust Sample](captures/Thrust.gif?raw=true "Thrust sample")
+--
 
-### Truck
-Drive a truck with cargo! Accelerate and decelerate using the keyboard or stop immediately. Watch the contents slide around as you drive. Use the mouse to manipulate the truck frame to see the suspension compress.
+-Moving obstacles
 
-![Truck Sample](captures/Truck.gif?raw=true "Truck sample")
+  -This was the final thing and was going to be implemented with the maps, however we just didn’t have the time to create obsticles
 
+ 
+# How to play our game:
+Extract from GitHub repository
+
+Open eclipse, you can download eclipse if you don’t already have it at https://www.eclipse.org/downloads/
+
+Click file in the top left corner
+
+Click on import in the drop down menu
+
+Under general click ‘existing projects into workspace’
+
+Find the zipped game file and select it
+
+Make sure under the project all files are selected
+
+Click finish
+
+Click on main menu in the project filed under src/main/java > (default package) > MainMenu.java
+
+Click run
+Enjoy
