@@ -113,6 +113,14 @@ public class Platformer extends SimulationFrame {
 	private SimulationBody character3;
 	private SimulationBody character4;
 	private boolean onGround = true;
+	private boolean onGround2 = true;
+	private boolean onGround3 = true;
+	private boolean onGround4 = true;
+	
+	Sound bgMusic = new Sound("audio/FightSong.mp3", true);
+	Sound pauseSFX = new Sound("audio/ClickSound.mp3", false);
+	Sound winSFX = new Sound("audio/WinSound.mp3", false);
+	
 
 	// creates the tomato icon
 	/*
@@ -293,8 +301,8 @@ public class Platformer extends SimulationFrame {
 			}
 		});
 
-		Sound music = new Sound("audio/FightSong.mp3", true);
-		// music.play();
+		
+		bgMusic.play();
 
 	}
 
@@ -515,6 +523,10 @@ public class Platformer extends SimulationFrame {
 
 		if (gameOver) {
 			this.pause();
+			bgMusic.stop();
+			if (!winSFX.isPlaying()){
+				winSFX.play();
+			}
 		}
 		
 		if(this.isPaused()) {

@@ -10,6 +10,7 @@ public class Sound {
     private AdvancedPlayer player;
     private Thread musicThread;
     private boolean loop;
+    private boolean playing;
 
     public Sound(String filePath, boolean loop) {
     	
@@ -36,11 +37,17 @@ public class Sound {
             }
         });
         musicThread.start();
+        playing = true;
     }
 
+    public Boolean isPlaying() {
+    	return playing;
+    }
+    
     public void stop() {
         if (player != null) {
         	loop = false;
+        	playing = false;
             player.close();
         }
         if (musicThread != null) {
