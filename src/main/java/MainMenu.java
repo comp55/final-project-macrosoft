@@ -727,7 +727,20 @@ public class MainMenu {
             label.setFont(DEFAULT_FONT);
             label.setHorizontalAlignment(JLabel.CENTER);
             label.setBounds(0, 20, panelWidth, 30);
-            howToPlayPanel.add(label);
+            //howToPlayPanel.add(label);
+            
+            JLabel keybind = new JLabel("ooof");
+            label.setFont(DEFAULT_FONT);
+            //label.setHorizontalAlignment(JLabel.CENTER);
+            label.setBounds(0, 20, panelWidth, 30);
+            howToPlayPanel.add(keybind);
+            
+            
+            JLabel goal = new JLabel("ah");
+            label.setFont(DEFAULT_FONT);
+            //label.setHorizontalAlignment(JLabel.CENTER);
+            label.setBounds(0, 20, panelWidth, 30);
+            //howToPlayPanel.add(goal);
             
             addButton(howToPlayPanel, "back", 50, 80, new ActionListener() {
                 @Override
@@ -739,6 +752,7 @@ public class MainMenu {
                     backToMainMenuButton.setVisible(true);
 
                     frame.getContentPane().remove(howToPlayPanel);
+                    frame.getContentPane().remove(mainBackground);
                     frame.setContentPane(playPanel);
                     frame.getContentPane().add(secondaryBackground);
                     frame.revalidate();
@@ -747,8 +761,13 @@ public class MainMenu {
                     howToPlayPanel = null;
                 }
             }, true);
-
+            
+            ImageIcon backgroundImage = new ImageIcon("images/Keyboard.png");
+            mainBackground = new JLabel(backgroundImage);
+            mainBackground.setBounds(150, 250, 800, 300);
+            
             frame.setContentPane(secondaryBackground);
+            frame.getContentPane().add(mainBackground);
             frame.getContentPane().add(howToPlayPanel);
             frame.revalidate();
             frame.repaint();
