@@ -782,6 +782,7 @@ public class MainMenu {
             mainBackground = new JLabel(backgroundImage);
             mainBackground.setBounds(150, 250, 800, 300);
             
+            
             frame.setContentPane(secondaryBackground);
             frame.getContentPane().add(mainBackground);
             frame.getContentPane().add(howToPlayPanel);
