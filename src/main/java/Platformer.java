@@ -183,9 +183,7 @@ public class Platformer extends SimulationFrame {
 		initPlayers(numPlayers);
 		//initUI(numPlayers);
 
-		// SETP 1:
-		// at the beginning of each world step, check if the body is in
-		// contact with any of the floor bodies
+		//Checks the initial contact of objects to make sure all is well essentially, and so players can't start off jumping
 		this.world.addStepListener(new StepListenerAdapter<SimulationBody>() {
 			@Override
 			public void begin(TimeStep step, PhysicsWorld<SimulationBody, ?> world) {
@@ -212,9 +210,7 @@ public class Platformer extends SimulationFrame {
 			}
 		});
 
-		// STEP 2:
-		// when contacts are processed, we need to check if we're colliding with either
-		// the one-way platform or the ground
+		//checks how the users start out connected with the map
 		this.world.addContactListener(new ContactListenerAdapter<SimulationBody>() {
 			@Override
 			public void collision(ContactCollisionData<SimulationBody> collision) {
@@ -260,6 +256,7 @@ public class Platformer extends SimulationFrame {
 
 	
 	// very wip, do not use
+	//supposed to display player UI instead of relying on text boxes
 	protected void initUI(int p) {
 		UI p1UI = new UI(1, startingScore, p1_img);
 		UI p2UI = new UI(2, startingScore, p2_img);
@@ -293,14 +290,7 @@ public class Platformer extends SimulationFrame {
 
 	}
 
-	/**
-	 * Helper method to determine if a body is one of the given types assuming the
-	 * type is stored in the user data.
-	 * 
-	 * @param body  the body
-	 * @param types the set of types
-	 * @return boolean
-	 */
+	//helper function that checks objects bodies and sees if they are the correct type
 	private boolean is(SimulationBody body, Object... types) {
 		for (Object type : types) {
 			if (body.getUserData() == type) {
@@ -310,14 +300,7 @@ public class Platformer extends SimulationFrame {
 		return false;
 	}
 
-	/**
-	 * Returns true if the given platform should be toggled as one-way given the
-	 * position of the character body.
-	 * 
-	 * @param character the character body
-	 * @param platform  the platform body
-	 * @return boolean
-	 */
+	//changes the type for two way platform to allows users up through the bottom
 	private boolean allowOneWayUp(SimulationBody character, SimulationBody platform) {
 		AABB wAABB = character.createAABB();
 		AABB pAABB = platform.createAABB();
@@ -339,12 +322,7 @@ public class Platformer extends SimulationFrame {
 		return false;
 	}
 
-	/**
-	 * Disables the constraint if it's between the character and platform and it the
-	 * scenario meets the condition for one-way.
-	 * 
-	 * @param contactConstraint the constraint
-	 */
+	//stops the character from falling through once there in
 	private void disableContactForOneWay(ContactConstraint<SimulationBody> contactConstraint) {
 		SimulationBody b1 = contactConstraint.getBody1();
 		SimulationBody b2 = contactConstraint.getBody2();
@@ -374,12 +352,7 @@ public class Platformer extends SimulationFrame {
 //		}
 	}
 
-	/**
-	 * Sets the isOnGround flag if the given contact constraint is between the
-	 * character body and a floor or one-way platform.
-	 * 
-	 * @param contactConstraint
-	 */
+	//Tries to tell if an object is on the ground or not
 	private void trackIsOnGround(ContactConstraint<SimulationBody> contactConstraint) {
 		SimulationBody b1 = contactConstraint.getBody1();
 		SimulationBody b2 = contactConstraint.getBody2();
@@ -418,6 +391,7 @@ public class Platformer extends SimulationFrame {
 			character2.applyTorque(-Math.PI / 1);
 		}
 
+		//you get the picture by now
 		if (this.p3_left.isActive()) {
 			character3.applyTorque(Math.PI / 1);
 		}
@@ -512,6 +486,7 @@ public class Platformer extends SimulationFrame {
 		return false;
 	}
 
+	//renders certain graphics such as the lives system and others upon launch, updating them as needed
 	protected void render(Graphics2D g, double elapsedTime) {
 		super.render(g, elapsedTime);
 		AffineTransform tx = g.getTransform();
@@ -599,6 +574,7 @@ public class Platformer extends SimulationFrame {
 
 	}
 
+	//prints out the pause and win menus
 	private void showMenuBox(Graphics2D g, int x, int y) {
 		final int w = 600;
 		final int h = 400;
@@ -714,9 +690,7 @@ public class Platformer extends SimulationFrame {
 		this.dispose();
 	}
 
-	/**
-	 * Entry point for the example application.
-	 */
+	//Default start if this class is open when the user hits play
 	public static void main(String[] args) {
 		Platformer simulation = new Platformer();
 		simulation.setPlayerIMG("t", "a", "o", "w");
