@@ -243,8 +243,6 @@ public class Platformer extends SimulationFrame {
 
 		initPlayers(numPlayers);
 		initUI(numPlayers);
-		
-		
 
 		// Use a number of concepts here to support movement, jumping, and one-way
 		// platforms - this is by no means THE solution to these problems, but just
@@ -302,7 +300,7 @@ public class Platformer extends SimulationFrame {
 			}
 		});
 
-		//bgMusic.play();
+		// bgMusic.play();
 
 	}
 
@@ -329,14 +327,34 @@ public class Platformer extends SimulationFrame {
 			this.world.addBody(character4);
 		}
 	}
-	
+
 	protected void initUI(int p) {
 		UI p1UI = new UI(1, p1_img);
-		
-		for (int i = 0; i <= numPlayers; i++) {
-			this.world.addBody(p1UI.createUI(i));
+		UI p2UI = new UI(2, p2_img);
+		UI p3UI = new UI(3, p3_img);
+		UI p4UI = new UI(4, p4_img);
+
+		if (p >= 1) {
+			for (int i = 0; i <= numPlayers; i++) {
+				this.world.addBody(p1UI.createUI(i));
+			}
 		}
-		
+		if (p >= 2) {
+			for (int i = 0; i <= numPlayers; i++) {
+				this.world.addBody(p2UI.createUI(i));
+			}
+		}
+		if (p >= 3) {
+			for (int i = 0; i <= numPlayers; i++) {
+				this.world.addBody(p3UI.createUI(i));
+			}
+		}
+		if (p >= 4) {
+			for (int i = 0; i <= numPlayers; i++) {
+				this.world.addBody(p4UI.createUI(i));
+			}
+		}
+
 	}
 
 	/**
@@ -621,7 +639,7 @@ public class Platformer extends SimulationFrame {
 				g.drawString("P4 Lives: " + (player4.getLives() + 1), 20, 120);
 			}
 		}
-		
+
 		switch (winPlayer()) {
 		case 1:
 			showMenuBox(g, winWidth, winHeight);
@@ -675,8 +693,6 @@ public class Platformer extends SimulationFrame {
 		g.drawRect(xPos, yPos, w, h);
 		g.drawString("Press Backspace to quit and return to the menu", x - 200, y + 150);
 	}
-
-
 
 	// returns the number of the winning player
 	private int winPlayer() {

@@ -12,7 +12,7 @@ public class UI extends Platformer {
 	
 	private final int originX = -18;
 	private final int originY = -10;
-	private final int playerOffset = 5;
+	private final int playerOffset = 7;
 	private final int Xoffset = 2;
 	private final int Yoffset = -1;
 	
@@ -35,30 +35,36 @@ public class UI extends Platformer {
 	public ImageBody createUI(int index) {
 		ImageBody temp = null;
 		
-		int x = originX;
-		int y = originY;
-		int scale;
+		int homeX = (playerNum - 1) * playerOffset;
+		
+	
+		int xstart = originX + homeX;
+		int ystart = originY;
+		int x = xstart;
+		int y = ystart;
+		int scale = 1;;
 		
 		switch (index){
 		case 0:
 			temp = uiMain;
-			x = originX;
-			y = originY;
+			x = xstart;
+			y = ystart;
+			scale = 2;
 			break;
 		case 1:
 			temp = l1;
-			x = originX + Xoffset;
-			y = originY + Yoffset;
+			x = xstart + Xoffset;
+			y = ystart + Yoffset;
 			break;
 		case 2:
 			temp = l2;
-			x = originX + Xoffset *2;
-			y = originY + Yoffset;
+			x = xstart + Xoffset *2;
+			y = ystart + Yoffset;
 			break;
 		case 3:
 			temp = l3;
-			x = originX + Xoffset *3;
-			y = originY + Yoffset;
+			x = xstart + Xoffset *3;
+			y = ystart + Yoffset;
 			break;
 		default:
 			break;
@@ -69,7 +75,7 @@ public class UI extends Platformer {
 		temp.setMass(MassType.INFINITE);
 		temp.translate(x, y);
 		temp.setCustomImageStatus(true);
-		temp.setImageOptions(0, 0, 40, 40);
+		temp.setImageOptions(-15 * scale, 15 * scale, 50 * scale, -40 * scale);
 		return temp;
 
 	}
