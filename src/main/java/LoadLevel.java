@@ -16,9 +16,6 @@ public class LoadLevel extends Platformer {
 	// ROTATION; MASS; USER DATA
 	// any LINE starting with a # is treated as a comment
 
-	private static final Color floorColor = Color.MAGENTA;
-	private static final Color platformColor = Color.MAGENTA;
-
 	private int length;
 	private ArrayList<String> levelLoadText = new ArrayList<String>();
 	private String mapVersion;
@@ -147,12 +144,6 @@ public class LoadLevel extends Platformer {
 		default:
 		}
 		return tempBody;
-
-	}
-
-	@Override
-	protected void initializeWorld() {
-		// TODO Auto-generated method stub
 
 	}
 

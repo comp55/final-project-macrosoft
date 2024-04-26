@@ -48,20 +48,7 @@ import org.dyn4j.world.PhysicsWorld;
 import org.dyn4j.world.listener.ContactListenerAdapter;
 import org.dyn4j.world.listener.StepListenerAdapter;
 
-/**
- * A simple scene of a circle that is controlled by the left and right arrow
- * keys that is moved by applying torques and forces.
- * <p>
- * Also illustrated here is how to track whether the body is in contact with the
- * "ground."
- * <p>
- * Always keep in mind that this is just an example, production code should be
- * more robust and better organized.
- * 
- * @author William Bittle
- * @since 5.0.1
- * @version 3.2.0
- */
+
 public class Platformer extends SimulationFrame {
 	/** The serial version id */
 	private static final long serialVersionUID = -313391186714427055L;
@@ -127,24 +114,7 @@ public class Platformer extends SimulationFrame {
 	ArrayList<ImageBody> uiElements_p3 = new ArrayList<ImageBody>();
 	ArrayList<ImageBody> uiElements_p4 = new ArrayList<ImageBody>();
 
-	// creates the tomato icon
-	/*
-	 * private static final BufferedImage tomato =
-	 * getImageSuppressExceptions("images/tomatoPlayer.PNG");
-	 * 
-	 * Helper function to read the images from the class path
-	 */
-	/*
-	 * private static final BufferedImage getImageSuppressExceptions(String
-	 * pathOnClasspath) { try { return
-	 * ImageIO.read(Images.class.getResource(pathOnClasspath)); } catch (IOException
-	 * e) { return null; } }
-	 */
 
-	/**
-	 * Default constructor for the window Map will be intigrated once we call this
-	 * class from menus
-	 */
 	public Platformer() {
 		super("Platformer");
 
@@ -217,12 +187,7 @@ public class Platformer extends SimulationFrame {
 		p4_img = p4;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.dyn4j.samples.framework.SimulationFrame#initializeCamera(org.dyn4j.
-	 * samples.framework.Camera)
-	 */
+
 	@Override
 	protected void initializeCamera(Camera camera) {
 		super.initializeCamera(camera);
@@ -231,12 +196,6 @@ public class Platformer extends SimulationFrame {
 
 	// Creates game objects and adds them to the world.
 	protected void initializeWorld() {
-
-		// TODO this will set the map variable
-		/*
-		 * switch(mapNum) { case value1 : // Statements case value2 : // Statements
-		 * default : // default Statement }
-		 */
 
 		// loads level from a text file
 		LoadLevel loading = new LoadLevel(map);
@@ -306,7 +265,7 @@ public class Platformer extends SimulationFrame {
 			}
 		});
 
-		// bgMusic.play();
+		bgMusic.play();
 
 	}
 
@@ -467,22 +426,14 @@ public class Platformer extends SimulationFrame {
 		}
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.dyn4j.samples.framework.SimulationFrame#reset()
-	 */
+
 	@Override
 	public void reset() {
 		super.reset();
 		this.onGround = false;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.dyn4j.samples.framework.SimulationFrame#handleEvents()
-	 */
+
 	protected void handleEvents() {
 		super.handleEvents();
 
@@ -516,7 +467,7 @@ public class Platformer extends SimulationFrame {
 			character4.applyTorque(-Math.PI / 1);
 		}
 
-		// Jumping mechanism for character (Up arrow key)
+		// Jumping mechanism for character 1
 		if (this.p1_up.isActiveButNotHandled()) {
 			this.p1_up.setHasBeenHandled(true);
 			if (this.onGround(character)) {
@@ -527,7 +478,7 @@ public class Platformer extends SimulationFrame {
 			}
 		}
 
-		// Jumping mechanism for character 2 (W key)
+		// Jumping mechanism for character 2
 		if (this.p2_up.isActiveButNotHandled()) {
 			this.p2_up.setHasBeenHandled(true);
 			if (this.onGround(character2)) {
@@ -537,7 +488,8 @@ public class Platformer extends SimulationFrame {
 				onGround = false;
 			}
 		}
-
+		
+		// Jumping mechanism for character 3
 		if (this.p3_up.isActiveButNotHandled()) {
 			this.p3_up.setHasBeenHandled(true);
 			if (this.onGround(character3)) {
@@ -547,7 +499,7 @@ public class Platformer extends SimulationFrame {
 				onGround = false;
 			}
 		}
-
+		// Jumping mechanism for character 4
 		if (this.p4_up.isActiveButNotHandled()) {
 			this.p4_up.setHasBeenHandled(true);
 			if (this.onGround(character4)) {
@@ -573,13 +525,6 @@ public class Platformer extends SimulationFrame {
 				closeToMenu();
 			}
 		}
-
-		// Update character color based on whether it's on the ground or not
-		// TODO use for testing, delete later
-		// character.setColor(onGround(character) ? WHEEL_ON_COLOR :
-		// player1.getplayerColor());
-		// character2.setColor(onGround(character2) ? WHEEL_ON_COLOR :
-		// player2.getplayerColor());
 	}
 
 	private boolean onGround(SimulationBody character) {
@@ -613,7 +558,6 @@ public class Platformer extends SimulationFrame {
 		int winHeight = (int) (this.getHeight() * 0.5);
 
 		
-
 		g.setColor(Color.black);
 
 		g.setFont(new Font("SansSerif", Font.PLAIN, 20));
@@ -687,7 +631,6 @@ public class Platformer extends SimulationFrame {
 			g.setFont(new Font("SansSerif", Font.PLAIN, 50));
 			g.drawString("PAUSED", winWidth - 100, winHeight - 150);
 		}
-		// todo add clickable pause button and pause menu
 
 	}
 
