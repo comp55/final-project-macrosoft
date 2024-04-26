@@ -108,19 +108,18 @@ public class Platformer extends SimulationFrame {
 	private Player player2;
 	private Player player3;
 	private Player player4;
-	private SimulationBody character;
-	private SimulationBody character2;
-	private SimulationBody character3;
-	private SimulationBody character4;
+	private ImageBody character;
+	private ImageBody character2;
+	private ImageBody character3;
+	private ImageBody character4;
 	private boolean onGround = true;
 	private boolean onGround2 = true;
 	private boolean onGround3 = true;
 	private boolean onGround4 = true;
-	
+
 	Sound bgMusic = new Sound("audio/FightSong.mp3", true);
 	Sound pauseSFX = new Sound("audio/ClickSound.mp3", false);
 	Sound winSFX = new Sound("audio/WinSound.mp3", false);
-	
 
 	// creates the tomato icon
 	/*
@@ -164,7 +163,7 @@ public class Platformer extends SimulationFrame {
 		this.p4_right = new BooleanStateKeyboardInputHandler(this.canvas, KeyEvent.VK_L);
 
 		this.quit = new BooleanStateKeyboardInputHandler(this.canvas, KeyEvent.VK_BACK_SPACE);
-		
+
 		this.p1_up.install();
 		this.p1_down.install();
 		this.p1_left.install();
@@ -184,7 +183,7 @@ public class Platformer extends SimulationFrame {
 		this.p4_down.install();
 		this.p4_left.install();
 		this.p4_right.install();
-		
+
 		this.quit.install();
 
 	}
@@ -237,13 +236,15 @@ public class Platformer extends SimulationFrame {
 		LoadLevel loading = new LoadLevel(map);
 		int length = loading.getLength();
 		this.world.addBody(loading.loadBG());
-		
-		
+
 		for (int i = 0; i < length; i++) {
 			this.world.addBody(loading.loadMap(i));
 		}
 
 		initPlayers(numPlayers);
+		initUI(numPlayers);
+		
+		
 
 		// Use a number of concepts here to support movement, jumping, and one-way
 		// platforms - this is by no means THE solution to these problems, but just
@@ -301,16 +302,15 @@ public class Platformer extends SimulationFrame {
 			}
 		});
 
-		
-		bgMusic.play();
+		//bgMusic.play();
 
 	}
 
 	protected void initPlayers(int p) {
-		player1 = new Player(4, 2, startingScore, Color.orange);
-		player2 = new Player(2, 2, startingScore, Color.red);
-		player3 = new Player(-2, 2, startingScore, Color.black);
-		player4 = new Player(-4, 2, startingScore, Color.cyan);
+		player1 = new Player(4, 2, startingScore, Color.orange, 1);
+		player2 = new Player(2, 2, startingScore, Color.red, 2);
+		player3 = new Player(-2, 2, startingScore, Color.black, 3);
+		player4 = new Player(-4, 2, startingScore, Color.cyan, 4);
 
 		if (p >= 1) {
 			character = player1.createPlayer(p1_img);
@@ -328,6 +328,15 @@ public class Platformer extends SimulationFrame {
 			character4 = player4.createPlayer(p4_img);
 			this.world.addBody(character4);
 		}
+	}
+	
+	protected void initUI(int p) {
+		UI p1UI = new UI(1, p1_img);
+		
+		for (int i = 0; i <= numPlayers; i++) {
+			this.world.addBody(p1UI.createUI(i));
+		}
+		
 	}
 
 	/**
@@ -398,17 +407,17 @@ public class Platformer extends SimulationFrame {
 			}
 		}
 
-		if (is(b1, CHARACTER) && is(b2, ONE_WAY_PLATFORM)) {
-			if (allowOneWayUp(b1, b2) || p2_down.isActiveButNotHandled()) {
-				p2_down.setHasBeenHandled(true);
-				contactConstraint.setEnabled(false);
-			}
-		} else if (is(b1, ONE_WAY_PLATFORM) && is(b2, CHARACTER)) {
-			if (allowOneWayUp(b2, b1) || p2_down.isActiveButNotHandled()) {
-				p2_down.setHasBeenHandled(true);
-				contactConstraint.setEnabled(false);
-			}
-		}
+//		if (is(b1, CHARACTER) && is(b2, ONE_WAY_PLATFORM)) {
+//			if (allowOneWayUp(b1, b2) || p2_down.isActiveButNotHandled()) {
+//				p2_down.setHasBeenHandled(true);
+//				contactConstraint.setEnabled(false);
+//			}
+//		} else if (is(b1, ONE_WAY_PLATFORM) && is(b2, CHARACTER)) {
+//			if (allowOneWayUp(b2, b1) || p2_down.isActiveButNotHandled()) {
+//				p2_down.setHasBeenHandled(true);
+//				contactConstraint.setEnabled(false);
+//			}
+//		}
 	}
 
 	/**
@@ -524,12 +533,12 @@ public class Platformer extends SimulationFrame {
 		if (gameOver) {
 			this.pause();
 			bgMusic.stop();
-			if (!winSFX.isPlaying()){
+			if (!winSFX.isPlaying()) {
 				winSFX.play();
 			}
 		}
-		
-		if(this.isPaused()) {
+
+		if (this.isPaused()) {
 			if (quit.isActive()) {
 				closeToMenu();
 			}
@@ -612,7 +621,7 @@ public class Platformer extends SimulationFrame {
 				g.drawString("P4 Lives: " + (player4.getLives() + 1), 20, 120);
 			}
 		}
-
+		
 		switch (winPlayer()) {
 		case 1:
 			showMenuBox(g, winWidth, winHeight);
@@ -653,19 +662,21 @@ public class Platformer extends SimulationFrame {
 		// todo add clickable pause button and pause menu
 
 	}
-	
+
 	private void showMenuBox(Graphics2D g, int x, int y) {
 		final int w = 600;
 		final int h = 400;
 		int xPos = (int) (x - (w * 0.5));
 		int yPos = (int) (y - (h * 0.5));
-		
+
 		g.setColor(Color.white);
 		g.fillRect(xPos, yPos, w, h);
 		g.setColor(Color.black);
 		g.drawRect(xPos, yPos, w, h);
 		g.drawString("Press Backspace to quit and return to the menu", x - 200, y + 150);
 	}
+
+
 
 	// returns the number of the winning player
 	private int winPlayer() {
@@ -756,7 +767,7 @@ public class Platformer extends SimulationFrame {
 			}
 		}
 	}
-	
+
 	private void close() {
 		this.stop();
 		this.dispose();
@@ -776,7 +787,7 @@ public class Platformer extends SimulationFrame {
 		simulation.setPlayerIMG("t", "a", "o", "w");
 		simulation.setMap("map1");
 		simulation.setNumPlayers(2);
-		simulation.setStartingScore(0);
+		simulation.setStartingScore(2);
 		simulation.run();
 	}
 }

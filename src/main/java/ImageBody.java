@@ -8,6 +8,8 @@ import javax.imageio.ImageIO;
 import org.dyn4j.dynamics.BodyFixture;
 import org.dyn4j.geometry.Circle;
 import org.dyn4j.geometry.Convex;
+import org.dyn4j.geometry.Geometry;
+import org.dyn4j.geometry.MassType;
 import org.dyn4j.geometry.Vector2;
 import org.dyn4j.samples.framework.SimulationBody;
 
@@ -15,6 +17,8 @@ public final class ImageBody extends SimulationBody {
 	/** The image to use, if required */
 
 	private double scaleMult;
+	private int bodyX;
+	private int bodyY;
 	private int imageX;
 	private int imageY;
 	private int imageW;
@@ -27,6 +31,11 @@ public final class ImageBody extends SimulationBody {
 		this.image = getImageSuppressExceptions("/imagesG/" + imagePath);
 		customImg = false;
 	}
+	
+	public ImageBody() {
+
+	}
+	
 
 	public static final BufferedImage getImageSuppressExceptions(String pathOnClasspath) {
 		try {
@@ -50,6 +59,18 @@ public final class ImageBody extends SimulationBody {
 	
 	public Boolean getCustomImageStatus() {
 		return customImg;
+	}
+	
+	public ImageBody loadStaticIMG(String imgS, int bodyX, int bodyY, int imgX, int imgY, int imgW, int imgH) {
+
+		ImageBody img = new ImageBody(imgS);
+		img.addFixture(Geometry.createCircle(0.00001), 0, 0, 0);
+		img.setMass(MassType.INFINITE);
+		img.translate(bodyX, bodyY);
+		img.setCustomImageStatus(true);
+		img.setImageOptions(imgX, imgY, imgW, imgH);
+		return img;
+
 	}
 
 	/*

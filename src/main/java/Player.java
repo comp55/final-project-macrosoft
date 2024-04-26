@@ -17,6 +17,7 @@ public class Player extends Platformer {
 	private Color playerColor;
 	private int lives;
 	private Boolean isOut = true;
+	private int playerNum;
 
 	private static final String TOMATO = "tomatoPlayer.png";
 	private static final String ORANGE = "orangePlayer.png";
@@ -30,10 +31,11 @@ public class Player extends Platformer {
 	
 	private double powerUpMultiplier = 0;
 
-	public Player(int x, int y, int startingScore, Color color) {
+	public Player(int x, int y, int startingScore, Color color, int player) {
 		startX = x;
 		startY = y;
 		playerColor = color;
+		playerNum = player;
 		lives = startingScore;
 	}
 
@@ -94,6 +96,10 @@ public class Player extends Platformer {
 
 	public void setPlayerControls(String playerControls) {
 		this.playerControls = playerControls;
+	}
+	
+	public int getPlayerNum() {
+		return playerNum;
 	}
 
 	// TODO maybe delete?

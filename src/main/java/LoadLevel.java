@@ -61,7 +61,7 @@ public class LoadLevel extends Platformer {
 
 	}
 
-	public ImageBody loadStaticIMG(String imgS, int bodyX, int bodyY, int imgX, int imgY, int imgW, int imgH) {
+	public ImageBody loadMapIMG(String imgS, int bodyX, int bodyY, int imgX, int imgY, int imgW, int imgH) {
 
 		ImageBody img = new ImageBody(imgS);
 		img.addFixture(Geometry.createCircle(0.00001), 0, 0, 0);
@@ -89,7 +89,7 @@ public class LoadLevel extends Platformer {
 		inputStr = inputStr.replace("$", "");
 		String[] bgArr = inputStr.split(";", 0);
 		
-		ImageBody mapBG = loadStaticIMG(bgArr[0], Integer.parseInt(bgArr[1]), Integer.parseInt(bgArr[2]), Integer.parseInt(bgArr[3]), Integer.parseInt(bgArr[4]), Integer.parseInt(bgArr[5]), Integer.parseInt(bgArr[6]));
+		ImageBody mapBG = loadMapIMG(bgArr[0], Integer.parseInt(bgArr[1]), Integer.parseInt(bgArr[2]), Integer.parseInt(bgArr[3]), Integer.parseInt(bgArr[4]), Integer.parseInt(bgArr[5]), Integer.parseInt(bgArr[6]));
 		return mapBG;
 		
 		
