@@ -29,7 +29,7 @@ import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
 import java.awt.geom.AffineTransform;
-
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JFrame;
@@ -120,6 +120,12 @@ public class Platformer extends SimulationFrame {
 	Sound bgMusic = new Sound("audio/FightSong.mp3", true);
 	Sound pauseSFX = new Sound("audio/ClickSound.mp3", false);
 	Sound winSFX = new Sound("audio/WinSound.mp3", false);
+	
+    // For in-progress UI tests	
+	ArrayList<ImageBody> uiElements_p1 = new ArrayList<ImageBody>();
+	ArrayList<ImageBody> uiElements_p2 = new ArrayList<ImageBody>();
+	ArrayList<ImageBody> uiElements_p3 = new ArrayList<ImageBody>();
+	ArrayList<ImageBody> uiElements_p4 = new ArrayList<ImageBody>();
 
 	// creates the tomato icon
 	/*
@@ -242,7 +248,7 @@ public class Platformer extends SimulationFrame {
 		}
 
 		initPlayers(numPlayers);
-		initUI(numPlayers);
+		//initUI(numPlayers);
 
 		// Use a number of concepts here to support movement, jumping, and one-way
 		// platforms - this is by no means THE solution to these problems, but just
@@ -328,32 +334,38 @@ public class Platformer extends SimulationFrame {
 		}
 	}
 
+	
+	// very wip, do not use
 	protected void initUI(int p) {
-		UI p1UI = new UI(1, p1_img);
-		UI p2UI = new UI(2, p2_img);
-		UI p3UI = new UI(3, p3_img);
-		UI p4UI = new UI(4, p4_img);
+		UI p1UI = new UI(1, startingScore, p1_img);
+		UI p2UI = new UI(2, startingScore, p2_img);
+		UI p3UI = new UI(3, startingScore, p3_img);
+		UI p4UI = new UI(4, startingScore, p4_img);
+	
+		int length;
 
 		if (p >= 1) {
-			for (int i = 0; i <= numPlayers; i++) {
-				this.world.addBody(p1UI.createUI(i));
+			uiElements_p1 = p1UI.getUIarray();
+			length = uiElements_p1.size();
+			for (int i = 0; i <= length-1; i++) {
+				this.world.addBody(uiElements_p1.get(i));
 			}
 		}
-		if (p >= 2) {
-			for (int i = 0; i <= numPlayers; i++) {
-				this.world.addBody(p2UI.createUI(i));
-			}
-		}
-		if (p >= 3) {
-			for (int i = 0; i <= numPlayers; i++) {
-				this.world.addBody(p3UI.createUI(i));
-			}
-		}
-		if (p >= 4) {
-			for (int i = 0; i <= numPlayers; i++) {
-				this.world.addBody(p4UI.createUI(i));
-			}
-		}
+//		if (p >= 2) {
+//			for (int i = 0; i <= numPlayers; i++) {
+//				this.world.addBody(p2UI.createUI(i));
+//			}
+//		}
+//		if (p >= 3) {
+//			for (int i = 0; i <= numPlayers; i++) {
+//				this.world.addBody(p3UI.createUI(i));
+//			}
+//		}
+//		if (p >= 4) {
+//			for (int i = 0; i <= numPlayers; i++) {
+//				this.world.addBody(p4UI.createUI(i));
+//			}
+//		}
 
 	}
 
@@ -600,43 +612,41 @@ public class Platformer extends SimulationFrame {
 		int winWidth = (int) (this.getWidth() * 0.5);
 		int winHeight = (int) (this.getHeight() * 0.5);
 
-		if (numPlayers >= 1) {
-			g.setColor(Color.black);
-			g.setFont(new Font("SansSerif", Font.PLAIN, 20));
+		
+
+		g.setColor(Color.black);
+
+		g.setFont(new Font("SansSerif", Font.PLAIN, 20));
+		
+		if (numPlayers >= 1) {;
 			if (player1.isOut()) {
-				g.drawString("P1 OUT ", 20, 45);
+				g.drawString("P1 OUT ", winWidth * 2 + - 125, 45);
 			} else {
-				g.drawString("P1 Lives: " + (player1.getLives() + 1), 20, 45);
+				g.drawString("P1 Lives: " + (player1.getLives() + 1), winWidth * 2 + - 125, 45);
 			}
 		}
 
 		if (numPlayers >= 2) {
-			g.setColor(Color.black);
-			g.setFont(new Font("SansSerif", Font.PLAIN, 20));
 			if (player2.isOut()) {
-				g.drawString("P2 OUT ", 20, 70);
+				g.drawString("P2 OUT ", winWidth * 2 + - 125, 70);
 			} else {
-				g.drawString("P2 Lives: " + (player2.getLives() + 1), 20, 70);
+				g.drawString("P2 Lives: " + (player2.getLives() + 1), winWidth * 2 + - 125, 70);
 			}
 		}
 
 		if (numPlayers >= 3) {
-			g.setColor(Color.black);
-			g.setFont(new Font("SansSerif", Font.PLAIN, 20));
 			if (player3.isOut()) {
-				g.drawString("P3 OUT ", 20, 95);
+				g.drawString("P3 OUT ", winWidth * 2 + - 125, 95);
 			} else {
-				g.drawString("P3 Lives: " + (player3.getLives() + 1), 20, 95);
+				g.drawString("P3 Lives: " + (player3.getLives() + 1), winWidth * 2 + - 125, 95);
 			}
 		}
 
 		if (numPlayers >= 4) {
-			g.setColor(Color.black);
-			g.setFont(new Font("SansSerif", Font.PLAIN, 20));
 			if (player4.isOut()) {
-				g.drawString("P4 OUT ", 20, 120);
+				g.drawString("P4 OUT ", winWidth * 2 + - 125, 120);
 			} else {
-				g.drawString("P4 Lives: " + (player4.getLives() + 1), 20, 120);
+				g.drawString("P4 Lives: " + (player4.getLives() + 1), winWidth * 2 + - 125, 120);
 			}
 		}
 
@@ -801,9 +811,9 @@ public class Platformer extends SimulationFrame {
 	public static void main(String[] args) {
 		Platformer simulation = new Platformer();
 		simulation.setPlayerIMG("t", "a", "o", "w");
-		simulation.setMap("map1");
+		simulation.setMap("map2");
 		simulation.setNumPlayers(2);
-		simulation.setStartingScore(2);
+		simulation.setStartingScore(0);
 		simulation.run();
 	}
 }

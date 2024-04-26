@@ -1,9 +1,15 @@
+import java.util.ArrayList;
+
 import org.dyn4j.geometry.Geometry;
 import org.dyn4j.geometry.MassType;
 
+
+//NOT FINISHED
+//Planned to manage a graphical representation of player lives
 public class UI extends Platformer {
 	
 	private int playerNum;
+	private int numLives;
 	private String img;
 	private ImageBody uiMain;
 	private ImageBody l1;
@@ -21,9 +27,13 @@ public class UI extends Platformer {
 	private static final String APPLE = "applePlayer.png";
 	private static final String WATERMELON = "watermelonPlayer.png";
 	
-	public UI(int p, String i) {
-		playerNum = p;
+	private ArrayList<ImageBody> uiElements = new ArrayList<ImageBody>();
+	
+	public UI(int pNum, int lives, String i) {
+		playerNum = pNum;
+		numLives = lives;
 		img = identifyPlayerChar(i);
+		initUIarray(numLives);
 		
 		uiMain = new ImageBody(img);
 		l1 = new ImageBody(img);
@@ -31,9 +41,22 @@ public class UI extends Platformer {
 		l3 = new ImageBody(img);
 		
 	}
+	
+	private void initUIarray(int numL) {
+		for (int i = 0; i <= numL; i++) {
+			uiElements.add(createUI(i));
+		}
+	}
+	
+	public ArrayList<ImageBody> getUIarray(){
+		return uiElements;
+	}
+	
+	
+	
 
 	public ImageBody createUI(int index) {
-		ImageBody temp = null;
+		ImageBody temp = new ImageBody(img);
 		
 		int homeX = (playerNum - 1) * playerOffset;
 		
@@ -46,23 +69,19 @@ public class UI extends Platformer {
 		
 		switch (index){
 		case 0:
-			temp = uiMain;
 			x = xstart;
 			y = ystart;
 			scale = 2;
 			break;
 		case 1:
-			temp = l1;
 			x = xstart + Xoffset;
 			y = ystart + Yoffset;
 			break;
 		case 2:
-			temp = l2;
 			x = xstart + Xoffset *2;
 			y = ystart + Yoffset;
 			break;
 		case 3:
-			temp = l3;
 			x = xstart + Xoffset *3;
 			y = ystart + Yoffset;
 			break;
