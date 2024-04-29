@@ -77,6 +77,7 @@ public class Platformer extends SimulationFrame {
 	private boolean onGround2 = true;
 	private boolean onGround3 = true;
 	private boolean onGround4 = true;
+	private double playerSpeed = 10;
 
 	Sound bgMusic = new Sound("audio/FightSong.mp3", true);
 	Sound pauseSFX = new Sound("audio/ClickSound.mp3", false);
@@ -377,33 +378,33 @@ public class Platformer extends SimulationFrame {
 
 		// Apply torque based on keyboard input for character 1
 		if (this.p1_left.isActive()) {
-			character.applyTorque(Math.PI / 1);
+			character.applyTorque(playerSpeed);
 		}
 		if (this.p1_right.isActive()) {
-			character.applyTorque(-Math.PI / 1);
+			character.applyTorque(-playerSpeed);
 		}
 
 		// Apply torque based on keyboard input for character 2
 		if (this.p2_left.isActive()) {
-			character2.applyTorque(Math.PI / 1);
+			character2.applyTorque(playerSpeed);
 		}
 		if (this.p2_right.isActive()) {
-			character2.applyTorque(-Math.PI / 1);
+			character2.applyTorque(-playerSpeed);
 		}
 
 		//you get the picture by now
 		if (this.p3_left.isActive()) {
-			character3.applyTorque(Math.PI / 1);
+			character3.applyTorque(playerSpeed);
 		}
 		if (this.p3_right.isActive()) {
-			character3.applyTorque(-Math.PI / 1);
+			character3.applyTorque(-playerSpeed);
 		}
 
 		if (this.p4_left.isActive()) {
-			character4.applyTorque(Math.PI / 1);
+			character4.applyTorque(playerSpeed);
 		}
 		if (this.p4_right.isActive()) {
-			character4.applyTorque(-Math.PI / 1);
+			character4.applyTorque(-playerSpeed);
 		}
 
 		// Jumping mechanism for character 1
